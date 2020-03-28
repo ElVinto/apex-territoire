@@ -32,9 +32,7 @@ cd ..
 npm run dev
 
 
-# dump database
-mariadb-dump  --complete-insert --order-by-primary agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
-mariadb-dump  --extended-insert=FALSE --order-by-primary agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
+
 
 
 # CLIENT 
@@ -85,10 +83,37 @@ node --version
   }
 
 
-git add . && commit -m 'first deployment'
+git add . && git commit -m 'first deployment'
 
 
+#  DEPLOYMENT ON HEROKU
+
+heroku login
+heroku create apex-territoire
+git push heroku master
+
+    -> https://apex-territoire.herokuapp.com/
+    -> https://git.heroku.com/apex-territoire.git
 
 
+# CREATE REMOTE DATA BASE AND DUMP DATA
 
+#  create addons CLEARDB punch
+#   connection setting
+#   mysql://beaf79b190e593:f6d54791@us-cdbr-iron-east-01.cleardb.net/heroku_e9dbac6a44f4159?reconnect=true
+#     username: beaf79b190e593
+#     password: f6d54791
+#     hostname: us-cdbr-iron-east-01.cleardb.net
+#     port: 3306
+#     default_shema: heroku_e9dbac6a44f4159
 
+# create dump file
+mkdir database 
+cd database
+# add database to .gitignore
+mariadb-dump   agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
+# or with explicit insert 
+# mariadb-dump  --extended-insert=FALSE --order-by-primary agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
+
+# load dump file
+mariadb -u beaf79b190e593 -pf6d54791 -h us-cdbr-iron-east-01.cleardb.net heroku_e9dbac6a44f4159  < agrotic_apex_dump.sql
