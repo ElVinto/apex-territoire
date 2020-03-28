@@ -51,16 +51,44 @@ npm i axios dotenv
 # create file ApexDataServices.js
 # update App.vue and sub components
 
+# create git repository
+git init
+git add .
+git commit -m 'first commit client and server'
+
 # PREPARE DEPLOYMENT ON HEROKU
 
 # create file vue.config.js 
 
-# update file server/index.js 
+# update file server/index.js
+const path = require('path');
+module.exports ={
+    outputDir: path.resolve(__dirname,'../server/public'),
+    
+    devServer:{
+        proxy:{
+            '/':{
+                target: 'http://localhost:5000'
+            }
+        }
+    }
+}
 
-
+# from /client buil the deploy app
 npm run build
 
+node --version
+# add in the package.json if necessary node version 
 
-# create git repository
-git init
+  "engines": {
+    "node": "13.9.0"
+  }
+
+
+git add . && commit -m 'first deployment'
+
+
+
+
+
 
