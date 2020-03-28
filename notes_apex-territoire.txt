@@ -1,0 +1,66 @@
+mkdir apex-territoire
+cd apex-territoire
+sudo npm install -g npm
+npm i express cors body-parser mariadb dotenv
+npm i -D nodemon
+
+# SERVER
+
+add to packcage.json scripts
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+},
+
+# in apex-territoire directory
+mkdir server
+cd server
+touch index.js
+
+# create index.js from  index.js micro-posts projects
+# create/populate local database for dev
+# create db-services from db connection config in post.js 
+# update .env to update acces to local db
+
+# test the configuration
+
+# go to apex-territoire
+cd ..
+
+# run server
+npm run dev
+
+
+# dump database
+mariadb-dump  --complete-insert --order-by-primary agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
+mariadb-dump  --extended-insert=FALSE --order-by-primary agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
+
+
+# CLIENT 
+
+# update @vue/cli
+sudo npm i -g @vue/cli
+
+# create client app project folder 
+vue create client
+
+# handle http requests
+npm i axios dotenv
+
+# create file ApexDataServices.js
+# update App.vue and sub components
+
+# PREPARE DEPLOYMENT ON HEROKU
+
+# create file vue.config.js 
+
+# update file server/index.js 
+
+
+npm run build
+
+
+# create git repository
+git init
+
