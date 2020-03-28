@@ -118,13 +118,18 @@ mariadb-dump   agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
 # load dump file
 mariadb -u beaf79b190e593 -pf6d54791 -h us-cdbr-iron-east-01.cleardb.net heroku_e9dbac6a44f4159  < agrotic_apex_dump.sql
 
-# Loop again
+
+
+# UPDATE DEPLOYMENT ON HEROKU
+
 cd client
 npm run build
 cd ..
 git add . && git commit -m " ith deployment"
 git push heroku master
 
+
+# CONNECT GITHUB REPOSITORY TO HEROKU DEPLOYMENT
 
 # add github repository
 # origin is your remote, and master is your branch
@@ -134,5 +139,37 @@ git commit -m "Going to push to Heroku and Git"
 git push origin master
 # push to heroku Master branch
 git push heroku master
+
+# On heroku apex-territoire dashboard -> deploy 
+# connect Github repository
+# allow automatic deployment
+
+
+# TODO create table updated_metrics
+CREATE TABLE updated_metrics ( 
+   UserId INT
+  , ParcelId INT
+  , YearNumber INT
+  , WeekNumber INT
+  , NbObsFullGrowth
+  , NbObsSlowGrowth
+  , NbObsStoppedGrowth
+  , DateTimeInMs LONG
+  , PRIMARY KEY (UserId, ParcelId, YearNumber, WeekNumber) 
+);
+
+
+# TODO create table shared_parcels 
+CREATE TABLE shared_metrics ( 
+  OriginUserId
+  , DestinationUserId
+  , ParcelId
+  , PRIMARY KEY (OriginUserId, DestinationUserId, ParcelId) 
+);
+
+
+
+
+
 
 

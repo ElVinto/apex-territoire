@@ -46,8 +46,6 @@ class ApexDataServices{
         return axios.delete(url,transaction);
     }
 
-
-
     static getMonthLabel(monthNumber) {
         switch (monthNumber) {
             case 0:
@@ -140,6 +138,8 @@ class ApexDataServices{
     
     // FETCH DATA INTO A STRUCTURE OBJECT
     static extractUserDataObjFrom(userDBRows) {
+
+        console.log('extractUserDataObjFrom ');
     
         let userDataObj = {};
     
@@ -259,8 +259,8 @@ class ApexDataServices{
     
         });
     
-        console.log('extracted userDataObj');
-        console.log(userDataObj);
+        // console.log('extracted userDataObj');
+        // console.log(userDataObj);
     
         return userDataObj
     }
@@ -271,16 +271,12 @@ class ApexDataServices{
         // recall userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx]
     
     
-        //  TODO  check that userDataObj  associated to at least one parcel (i.e., owner or viewer)
-    
-    
         console.log('addWeeksToUserDataObj ');
     
         if (userDataObj.parcels === undefined) {
             throw ' No parcels is currently monitored by the user';
         }
-    
-    
+   
         // init list of valid year numbers that should appear in userDataObj
         let validYearNumbers = [];
     
@@ -357,7 +353,7 @@ class ApexDataServices{
                 if (year === undefined) {
                     year = new ApexDataServices.MonitoredYear(yN);
                     parcel.parcelYears.push(year);
-                    console.log(' new year added ' + year + ' to ' + parcel);
+                    // console.log(' new year added ' + year + ' to ' + parcel);
                 }
                 // add year object if not in userDataObj
     
@@ -377,8 +373,8 @@ class ApexDataServices{
             }
         }
     
-        console.log(' updated userDataObj');
-        console.log(userDataObj);
+        // console.log(' updated userDataObj');
+        // console.log(userDataObj);
     
     }
     
@@ -397,7 +393,7 @@ class ApexDataServices{
     
             let parcel = userDataObj.parcels[pIdx];
     
-            console.log(' parcelName '+parcel.parcelName);
+            // console.log(' parcelName '+parcel.parcelName);
     
             // Computing valid weeks
     
@@ -409,13 +405,13 @@ class ApexDataServices{
                 for (let yIdx = 0; yIdx < parcel.parcelYears.length; yIdx++) {
                     let year = parcel.parcelYears[yIdx];
     
-                    console.log(' yearNumber '+year.yearNumber);
+                    // console.log(' yearNumber '+year.yearNumber);
     
                     if (year.yearWeeks !== undefined && year.yearWeeks.length >0) {
                         for (let wIdx = 0; wIdx < year.yearWeeks.length; wIdx++) {
                             let week = year.yearWeeks[wIdx];
     
-                            console.log(' weekNumber '+week.weekNumber);
+                            // console.log(' weekNumber '+week.weekNumber);
                             
                             if(week.weekSessions !== undefined && week.weekSessions.length>0 ){
                                 
@@ -488,8 +484,8 @@ class ApexDataServices{
             }
         }
     
-        console.log(' updated userDataObj ');
-        console.log(userDataObj);
+        // console.log(' updated userDataObj ');
+        // console.log(userDataObj);
     }
     
     static sortUserDataObjByYearByWeek(userDataObj) {
@@ -576,7 +572,7 @@ class ApexDataServices{
         if (b === undefined) {
             let wFullDateInMs = a;
     
-            console.log(" building MonitoredWeek with date in ms " + a);
+            // console.log(" building MonitoredWeek with date in ms " + a);
     
             let sessionDate = new Date();
             sessionDate.setTime(wFullDateInMs);
@@ -622,7 +618,7 @@ class ApexDataServices{
             let yNumber = a;
             let wNumber = b;
     
-            console.log("building MonitoredWeek with yearNumber: " + yNumber + " and wNumber " + b);
+            // console.log("building MonitoredWeek with yearNumber: " + yNumber + " and wNumber " + b);
     
             let sessionFirstJan = new Date(yNumber, 0, 1);
             let millisecsPerDay = 86400000;
