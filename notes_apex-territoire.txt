@@ -117,3 +117,22 @@ mariadb-dump   agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
 
 # load dump file
 mariadb -u beaf79b190e593 -pf6d54791 -h us-cdbr-iron-east-01.cleardb.net heroku_e9dbac6a44f4159  < agrotic_apex_dump.sql
+
+# Loop again
+cd client
+npm run build
+cd ..
+git add . && git commit -m " ith deployment"
+git push heroku master
+
+
+# add github repository
+# origin is your remote, and master is your branch
+git remote add origin https://github.com/ElVinto/apex-territoire.git
+git commit -m "Going to push to Heroku and Git"
+# push to Github Master branch
+git push origin master
+# push to heroku Master branch
+git push heroku master
+
+
