@@ -89,7 +89,7 @@ router.post('/', function(req, res, next) {
 	        "userId": 14
         }
         */
-        const queryTxt = " SELECT * FROM weekmetrics WHERE userId = ?";
+        const queryTxt = " SELECT * FROM updatedweekmetrics WHERE userId = ?";
         const params =[req.body.userId];
         execQuery(queryTxt,params).then(rows => res.json(rows));
     }
@@ -113,7 +113,7 @@ router.post('/', function(req, res, next) {
         }
         */
        
-       let queryTxt = "INSERT INTO weekmetrics (userId,parcelName,yearNumber,weekNumber,weekLabel,nbObsFullGrowth,nbObsSlowGrowth,nbObsStoppedGrowth,dateTimeInMs) VALUE (?,?,?,?,?,?,?,?,?)";
+       let queryTxt = "INSERT INTO updatedweekmetrics (userId,parcelName,yearNumber,weekNumber,weekLabel,nbObsFullGrowth,nbObsSlowGrowth,nbObsStoppedGrowth,dateTimeInMs) VALUE (?,?,?,?,?,?,?,?,?)";
        let params = [
         req.body.userId
         , req.body.parcelName
@@ -146,7 +146,7 @@ router.post('/', function(req, res, next) {
             , "dateTimeInMs": 1585269934625
         }
         */
-            let queryTxt = "UPDATE weekmetrics SET weekLabel=?, nbObsFullGrowth=?, nbObsSlowGrowth=?, nbObsStoppedGrowth=?, dateTimeInMs=? WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=? ;" ;
+            let queryTxt = "UPDATE updatedweekmetrics SET weekLabel=?, nbObsFullGrowth=?, nbObsSlowGrowth=?, nbObsStoppedGrowth=?, dateTimeInMs=? WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=? ;" ;
 
             let params = [
                 req.body.weekLabel
@@ -177,17 +177,16 @@ router.delete('/', function(req, res, next) {
 
     if (req.body.transaction === "delete_weekmetrics") {
         /*
-        body = {
-            transaction: "delete_weekmetrics"
-            , userId: varchar(50)
-            , parcelName: varchar(50) 
-            , yearNumber: int(11)
-            , weekNumber: int(11)
+        {
+            "transaction": "delete_weekmetrics"
+            , "userId": 35
+            , "parcelName": " dummy parcel"
+            , "yearNumber": 2019
+            , "weekNumber": 22
         }
         */
-
         
-        const queryTxt ="DELETE FROM weekmetrics WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=?";
+        const queryTxt ="DELETE FROM updatedweekmetrics WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=?";
         const params = [req.body.userId, req.body.parcelName, req.body.yearNumber, req.body.weekNumber];
             
         execQuery(queryTxt,params).then(rows => res.json(rows));

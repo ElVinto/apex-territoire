@@ -145,8 +145,20 @@ git push heroku master
 # allow automatic deployment
 
 
-# TODO create table weekmetrics
-CREATE TABLE weekmetrics ( 
+# UPDATE DEPLOYMENT ON GITHUB
+
+cd client
+npm run build
+cd ..
+git add . && git commit -m " ith deployment"
+git pull origin master
+git push origin master
+
+
+
+
+#  create table weekmetrics
+CREATE TABLE updatedweekmetrics ( 
    userId varchar(50)
   , parcelName varchar(50) 
   , yearNumber int(11)
@@ -158,6 +170,7 @@ CREATE TABLE weekmetrics (
   , dateTimeInMs int(11)
   , PRIMARY KEY (userId, parcelName, yearNumber, weekNumber) 
 );
+RENAME TABLE weekmetrics TO updatedweekmetrics;
 
 
 # TODO create table shared_parcels 
