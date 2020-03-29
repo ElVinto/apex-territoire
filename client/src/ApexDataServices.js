@@ -46,6 +46,7 @@ class ApexDataServices{
         return axios.delete(url,transaction);
     }
 
+
     static getMonthLabel(monthNumber) {
         switch (monthNumber) {
             case 0:

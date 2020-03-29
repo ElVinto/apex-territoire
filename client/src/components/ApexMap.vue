@@ -66,18 +66,19 @@ export default {
      */
     async updateWeekMetrics(parcel, year, week){
 
+      // userId
       await ApexDataServices.postQuery(
         {
-          transaction : "update"
-          , dbUserID: parcel.userDBID //  TODO add to Monitored Parcel
-          , dbParcelId: parcel.parcelDBId // TODO add to Monitored User
+          transaction : "update_WeekMetrics"
+          , userId: parcel.userDBId //  TODO add to Monitored Parcel
+          , parcelId: parcel.parcelDBId // TODO add to Monitored User
           , yearNumber: year.yearNumber
           , weekNumber: week.weekNumber
           , weekLabel: week.weekLabel
           , nbObservations: week.weekNbObservations
           , nbObsFullGrowth: week.weekNbObsFullGrowth 
           , nbObsSlowGrowth: week.weekNbObsSlowGrowth
-          , NbObsStoppedGrowth: week.weekNbObsStoppedGrowth 
+          , nbObsStoppedGrowth: week.weekNbObsStoppedGrowth 
           , metricsDateInMs : new Date().getTime()
         } 
       );

@@ -145,31 +145,32 @@ git push heroku master
 # allow automatic deployment
 
 
-# TODO create table updated_metrics
-CREATE TABLE updated_metrics ( 
-   UserId INT
-  , ParcelId INT
-  , YearNumber INT
-  , WeekNumber INT
-  , NbObsFullGrowth
-  , NbObsSlowGrowth
-  , NbObsStoppedGrowth
-  , DateTimeInMs LONG
-  , PRIMARY KEY (UserId, ParcelId, YearNumber, WeekNumber) 
+# TODO create table weekmetrics
+CREATE TABLE weekmetrics ( 
+   userId varchar(50)
+  , parcelName varchar(50) 
+  , yearNumber int(11)
+  , weekNumber int(11)
+  , weekLabel varchar(50)
+  , nbObsFullGrowth int(11)
+  , nbObsSlowGrowth int(11)
+  , nbObsStoppedGrowth int(11)
+  , dateTimeInMs int(11)
+  , PRIMARY KEY (userId, parcelName, yearNumber, weekNumber) 
 );
 
 
 # TODO create table shared_parcels 
-CREATE TABLE shared_metrics ( 
-  OriginUserId
-  , DestinationUserId
-  , ParcelId
-  , PRIMARY KEY (OriginUserId, DestinationUserId, ParcelId) 
+CREATE TABLE sharedparcels ( 
+  originUserId varchar(50)
+  , destinationUserId varchar(50)
+  , parcelName varchar(50)
+  , PRIMARY KEY (originUserId, destinationUserId, parcelName) 
 );
 
 
-
-
-
+14 | 390e095e9d3b6877 | OGER Baptiste                | baptiste.oger@supagro.fr                           | Supagro         
+35 | 0e0f7b429eef47e7 | Guilhem                      | Toto@tu.ti                                         | Guilhem Agrotic 
+30 | cd423836048d5694 | Leo Pichon                   | Pichon.leo@gmail.com                               | Supagro   
 
 
