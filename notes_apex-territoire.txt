@@ -46,6 +46,16 @@ vue create client
 # handle http requests
 npm i axios dotenv
 
+# install vuex store
+npm install vuex --save
+mkdir store
+cd store
+touch index.js
+
+
+
+
+
 # create file ApexDataServices.js
 # update App.vue and sub components
 

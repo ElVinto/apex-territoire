@@ -2,18 +2,20 @@
   <div id="app">
     <Menu msg="Place the menu here"/>
     <hr>
-    <ApexMap userId=14 />
+    <ApexMap />
     <hr>
     <Footer/>
   </div>
 </template>
 
 <script>
+
+
+
 import Menu from './components/Menu.vue'
 import ApexMap from './components/ApexMap.vue'
 import Footer from './components/Footer.vue'
-
-console.log(Menu.props)
+import ApexDataServices from './ApexDataServices';
 
 export default {
   name: 'App',
@@ -21,7 +23,28 @@ export default {
     Menu,
     ApexMap,
     Footer
-  }
+  },
+  
+  async created() {
+    try {
+
+      let userDBRows = await ApexDataServices.getObservations(this.$store.state.selectedUserId);
+      let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
+      ApexDataServices.addWeeksToUserDataObj(userDataObj);
+      ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
+      ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
+
+      this.$store.commit("initUserDataObj", userDataObj);
+
+      console.log("this.$store.state.userDataObj")
+      console.log(this.$store.state.userDataObj)
+
+      
+    } catch (error) {
+        this.error = error.message;
+    }
+}
+
 }
 </script>
 

@@ -1,17 +1,16 @@
 <template>
   <div class="apex-map">
-    <h1> userId {{ userId }}</h1>
-
-    <div class="parcels-container">
+    <h1> userId </h1>
+    <div class="parcels-container" v-if="$store.state.userDataObj!==null">
       <!-- userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx] -->
       <div class="parcels" 
-        v-for="(parcel, index) in userDataObj.parcels"
+        v-for="(parcel, index) in $store.state.userDataObj.parcels"
         v-bind:item="parcel"
         v-bind:index="index"
         v-bind:key="parcel.parcelName">
         <p class="text">{{`parcelName: ${parcel.parcelName} parcelOwner: ${parcel.parcelOwner} monitored years:[${parcel.parcelYears}]`}}</p>
       </div>
-      Todo add the map
+      
     </div> 
 
   </div>
@@ -19,43 +18,25 @@
 
 <script>
 
+
 import ApexDataServices from '../ApexDataServices';
 
 export default {
   name: 'ApexMap',
   
-  props:{
-    userId:String
-  },
 
   data(){
     return {
-      userDataObj: {},
+      
       error: '',
       text: ''
     }
   },
 
-  // life cycle method call when the component is created
-  async created(){
-    try {
 
-      let userDBRows = await ApexDataServices.getObservations(this.userId);
-      this.userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
-      ApexDataServices.addWeeksToUserDataObj(this.userDataObj);
-      ApexDataServices.enforceConsistencyOfUserDataObj(this.userDataObj);
-      ApexDataServices.sortUserDataObjByYearByWeek(this.userDataObj);
 
-      console.log("userDataObj")
-      console.log(this.userDataObj)
 
-      
-    } catch (error) {
-        this.error = error.message;
-    } 
-  }
-
-  ,methods: {
+  methods: {
 
     // TODO update weeks info
 

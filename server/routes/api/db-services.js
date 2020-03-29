@@ -30,12 +30,15 @@ const dbConnectionConfig = () => {
     }
 }
 
-const pool = mariadb.createPool(dbConnectionConfig());
+// const pool = mariadb.createPool(dbConnectionConfig());
 
 async function execQuery(queryTxt,params) {
+    
+    let pool;
     let conn;
     let rows;
     try {
+        pool = mariadb.createPool(dbConnectionConfig());
         conn = await pool.getConnection();
         rows = await conn.query(queryTxt,params);
 
@@ -48,8 +51,8 @@ async function execQuery(queryTxt,params) {
     } catch (err) {
         throw err;
     } finally {
-        if (conn){
-            conn.end();
+        if (pool){
+            pool.end();
             return rows;
         }
     }
