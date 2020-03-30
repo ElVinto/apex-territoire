@@ -41,8 +41,6 @@ async function execQuery(queryTxt,params=[] ) {
         conn = await pool.getConnection();
         rows = await conn.query(queryTxt,params);
 
-        
-
         if(rows.affectedRows !== undefined){
             console.log(rows);
         }else{
@@ -60,11 +58,31 @@ async function execQuery(queryTxt,params=[] ) {
 }
 
 
+router.post('/login', function(req, res, next) {
+
+    if (req.body.transaction === "select_useremail"){
+        /*
+        req.body = 
+        {
+	        "transaction": "select_useremail",
+	        "useremail": "baptiste.oger@supagro.fr"
+        }
+        */
+       let useremail = req.body.useremail.replace("'").replace('"');
+        const queryTxt = 'SELECT * FROM user WHERE email = "'+useremail+'"';
+        execQuery(queryTxt).then(rows => res.json(rows));
+
+    }
+});
+
+
 router.get('/',  function(req, res, next) {
 
     if(req.query.useremail === undefined){
         res.send(" Please define a userId to get request");
     }else{
+
+        let useremail = req.query.useremail;
 
         let queryTxt ="";
 
@@ -75,7 +93,7 @@ router.get('/',  function(req, res, next) {
         queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.email = "'+req.query.useremail+'"';
+        queryTxt +=' and u.email = '+useremail;
 
         console.log(queryTxt)
 
@@ -85,6 +103,31 @@ router.get('/',  function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+
+    
+    if (req.body.transaction === "select_observations"){
+
+        let useremail = req.body.useremail;
+        
+        console.log(useremail);
+
+        let queryTxt ="";
+
+        queryTxt +=' SELECT o.apexValue as obsvLabel, o.date as obsvDateInMs, o.latitude as obsvLat, o.longitude as obsvLng', 
+        queryTxt +=' , s.nomParcelle as parcelName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng'
+        queryTxt +=' , s.moyenne as sessionAvgGrowth, s.date as sessionDateInSec'
+        queryTxt +=' , u.name as userName, u.idUser as userId, u.email as userEMail ' 
+        queryTxt +=' FROM user u, session s, observation o'
+        queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
+        queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
+        queryTxt +=' and u.email = "'+useremail+'"';
+
+        console.log(queryTxt)
+
+        execQuery(queryTxt).then(rows => res.json(rows));
+
+    }
+
 
     if (req.body.transaction === "select_weekmetrics"){
         /*

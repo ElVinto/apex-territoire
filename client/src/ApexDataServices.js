@@ -12,28 +12,43 @@ require('dotenv').config()
 class ApexDataServices{
 
     //  no need to instanciate
+    static checkEMail(loggedUserEmail) {
+        console.log("Checking email of " + loggedUserEmail);
+        return new Promise((resolve, reject) => {
+            try {
+                let body = {
+                    transaction: "select_useremail",
+                    useremail: loggedUserEmail
+                }
+                axios.post(url + "/login", body).then(res => {
+
+                        resolve(
+                            // console.log(res);
+                            // console.log(res.data[0].email);
+                            // console.log(res.data[0].email === loggedUserEmail);
+                             res.data[0].email === loggedUserEmail
+                        );
+                    })
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
     static getObservations(loggedUserEmail ){
         
         console.log("getObservations from "+loggedUserEmail)
 
         return new Promise ((resolve, reject) => {
             try {
-                let params = {
-                    params :{
-                        useremail :loggedUserEmail
-                    }
-                }; 
-                axios.get(url,params).then( res =>{
-                    
+                let body = {
+                    transaction: "select_observations",
+                    useremail: loggedUserEmail
+                }
+                 
+                axios.post(url,body).then( res =>{
                     resolve(
-
-
                         res.data
-                        // loop over the returned array ;
-                        // res.data.map(obsv => ({
-                        //     ...obsv
-                        //     // ,cretedAt: new Date()
-                        // }))
                     );
                 })
             } catch (err) {

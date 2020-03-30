@@ -11,7 +11,7 @@ export default new Vuex.Store({
       Toto@tu.ti (userId:35), 
       Pichon.leo@gmail.com (userId:35)
    */
-   loggedUserEmail: 'Pichon.leo@gmail.com'
+   loggedUserEmail: "Toto@tu.ti"
    
 
    // MonitoredUser Object computed and reorganised logged-in user data pour from the database 
@@ -36,7 +36,12 @@ export default new Vuex.Store({
  },
 
  mutations: { // synchronous  commit of changes of state
-     // in component uses: this.$store.commit("initUserDataObj", usrDataObj);
+     
+      initLoggedUserEmail(state,userMail){ 
+         state.loggedUserEmail=userMail;
+      },
+
+      // in component uses: this.$store.commit("initUserDataObj", usrDataObj);
      initUserDataObj(state,usrDataObj){ 
         state.userDataObj=usrDataObj;
      },
