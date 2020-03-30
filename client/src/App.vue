@@ -28,7 +28,7 @@ export default {
   async created() {
     try {
 
-      let userDBRows = await ApexDataServices.getObservations(this.$store.state.selectedUserId);
+      let userDBRows = await ApexDataServices.getObservations(this.$store.state.loggedUserEmail);
       let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
       ApexDataServices.addWeeksToUserDataObj(userDataObj);
       ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);

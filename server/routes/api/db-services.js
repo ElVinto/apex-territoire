@@ -30,9 +30,8 @@ const dbConnectionConfig = () => {
     }
 }
 
-// const pool = mariadb.createPool(dbConnectionConfig());
 
-async function execQuery(queryTxt,params) {
+async function execQuery(queryTxt,params=[] ) {
     
     let pool;
     let conn;
@@ -41,6 +40,8 @@ async function execQuery(queryTxt,params) {
         pool = mariadb.createPool(dbConnectionConfig());
         conn = await pool.getConnection();
         rows = await conn.query(queryTxt,params);
+
+        
 
         if(rows.affectedRows !== undefined){
             console.log(rows);
@@ -61,23 +62,24 @@ async function execQuery(queryTxt,params) {
 
 router.get('/',  function(req, res, next) {
 
-    if(req.query.userId === undefined){
+    if(req.query.useremail === undefined){
         res.send(" Please define a userId to get request");
     }else{
 
         let queryTxt ="";
 
-        queryTxt +=' SELECT o.apexValue as obsvLabel, o.date as obsvDateInMs, o.latitude as obsvLat, o.longitude as obsvLng'
-        queryTxt +=' , s.nomParcelle as parcelName, u.name as ownerName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng'
+        queryTxt +=' SELECT o.apexValue as obsvLabel, o.date as obsvDateInMs, o.latitude as obsvLat, o.longitude as obsvLng', 
+        queryTxt +=' , s.nomParcelle as parcelName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng'
         queryTxt +=' , s.moyenne as sessionAvgGrowth, s.date as sessionDateInSec'
-        queryTxt +=' , u.name as userName, u.idUser as userId, u.email as userMail ' 
-        queryTxt +=' FROM User u, Session s, Observation o'
+        queryTxt +=' , u.name as userName, u.idUser as userId, u.email as userEMail ' 
+        queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.id =  ? ';
-        
-        const params =[req.query.userId];
-        execQuery(queryTxt,req.query.userId).then(rows => res.json(rows));
+        queryTxt +=' and u.email = "'+req.query.useremail+'"';
+
+        console.log(queryTxt)
+
+        execQuery(queryTxt).then(rows => res.json(rows));
 
     }
 });
@@ -168,7 +170,7 @@ router.post('/', function(req, res, next) {
     }
 
 
-    // TODO interesting example of insert and if the key is present then update 
+    // TODO  example of insert and if the key is present then update 
     // INSERT INTO weekmetrics (userId,parcelName,yearNumber,weekNumber, nbObsFullGrowth) VALUES (u,p,y,w,nbObsF) ON DUPLICATE KEY UPDATE nbObsFullGrowth=VALUES(nbObsF)
 
 });

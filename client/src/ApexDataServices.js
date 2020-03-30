@@ -12,18 +12,22 @@ require('dotenv').config()
 class ApexDataServices{
 
     //  no need to instanciate
-    static getObservations(userId ){
+    static getObservations(loggedUserEmail ){
         
+        console.log("getObservations from "+loggedUserEmail)
+
         return new Promise ((resolve, reject) => {
             try {
                 let params = {
                     params :{
-                        userId: userId
+                        useremail :loggedUserEmail
                     }
                 }; 
                 axios.get(url,params).then( res =>{
                     
                     resolve(
+
+                        
                         res.data
                         // loop over the returned array ;
                         // res.data.map(obsv => ({
@@ -118,21 +122,19 @@ class ApexDataServices{
     }
     
     
-    // DATABASE
-    
     // FIRST LOADED QUERRY
     
     /*
     
     SELECT o.apexValue as obsvLabel, o.date as obsvDateInMs, o.latitude as obsvLat, o.longitude as obsvLng
-    , s.nomParcelle as parcelName, u.name as ownerName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng
+    , s.nomParcelle as parcelName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng
     , s.moyenne as sessionAvgGrowth, s.date as sessionDateInSec,
-    , u.name as userName, 
+    , u.name as userName, u.idUser as userId, u.email as userEMail 
     FROM User u, Session s, Observation o
     WHERE s.userId = u.idUser and s.idSession = o.sessionId
     and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0
-    and u.id =35 
-    ;
+    and and u.email = req.query.useremail;
+    
     
     */
 
@@ -140,19 +142,26 @@ class ApexDataServices{
     // FETCH DATA INTO A STRUCTURE OBJECT
     static extractUserDataObjFrom(userDBRows) {
 
-        console.log('extractUserDataObjFrom ');
+        console.log('extractUserDataObjFrom : nbRows: '+userDBRows.length);
     
         let userDataObj = {};
     
         userDBRows.forEach(row => {
             // userData = [ { obsvLabel, obsDate, obsLat, obsLng,  parcelName,  parcelSessionAvgGrowth,  parcelSessionDate,  parcelLat, parcelLng, userName}, ...]
     
-            //  INIT USER INFO
-            if (userDataObj.userName === undefined) {
-                userDataObj.userName = row.userName;
-                userDataObj.parcels = [];
+            //  INIT USER INFO Group by userEMail
 
-                // console.log("INIT USER INFO");
+            
+            if (userDataObj.userEMail === undefined) {
+
+                userDataObj = new ApexDataServices. MonitoredUser(
+                    row.userEMail
+                    ,row.userId
+                    , row.userName
+                );
+                
+
+                console.log("INIT USER INFO");
                 // console.log(userDataObj);
             }
             
@@ -161,12 +170,18 @@ class ApexDataServices{
             // init userDataObj.parcel[p]  if needed 
             let parcel = userDataObj.parcels.find(p => p.parcelName === row.parcelName);
             if (parcel === undefined) {
-                // parcelName, parcelOwner, parcelCoord,
+                // parcelName, parcelCoord,
     
-                parcel = new ApexDataServices.MonitoredParcel(row.parcelName, row.ownerName, { lat: row.parcelLat, lng: row.parcelLng });
+                parcel = new ApexDataServices.MonitoredParcel(
+                    row.parcelName
+                    , row.userEMail
+                    , row.userName
+                    , row.userId
+                    , { lat: row.parcelLat, lng: row.parcelLng }
+                );
                 userDataObj.parcels.push(parcel);
                 
-                // console.log("INIT PARCEL IF NEEDED");
+                console.log("INIT PARCEL IF NEEDED");
                 // console.log(userDataObj);
             }
             
@@ -185,7 +200,7 @@ class ApexDataServices{
     
                 parcel.parcelYears.push(year);
 
-                console.log("INIT YEAR IF NEEDED");
+                // console.log("INIT YEAR IF NEEDED");
             }
     
     
@@ -250,8 +265,8 @@ class ApexDataServices{
             let obsv = new ApexDataServices.MonitoredObservation(
                 row.obsvLabel
                 , row.obsvDateInMs
-                , row.ownerName
-                , row.oUserName
+                , row.userName
+                , row.userName
                 , { lat: row.obsvLat, lng: row.obsvLng }
             );
     
@@ -506,7 +521,7 @@ class ApexDataServices{
                     if (year.yearWeeks !== undefined && year.yearWeeks.length>0) {
                         year.yearWeeks.sort((w1,w2) => w1.weekNumber - w2.weekNumber);
                     }
-    
+
                 }
                 parcel.parcelYears.sort((y1,y2)=> y1.yearNumber-y2.yearNumber );
             }
@@ -517,10 +532,29 @@ class ApexDataServices{
     
     }  
     
+    /*
+     userDataObj.userEMail = row.userEMail;
+                userDataObj.userId = row.userId;
+                userDataObj.userName = row.userName;
+                userDataObj.parcels = [];
+    */
     
-    static MonitoredParcel(pName, pOwner, pCoord) {
+    static MonitoredUser(uEMail,uId, uName) {
+        this.userEMail = uEMail;
+        this.userId = uId;
+        this.userName = uName;
+        this.parcels= [];
+    
+        this.toString = () => `user: email ${this.userEMail} id: ${this.userId} name ${this.userName}`;    
+    }
+
+    static MonitoredParcel(pName, pUserEMail, pUserName, pUserId, pCoord) {
         this.parcelName = pName;
-        this.parcelOwner = pOwner;
+
+        this.parcelUserEMail = pUserEMail;
+        this.parcelUserName = pUserName;
+        this.parcelUserId = pUserId;
+
         this.parcelCoord = pCoord;
         this.parcelYears = [];
         
@@ -535,7 +569,7 @@ class ApexDataServices{
         this.toString = function () { return `year: ${this.yearNumber}`; };
     }
     
-    // TODO  update field weekNbObsFullGrowth
+    
     static MonitoredWeek(a, b) {
     
     

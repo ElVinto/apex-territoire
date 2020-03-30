@@ -18,7 +18,6 @@
 
 <script>
 
-
 import ApexDataServices from '../ApexDataServices';
 
 export default {
@@ -32,9 +31,6 @@ export default {
       text: ''
     }
   },
-
-
-
 
   methods: {
 
@@ -51,7 +47,7 @@ export default {
       await ApexDataServices.postQuery(
         {
           transaction : "update_WeekMetrics"
-          , userId: parcel.userDBId //  TODO add to Monitored Parcel
+          , userId: parcel.parcelUserId //  TODO add to Monitored Parcel
           , parcelId: parcel.parcelDBId // TODO add to Monitored User
           , yearNumber: year.yearNumber
           , weekNumber: week.weekNumber
