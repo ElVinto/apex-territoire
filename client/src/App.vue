@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="$store.state.userDataObj!==null">
     <Menu msg="Place the menu here"/>
     <hr>
     <ApexMap />

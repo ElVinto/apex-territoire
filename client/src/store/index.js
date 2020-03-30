@@ -7,25 +7,24 @@ export default new Vuex.Store({
  state: {
 
    /* corresponding user email  ex:
-      baptiste.oger@supagro.fr (userId:14)  
+      baptiste.oger@supagro.fr (userId:14 userId:47 )  
       Toto@tu.ti (userId:35), 
       Pichon.leo@gmail.com (userId:35)
    */
-   loggedUserEmail: 'baptiste.oger@supagro.fr'
-   
+   loggedUserEmail: 'Pichon.leo@gmail.com'
    
 
    // MonitoredUser Object computed and reorganised logged-in user data pour from the database 
     ,userDataObj: null // in a component call: this.$store.state.userDataObj
 
     // selected index mapping to the MonitoredParcel object in state.userDataObj.parcels[selectedYearIdx] 
-    ,selectedParcelIdx: null 
+    ,selectedParcelIdx: 0 
    
     // selected index mapping to the MonitoredYear state.userDataObj.parcels[selectedYearIdx].parcelYears[selectedYearIdx]
-    ,selectedYearIdx: null  
+    ,selectedYearIdx: 0  
 
     // selected index mapping to the MonitoredWeek state.userDataObj.parcels[selectedYearIdx].parcelYears[selectedYearIdx].yearWeeks[selectedWeekIdx]
-    ,selectedWeekIdx: null // 
+    ,selectedWeekIdx: 0 // 
 
     ,userUpdateWeekMetrics: null
     
