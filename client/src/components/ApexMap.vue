@@ -1,7 +1,8 @@
 <template>
   <div class="apex-map">
-    <h1> userId </h1>
+    
     <div class="parcels-container" v-if="$store.state.userDataObj!==null">
+      <h1> usermail {{ $store.state.loggedUserEmail}} </h1>
       <!-- userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx] -->
       <div class="parcels" 
         v-for="(parcel, index) in $store.state.userDataObj.parcels"

@@ -27,7 +27,7 @@ class ApexDataServices{
                     
                     resolve(
 
-                        
+
                         res.data
                         // loop over the returned array ;
                         // res.data.map(obsv => ({
@@ -161,7 +161,7 @@ class ApexDataServices{
                 );
                 
 
-                console.log("INIT USER INFO");
+                // console.log("INIT USER INFO");
                 // console.log(userDataObj);
             }
             
@@ -181,7 +181,7 @@ class ApexDataServices{
                 );
                 userDataObj.parcels.push(parcel);
                 
-                console.log("INIT PARCEL IF NEEDED");
+                // console.log("INIT PARCEL IF NEEDED");
                 // console.log(userDataObj);
             }
             
@@ -398,7 +398,7 @@ class ApexDataServices{
     
     static enforceConsistencyOfUserDataObj(userDataObj) {
     
-        console.log(' enforceConsistencyOfUserDataObj ');
+        console.log('enforceConsistencyOfUserDataObj ');
     
     
         if (userDataObj.parcels === undefined) {

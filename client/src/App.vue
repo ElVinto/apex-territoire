@@ -36,7 +36,7 @@ export default {
 
       this.$store.commit("initUserDataObj", userDataObj);
 
-      console.log("this.$store.state.userDataObj")
+      console.log("updated $store.state.userDataObj: ")
       console.log(this.$store.state.userDataObj)
 
       
