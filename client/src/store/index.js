@@ -30,10 +30,44 @@ export default new Vuex.Store({
     
 
  },
- getters: { // computed methods
-   
 
- },
+ // userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx]
+   getters: { // computed methods
+
+      parcelNameList: (state) => {
+         if (state.userDataObj !== null && state.userDataObj.parcels !== null) {
+            return state.userDataObj.parcels.map(parcel => parcel.parcelName)
+         } else {
+            return [];
+         }
+      }
+
+      , yearNumberList: (state) => {
+         if (state.userDataObj !== null && state.userDataObj.parcels[state.selectedParcelIdx] !== null) {
+            return state.userDataObj.parcels[state.selectedParcelIdx].parcelYears.map(year => year.yearNumber)
+         } else {
+            return [];
+         }
+      }
+
+      , weekLabelList: (state) => {
+         if (state.userDataObj !== null
+            && state.userDataObj.parcels[state.selectedParcelIdx] !== null
+            && state.userDataObj.parcels[state.selectedParcelIdx].parcelYears[state.selectedYearIdx] !== null
+            && state.userDataObj.parcels[state.selectedParcelIdx].parcelYears[state.selectedYearIdx].yearWeeks !== null
+         ) {
+
+            return state.userDataObj
+               .parcels[state.selectedParcelIdx]
+               .parcelYears[state.selectedYearIdx]
+               .yearWeeks.map(week => week.weekLabel)
+         } else {
+            return [];
+         }
+      }
+
+
+   },
 
  mutations: { // synchronous  commit of changes of state
      
@@ -42,18 +76,22 @@ export default new Vuex.Store({
       },
 
       // in component uses: this.$store.commit("initUserDataObj", usrDataObj);
-     initUserDataObj(state,usrDataObj){ 
+      initUserDataObj(state,usrDataObj){ 
         state.userDataObj=usrDataObj;
-     },
+      },
+
+      updateSelectedParcelIdx(state,pIdx){ 
+         state.selectedParcelIdx=pIdx;
+      },
 
      // in a component uses:  this.$store.commit("changeSelectedYear", yearNumber);
-     changeSelectedYear(state,yearNumber){ 
-      state.selectedYearNumber=yearNumber;
-    },
+      updateSelectedYearIdx(state,yIdx){ 
+         state.selectedYearIdx=yIdx;
+      },
 
-    changeSelectedWeekNumber(state,weekNumber){ 
-      state.selectedWeekNumber=weekNumber;
-    }
+      updateSelectedWeekNumberIdx(state,wIdx){ 
+         state.selectedWeekIdx=wIdx;
+      }
 
 
  },
@@ -65,6 +103,7 @@ export default new Vuex.Store({
 /* 
 
 userDataObj is MonitoredUser Ojject
+
 userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx] 
 
 MonitoredUser(uEMail,uId, uName) {

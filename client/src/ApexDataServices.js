@@ -11,23 +11,27 @@ require('dotenv').config()
 
 class ApexDataServices{
 
-    //  no need to instanciate
+    
     static checkEMail(loggedUserEmail) {
         console.log("Checking email of " + loggedUserEmail);
+        let body = {
+            transaction: "select_useremail",
+            useremail: loggedUserEmail
+        }
+
         return new Promise((resolve, reject) => {
             try {
-                let body = {
-                    transaction: "select_useremail",
-                    useremail: loggedUserEmail
-                }
                 axios.post(url + "/login", body).then(res => {
-
+                    if(res.data !== undefined && res.data.length>0 ){
                         resolve(
-                            // console.log(res);
-                            // console.log(res.data[0].email);
-                            // console.log(res.data[0].email === loggedUserEmail);
-                             res.data[0].email === loggedUserEmail
+                            res.data[0].email === loggedUserEmail
                         );
+                    }else{
+                        resolve(
+                            false
+                        );
+                    }
+                    
                     })
             } catch (err) {
                 reject(err);
@@ -57,8 +61,29 @@ class ApexDataServices{
         })
     }
 
-    static postQuery(transaction){
-        return axios.post(url,transaction);
+    static getObservationsBis(loggedUserEmail ){
+        
+        let body = {
+            transaction: "select_observations",
+            useremail: loggedUserEmail
+        }
+        
+        this.postQuery(body).then( res => {return res.data?res.data:res})
+        
+    }
+
+    static postQuery(route = this.url,body){
+        return new Promise ((resolve, reject) => {
+            try { 
+                axios.post(route,body).then( res =>{
+                    resolve(
+                        res
+                    );
+                })
+            } catch (err) {
+                reject(err);
+            }
+        })
     }
 
     static deleteQuery(transaction){
