@@ -3,6 +3,8 @@ cd apex-territoire
 sudo npm install -g npm
 npm i express cors body-parser mariadb dotenv
 npm i -D nodemon
+npm install --save leaflet leaflet.markercluster
+npm install sass-loader
 
 # SERVER
 
@@ -44,7 +46,7 @@ sudo npm i -g @vue/cli
 vue create client
 
 # handle http requests
-npm i axios dotenv
+npm i axios dotenv leaflet
 
 # install vuex store
 npm install vuex --save
@@ -167,9 +169,10 @@ git push origin master
 
 
 
-#  create table weekmetrics
-CREATE TABLE updatedweekmetrics ( 
-   userId varchar(50)
+#  create table  modifiedweekmetrics
+CREATE TABLE  modifiedweekmetrics ( 
+  , dataUserEMail varchar(50)
+  , dataOwnerEMail varchar(50)
   , parcelName varchar(50) 
   , yearNumber int(11)
   , weekNumber int(11)
@@ -178,17 +181,17 @@ CREATE TABLE updatedweekmetrics (
   , nbObsSlowGrowth int(11)
   , nbObsStoppedGrowth int(11)
   , dateTimeInMs int(11)
-  , PRIMARY KEY (userId, parcelName, yearNumber, weekNumber) 
+  , PRIMARY KEY (dataUserEMail, dataOwnerEMail, parcelName, yearNumber, weekNumber) 
 );
-RENAME TABLE weekmetrics TO updatedweekmetrics;
 
 
-# TODO create table shared_parcels 
+
+# TODO create table parcelDataSharing 
 CREATE TABLE sharedparcels ( 
-  originUserId varchar(50)
-  , destinationUserId varchar(50)
+  dataOwnerEMail varchar(50)
+  , dataUserEMail varchar(50)
   , parcelName varchar(50)
-  , PRIMARY KEY (originUserId, destinationUserId, parcelName) 
+  , PRIMARY KEY (dataOwnerEMail, dataUserEMail, parcelName) 
 );
 
 

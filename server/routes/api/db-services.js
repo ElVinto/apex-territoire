@@ -30,7 +30,6 @@ const dbConnectionConfig = () => {
     }
 }
 
-
 async function execQuery(queryTxt,params=[] ) {
     
     let pool;
@@ -70,7 +69,13 @@ router.post('/login', function(req, res, next) {
         */
        let useremail = req.body.useremail.replace("'").replace('"');
         const queryTxt = 'SELECT * FROM user WHERE email = "'+useremail+'"';
-        execQuery(queryTxt).then(rows => res.json(rows));
+        
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => {
+            // console.log(rows);
+            return res.json(rows)
+        });
 
     }
 });
@@ -79,10 +84,8 @@ router.post('/login', function(req, res, next) {
 router.get('/',  function(req, res, next) {
 
     if(req.query.useremail === undefined){
-        res.send(" Please define a userId to get request");
+        res.send(" Please define a useremail to get request");
     }else{
-
-        let useremail = req.query.useremail;
 
         let queryTxt ="";
 
@@ -93,7 +96,7 @@ router.get('/',  function(req, res, next) {
         queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.email = '+useremail;
+        queryTxt +=' and u.email = '+req.query.useremail;
 
         console.log(queryTxt)
 
@@ -104,12 +107,18 @@ router.get('/',  function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
-    
-    if (req.body.transaction === "select_observations"){
+    // OBSERVATIONS
 
-        let useremail = req.body.useremail;
-        
-        console.log(useremail);
+    if (req.body.transaction === "select_observations"){
+ 
+        /*
+         {
+             "transaction": "select_observations",
+             "useremail": "baptiste.oger@supagro.fr"
+         }
+         */
+       
+        console.log(req.body);
 
         let queryTxt ="";
 
@@ -120,7 +129,37 @@ router.post('/', function(req, res, next) {
         queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.email = "'+useremail+'"';
+        queryTxt +=' and u.email = "'+req.body.useremail+'"';
+
+        console.log(queryTxt)
+
+        execQuery(queryTxt).then(rows => res.json(rows));
+
+    }
+
+    if (req.body.transaction === "select_sharedobservations"){
+ 
+        /*
+         {
+             "transaction": "select_sharedobservations",
+             "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+         }
+         */
+       
+        console.log(req.body);
+
+        let queryTxt ="";
+
+        queryTxt +=' SELECT o.apexValue as obsvLabel, o.date as obsvDateInMs, o.latitude as obsvLat, o.longitude as obsvLng', 
+        queryTxt +=' , s.nomParcelle as parcelName, s.globalLatitude as parcelLat, s.globalLongitude as parcelLng'
+        queryTxt +=' , s.moyenne as sessionAvgGrowth, s.date as sessionDateInSec'
+        queryTxt +=' , u.name as userName, u.idUser as userId, u.email as userEMail ' 
+        queryTxt +=' FROM user u, session s, observation o'
+        queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
+        queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
+        queryTxt +=' and u.email = "'+req.body.dataOwnerEMail+'"';
+        queryTxt +=' and s.nomParcelle = "'+req.body.parcelName+'"';
 
         console.log(queryTxt)
 
@@ -129,92 +168,106 @@ router.post('/', function(req, res, next) {
     }
 
 
-    if (req.body.transaction === "select_weekmetrics"){
+
+
+    // MODIFIED WEEK METRICS
+
+    if (req.body.transaction === "select_modifiedweekmetrics"){
         /*
         req.body = 
         {
-	        "transaction": "select_weekmetrics",
-	        "userId": 14
+	        "transaction": "select_modifiedweekmetrics",
+	        "userEMail": "baptiste.oger@supagro.fr"
         }
         */
-        const queryTxt = " SELECT * FROM updatedweekmetrics WHERE userId = ?";
-        const params =[req.body.userId];
-        execQuery(queryTxt,params).then(rows => res.json(rows));
+
+       console.log(req.body);
+
+        const queryTxt = " SELECT * FROM modifiedweekmetrics WHERE dataUserEMail = '"+req.body.userEMail+"'";
+
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => res.json(rows));
     }
 
-
-    if (req.body.transaction === "insert_weekmetrics") {
-
+    if (req.body.transaction === "alter_modifiedweekmetrics") {
         /*
         req.body = 
         {
-            "transaction": "insert_weekmetrics"
-            , "userId": 14
-            , "parcelName": "dummy parcel"
-            , "yearNumber": 2019
-            , "weekNumber": 22
-            , "weekLabel": "dummy  week"
-            , "nbObsFullGrowth": 25
-            , "nbObsSlowGrowth": 25
-            , "nbObsStoppedGrowth": 0
-            , "dateTimeInMs": 1585269934625
-        }
-        */
-       
-       let queryTxt = "INSERT INTO updatedweekmetrics (userId,parcelName,yearNumber,weekNumber,weekLabel,nbObsFullGrowth,nbObsSlowGrowth,nbObsStoppedGrowth,dateTimeInMs) VALUE (?,?,?,?,?,?,?,?,?)";
-       let params = [
-        req.body.userId
-        , req.body.parcelName
-        , req.body.yearNumber
-        , req.body.weekNumber
-        , req.body.weekLabel
-        , req.body.nbObsFullGrowth
-        , req.body.nbObsSlowGrowth
-        , req.body.nbObsStoppedGrowth
-        , req.body.dateTimeInMs
-        ];
-        execQuery(queryTxt,params).then(rows => res.json(rows));
-
-    }
-
-
-    if (req.body.transaction === "update_weekmetrics") {
-        /*
-        req.body = 
-        {
-            "transaction": "update_weekmetrics"
-            , "userId": 14
+            "transaction": "alter_modifiedweekmetrics"
+            , "dataUserEMail": "baptiste.oger@supagro.fr"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
             , "parcelName": " dummy parcel"
             , "yearNumber": 2019
             , "weekNumber": 22
-            , "weekLabel": "dummy  week"
             , "nbObsFullGrowth": 25
             , "nbObsSlowGrowth": 15
             , "nbObsStoppedGrowth": 10
             , "dateTimeInMs": 1585269934625
         }
         */
-            let queryTxt = "UPDATE updatedweekmetrics SET weekLabel=?, nbObsFullGrowth=?, nbObsSlowGrowth=?, nbObsStoppedGrowth=?, dateTimeInMs=? WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=? ;" ;
 
-            let params = [
-                req.body.weekLabel
-                , req.body.nbObsFullGrowth
-                , req.body.nbObsSlowGrowth
-                , req.body.nbObsStoppedGrowth
-                , req.body.dateTimeInMs
+    //    console.log(req.body);
 
-                , req.body.userId
-                , req.body.parcelName
-                , req.body.yearNumber
-                , req.body.weekNumber
-            ];
-            execQuery(queryTxt,params).then(rows => res.json(rows));params.push();
+        let queryTxt = "INSERT INTO modifiedweekmetrics (dataUserEMail, dataOwnerEMail, parcelName, yearNumber, weekNumber, nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth, dateTimeInMs) ";
+        queryTxt += " VALUES ('"+req.body.dataUserEMail+"', '" +req.body.dataOwnerEMail+"',  '" + req.body.parcelName+"', " + req.body.yearNumber+", " + req.body.weekNumber+",  " + req.body.nbObsFullGrowth+", " + req.body.nbObsSlowGrowth+", " + req.body.nbObsStoppedGrowth+", " +  req.body.dateTimeInMs+")" 
+                +" ON DUPLICATE KEY UPDATE"
+                +" nbObsFullGrowth = " +req.body.nbObsFullGrowth
+                +" , nbObsSlowGrowth = "+req.body.nbObsSlowGrowth
+                +" , nbObsStoppedGrowth = "+req.body.nbObsStoppedGrowth
+                +", dateTimeInMs = "+req.body.dateTimeInMs+" ;";
+
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => res.json(rows));
             
     }
 
 
-    // TODO  example of insert and if the key is present then update 
-    // INSERT INTO weekmetrics (userId,parcelName,yearNumber,weekNumber, nbObsFullGrowth) VALUES (u,p,y,w,nbObsF) ON DUPLICATE KEY UPDATE nbObsFullGrowth=VALUES(nbObsF)
+    
+
+    // PARCELDATASHARING
+
+    if (req.body.transaction === "select_parceldatasharing"){
+        /*
+        req.body = 
+        {
+	        "transaction": "select_parceldatasharing",
+	        "userEMail": "baptiste.oger@supagro.fr"
+        }
+        */
+
+       console.log(req.body);
+
+        const queryTxt = " SELECT * FROM parceldatasharing WHERE dataUserEMail = '"+req.body.userEMail+"'";
+
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => res.json(rows));
+    }
+
+    if (req.body.transaction === "insert_parceldatasharing") {
+        /*
+        req.body = 
+        {
+            "transaction": "insert_parceldatasharing"
+            , "dataUserEMail": "baptiste.oger@supagro.fr"
+            , "dataOwnerEMail": "Toto@tu.ti"
+            , "parcelName": " dummy parcel"
+        }
+        */
+
+    //    console.log(req.body);
+
+        let queryTxt = "INSERT INTO parceldatasharing (dataUserEMail, dataOwnerEMail, parcelName) ";
+        queryTxt += " VALUES ('"+req.body.dataUserEMail+"', '" +req.body.dataOwnerEMail+"',  '" + req.body.parcelName+"')";
+
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => res.json(rows));
+            
+    }
+
 
 });
 
@@ -223,23 +276,55 @@ router.post('/', function(req, res, next) {
 
 router.delete('/', function(req, res, next) {
 
-    if (req.body.transaction === "delete_weekmetrics") {
+    if (req.body.transaction === "delete_modifiedweekmetrics") {
         /*
         {
-            "transaction": "delete_weekmetrics"
-            , "userId": 35
+            "transaction": "delete_modifiedweekmetrics"
+            , "dataUserEMail": "baptiste.oger@supagro.fr"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
             , "parcelName": " dummy parcel"
             , "yearNumber": 2019
             , "weekNumber": 22
         }
         */
+    //    console.log(req.body);
+
+        const queryTxt ="DELETE FROM modifiedweekmetrics WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+            +" and yearNumber = " +req.body.yearNumber
+            +" and weekNumber = " +req.body.weekNumber ;
+
+        console.log(queryTxt);
         
-        const queryTxt ="DELETE FROM updatedweekmetrics WHERE userId=? and parcelName=? and yearNumber=? and weekNumber=?";
-        const params = [req.body.userId, req.body.parcelName, req.body.yearNumber, req.body.weekNumber];
-            
-        execQuery(queryTxt,params).then(rows => res.json(rows));
+        execQuery(queryTxt).then(rows => res.json(rows));
 
     }
+
+    if (req.body.transaction === "delete_parceldatasharing") {
+        /*
+        {
+            "transaction": "delete_parceldatasharing"
+            , "dataUserEMail": "Toto@tu.ti"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+        }
+        */
+    //    console.log(req.body);
+
+        const queryTxt ="DELETE FROM parceldatasharing WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+           ;
+
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
+
+    }
+
 });
 
 

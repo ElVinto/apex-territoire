@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 require('dotenv').config()
 // prod
  var url = 'db-services';
@@ -41,7 +40,7 @@ class ApexDataServices{
 
     static getObservations(loggedUserEmail ){
         
-        console.log("getObservations from "+loggedUserEmail)
+        console.log("getObservations of "+loggedUserEmail)
 
         return new Promise ((resolve, reject) => {
             try {
@@ -61,16 +60,202 @@ class ApexDataServices{
         })
     }
 
-    static getObservationsBis(loggedUserEmail ){
+    static getSharedObservations(ownerEMail, pName ){
         
-        let body = {
-            transaction: "select_observations",
-            useremail: loggedUserEmail
-        }
-        
-        this.postQuery(body).then( res => {return res.data?res.data:res})
-        
+        console.log("getSharedObservations of  "+ownerEMail+" from "+pName)
+
+        return new Promise ((resolve, reject) => {
+            try {
+                let body = {
+                    transaction: "select_sharedobservations",
+                    dataOwnerEMail: ownerEMail,
+                    parcelName: pName
+                };
+                 
+                axios.post(url,body).then( res =>{
+                    resolve(
+                        res.data
+                    );
+                })
+            } catch (err) {
+                reject(err);
+            }
+        })
     }
+
+    static getModifiedWeekMetrics(loggedUserEmail ){
+        
+        console.log("getmodifiedWeekMetrics from "+loggedUserEmail)
+
+        return new Promise ((resolve, reject) => {
+            try {
+
+                let body = {
+                    transaction: "select_modifiedweekmetrics",
+                    useremail: loggedUserEmail
+                }
+                 
+                axios.post(url,body).then( res =>{
+                    resolve(
+                        res.data
+                    );
+                })
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
+    static sendToModifiedWeekMetrics(req_body){
+        console.log("sendToModifiedWeekMetrics "+req_body)
+
+        return new Promise ((resolve, reject) => {
+            try {
+                
+                if(req_body !==null && req_body.transaction!=null){
+                    if(req_body.transaction==="select_modifiedweekmetrics"
+                        || req_body.transaction==="alter_modifiedweekmetrics" 
+                        || req_body.transaction==="delete_modifiedweekmetrics"){
+
+                        /*
+                        {
+                            transaction: "select_modifiedweekmetrics",
+                            userEMail: "baptiste.oger@supagro.fr"
+                        }
+                        */
+                        if(req_body.transaction==="select_modifiedweekmetrics" ){
+                            axios.post(url,req_body).then( res =>{
+                                resolve(
+                                    res.data
+                                );
+                            })
+                        }
+
+                        /*
+                        {
+                            transaction: "alter_modifiedweekmetrics"
+                            , dataUserEMail: "baptiste.oger@supagro.fr"
+                            , dataOwnerEMail: "baptiste.oger@supagro.fr"
+                            , parcelName: " dummy parcel"
+                            , yearNumber: 2018
+                            , weekNumber: 22
+                            , nbObsFullGrowth: 20
+                            , nbObsSlowGrowth: 20
+                            , nbObsStoppedGrowth: 10
+                            , dateTimeInMs: 1585269934625
+                        }
+                        */
+                        if(req_body.transaction==="alter_modifiedweekmetrics" ){
+                            axios.post(url,req_body).then( res =>{
+                                resolve(
+                                    res.affectedrows
+                                );
+                            })
+                        }
+
+                        /*
+                        {
+                            "transaction": "delete_modifiedweekmetrics"
+                            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+                            , "dataUserEMail": "baptiste.oger@supagro.fr"
+                            , "parcelName": " dummy parcel"
+                            , "yearNumber": 2019
+                            , "weekNumber": 22
+                        }
+                        */
+                        if(req_body.transaction==="delete_modifiedweekmetrics" ){
+                            axios.delete(url,req_body).then( res =>{
+                                resolve(
+                                    res.affectedrows
+                                );
+                            })
+                        }
+                    }else{
+                        reject(" ERROR sendToModifiedWeekMetrics does not accet "+req_body);
+                    }
+                }else{
+                    reject(" ERROR sendToModifiedWeekMetrics does not accet "+req_body);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
+    static sendToParcelDataSharing(req_body) {
+        console.log("sendToParcelDataSharing " + req_body)
+
+        return new Promise((resolve, reject) => {
+            try {
+
+                if (req_body !== null && req_body.transaction != null) {
+                    if (
+                        req_body.transaction === "select_parceldatasharing"
+                        || req_body.transaction === "insert_parceldatasharing"
+                        || req_body.transaction === "delete_parceldatasharing") {
+
+
+                        /* 
+                        req_body =
+                        {
+	                        transaction: "select_parceldatasharing",
+	                        userEMail: "baptiste.oger@supagro.fr"
+                        }
+                        */
+                        if (req_body.transaction === "select_parceldatasharing") {
+                            axios.post(url, req_body).then(res => {
+                                resolve(
+                                    res.data
+                                );
+                            })
+                        }
+
+                        /*
+                         req_body = 
+                         {
+                            transaction: "insert_parceldatasharing"
+                            , dataUserEMail: "baptiste.oger@supagro.fr"
+                            , dataOwnerEMail: "Toto@tu.ti"
+                            , parcelName: "Chenin"
+                        }
+                        */
+                        if (req_body.transaction === "insert_parceldatasharing") {
+                            axios.post(url, req_body).then(res => {
+                                resolve(
+                                    res.affectedrows
+                                );
+                            })
+                        }
+
+                        /*
+                        req_body = {
+                            transaction: "delete_parceldatasharing"
+                            , dataUserEMail: "baptiste.oger@supagro.fr"
+                            , dataOwnerEMail: "Toto@tu.ti"
+                            , parcelName: "Chenin"
+                        }
+                        */
+                        if (req_body.transaction === "delete_parceldatasharing") {
+                            axios.delete(url, req_body).then(res => {
+                                resolve(
+                                    res.affectedrows
+                                );
+                            })
+                        }
+
+
+                    } else {
+                        reject(" ERROR sendToModifiedWeekMetrics does not accet " + req_body);
+                    }
+                } else {
+                    reject(" ERROR sendToModifiedWeekMetrics does not accet " + req_body);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
 
     static postQuery(route = this.url,body){
         return new Promise ((resolve, reject) => {
@@ -320,6 +505,36 @@ class ApexDataServices{
     
         return userDataObj
     }
+
+
+    static async addSharedParcelObservations(userDataObj){
+
+        console.log("getSharedParcelObservations");
+  
+        let sharedParcelDBRows = await ApexDataServices.sendToParcelDataSharing(
+          {
+            transaction: "select_parceldatasharing"
+            , userEMail: userDataObj.userEMail
+        });
+  
+        // console.log("sharedParcelDBRows result");
+        // console.log(sharedParcelDBRows);
+  
+        for(let row of sharedParcelDBRows){
+            // let dataUserEMail = row.dataUserEMail;
+            let sharedParcelObsDBRows =  await ApexDataServices.getSharedObservations(row.dataOwnerEMail,row.parcelName);
+            let sharedParcelDataObj = ApexDataServices.extractUserDataObjFrom(sharedParcelObsDBRows);
+            
+            // console.log("sharedParcelDataObj");
+            // console.log(sharedParcelDataObj);
+  
+            userDataObj.parcels.push(sharedParcelDataObj.parcels[0]);
+  
+            
+        }
+        // return userDataObj;
+      }
+
     
     // For each parcel of userDataObj add the required years and weeks from startWeekNum to endWeekNum 
     static addWeeksToUserDataObj(userDataObj, startYearNumber = 2018, endYearNumber = 2019, startWeekNumber = 22, endWeekNumber = 32) {
@@ -571,13 +786,7 @@ class ApexDataServices{
         
     
     }  
-    
-    /*
-     userDataObj.userEMail = row.userEMail;
-                userDataObj.userId = row.userId;
-                userDataObj.userName = row.userName;
-                userDataObj.parcels = [];
-    */
+
     
     static MonitoredUser(uEMail,uId, uName) {
         this.userEMail = uEMail;
@@ -588,12 +797,12 @@ class ApexDataServices{
         this.toString = () => `user: email ${this.userEMail} id: ${this.userId} name ${this.userName}`;    
     }
 
-    static MonitoredParcel(pName, pUserEMail, pUserName, pUserId, pCoord) {
+    static MonitoredParcel(pName, ownerEMail, ownerName, ownerId, pCoord) {
         this.parcelName = pName;
 
-        this.parcelUserEMail = pUserEMail;
-        this.parcelUserName = pUserName;
-        this.parcelUserId = pUserId;
+        this.dataOwnerEMail = ownerEMail;
+        this.dataOwnerName = ownerName;
+        this.dataOwnerId = ownerId;
 
         this.parcelCoord = pCoord;
         this.parcelYears = [];
@@ -611,7 +820,6 @@ class ApexDataServices{
     
     
     static MonitoredWeek(a, b) {
-    
     
         // input properties
         this.weekNumber = 0 ;
@@ -777,11 +985,8 @@ class ApexDataServices{
         this.obsvOwnerName = oOwnerName;
         this.obsvUserName = oUserName;
         this.obsvCoord = oCoord;
-    
-    
         
     }
-
 
 
 }

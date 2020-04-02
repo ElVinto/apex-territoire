@@ -1,136 +1,150 @@
 <template>
-  <div class="apex-map">
+  <div class="apex-map" v-if="$store.state.userDataObj!==null">
     
-    <div class="parcels-container" v-if="$store.state.userDataObj!==null">
-      <h1> usermail {{ $store.state.loggedUserEmail}} </h1>
-      
-      <div class="parcels" 
+      <h1>{{`Hello ${$store.state.userDataObj.userName} `}}</h1> 
+     <div class="parcels" 
         v-for="(parcel, index) in $store.state.userDataObj.parcels"
         v-bind:item="parcel"
         v-bind:index="index"
         v-bind:key="parcel.parcelName">
-        <p class="text">{{`parcelName: ${parcel.parcelName} parcelOwner: ${parcel.parcelOwner} monitored years:[${parcel.parcelYears}]`}}</p>
+        <p class="text">{{`parcelName: ${parcel.parcelName} dataOwnerName: ${parcel.dataOwnerName} monitored years:[${parcel.parcelYears}]`}}</p>
       </div>
- 
-    </div> 
 
-    <div class="parcelNames-container" v-if="$store.state.userDataObj!==null">
-      <h1> Parcel Name List from Store</h1>
-      <div class="userParcelNames"
-        v-for="(pName, index) in $store.getters.parcelNameList"
-        v-bind:item="pName"
-        v-bind:index="index"
-        v-bind:key="pName">
-        <p class="text">{{`parcelName: ${pName}`}}</p>
-      </div>
-    </div>
+     <hr>
 
-    <div class="parcelNames-container" v-if="$store.state.userDataObj!==null">
-     <h1>  year Numbers list from Store </h1>
-      <div class="userParcelNames"
-        v-for="(yNumber, index) in $store.getters.yearNumberList"
-        v-bind:item="yNumber"
-        v-bind:index="index"
-        v-bind:key="yNumber">
-        <p class="text">{{`yearNumber: ${yNumber}`}}</p>
-      </div>
-    </div>
-
-    <div class="parcelNames-container" v-if="$store.state.userDataObj!==null">
-     <h1>  week Label list from Store </h1>
-      <div class="userParcelNames"
-        v-for="(wLabel, index) in $store.getters.weekLabelList"
-        v-bind:item="wLabel"
-        v-bind:index="index"
-        v-bind:key="wLabel">
-        <p class="text">{{`wLabel: ${wLabel}`}}</p>
-      </div>
+    <div class="controlWeekMetrics">
+      <select v-model="selectedYearIdx">
+        <option v-for="(elmt,index) in $store.getters.yearNumberList"
+            v-bind:key="index"
+            v-bind:value="index">
+            {{ elmt }}
+        </option>
+      </select>
+      <select v-model="selectedWeekIdx">
+        <option v-for="(elmt,index) in $store.getters.weekLabelList"
+            v-bind:key="index"
+            v-bind:value="index">
+            {{ elmt }}
+        </option>
+      </select>
+      <select v-model="selectedParcelIdx">
+        <option v-for="(pName,index) in $store.getters.parcelNameList"
+            v-bind:key="index"
+            v-bind:value="index">
+            {{pName}} ({{$store.state.userDataObj.parcels[index].dataOwnerName}})
+        </option>
+      </select>
     </div>
 
 
+
+    <div class="viewWeekMetrics">
+       <p class="text">{{`nbObsFullGrowth: ${$store.getters.getSelectedWeekMetric.nbObsFullGrowth}, nbObsSlowGrowth: ${$store.getters.getSelectWeekMetric.nbObsFullGrowth}, nbObsStoppedGrowth: ${$store.getters.getSelectWeekMetric.nbObsStoppedGrowth}, (modified: ${$store.getters.getSelectWeekMetric.modified})`}}</p>
+    </div>
+
+
+    <!-- <div class="Map">
+      <p v-if="centre"> Lat: {{ centre.lat }}, lon {{ centre.lng }} </p>
+      <div id="mapId">
+    </div> -->
+
+    
 
   </div>
 </template>
 
 <script>
 
-import ApexDataServices from '../ApexDataServices';
+// import 'leaflet';
+// const L = window.L;
 
 
 export default {
   name: 'ApexMap',
-  
-
+    
   data(){
     return {
-      
-      error: '',
-      text: ''
+      selectedParcelIdx:0
+      ,selectedYearIdx:0
+      ,selectedWeekIdx:0
+
+      // ,map:[]
+      // ,centre:{lat:43.6195,lng:3.85722}
     }
   },
 
-  computed:{
-   
-     // TODO FIX do not work : this.$store is unknown perhaps because it is not load yet ?
-
-    // parcelNames: () =>  this.$store.getters().parcelList
+  // async created() {
     
-    // ,yearNumbers:() => this.$store.getters.yearList
+  //   this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
+  //   this.selectedYearIdx = this.$store.state.selectedYearIdx
+  //   this.selectedWeekIdx = this.$store.state.selectedWeekIdx
 
-    // ,weekLabels:() => this.$store.getters.weekLabelList
+  //   this.center = this.$store.state.userDataObj.parcels[this.selectedParcelIdx].parcelCoord
 
-  },
+  //   console.log("this.center") 
+  //   console.log(this.center)
+    
+  // },
 
-  methods: {
+  // mounted() {
+  //   const map = L.map('mapId').setView([this.centre.lat, this.centre.lng], 12);
+  //       L.tileLayer(
+  //           'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+  //           , {
+  //               maxZoom: 18,
+  //               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+  //                   '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+  //                   'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  //               id: 'mapbox/satellite-v9'
+  //           }).addTo(map);
+  //   this.map = map;
+  //
+    // const map = L.map('map').setView([37.4501001, -121.9107704], 4)
+    // L.tileLayer('https://{s}.tiles.mapbox.com/v4/{user}.{mapId}/{z}/{x}/{y}.png?access_token={token}', {
+    //   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    //   maxZoom: 18,
+    //   mapId: 'i81oam9h',
+    //   user: 'skycatch-dev',
+    //   token: 'pk.eyJ1Ijoic2t5Y2F0Y2gtZGV2IiwiYSI6Ik1PVjVYNEkifQ.j2X9OOZDz7ABqUvHk4kesw'
+    // }).addTo(map)
+    // this.map = map
 
-    /*
-     TODO 
-      updatedWeekmetrics has been created in agrotic_apex ()
-      handle the post query on the server side
-     */
-    async updateWeekMetrics(parcel, year, week){
+    // this.addPlaces(this.places)
+  // },
 
-      // userId
-      await ApexDataServices.postQuery(
-        {
-          transaction : "update_WeekMetrics"
-          , userId: parcel.parcelUserId //  TODO add to Monitored Parcel
-          , parcelId: parcel.parcelDBId // TODO add to Monitored User
-          , yearNumber: year.yearNumber
-          , weekNumber: week.weekNumber
-          , weekLabel: week.weekLabel
-          , nbObservations: week.weekNbObservations
-          , nbObsFullGrowth: week.weekNbObsFullGrowth 
-          , nbObsSlowGrowth: week.weekNbObsSlowGrowth
-          , nbObsStoppedGrowth: week.weekNbObsStoppedGrowth 
-          , metricsDateInMs : new Date().getTime()
-        } 
-      );
-      this.posts = await ApexDataServices.getObservations();
 
+  watch:{
+    selectedParcelIdx: function(val){
+      this.$store.commit("updateSelectedParcelIdx",val);
     }
+    ,selectedYearIdx: function(val){
+      this.$store.commit("updateSelectedYearIdx",val);
+    }
+    ,selectedWeekIdx: function(val){
+      this.$store.commit("updateSelectedWeekIdx",val);
+    }
+
   },
+
+  
 
 }
-
-
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+@import "../../node_modules/leaflet/dist/leaflet.css";
+/* @import "../../node_modules/leaflet.markercluster/dist/MarkerCluster.css"; */
+
+mapId {
+  width: 100%;
+  height: 400px;
+  font-weight: bold;
+  font-size: 13px;
+  text-shadow: 0 0 2px #fff;
+  /* leaflet-shadow-pane > .leaflet-marker-shadow
+    display: none; */
 }
 </style>

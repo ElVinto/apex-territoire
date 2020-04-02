@@ -1,10 +1,9 @@
 <template>
   <div id="app" v-if=" ($store.state.userDataObj!==null) ">
-
   <template>
       <Menu msg="Place the menu here"/>
       <hr>
-      <ApexMap />
+      <TestComponent />
       <hr>
       <Footer/>
   </template>
@@ -14,7 +13,7 @@
 <script>
 
 import Menu from './components/Menu.vue'
-import ApexMap from './components/ApexMap.vue'
+import TestComponent from './components/TestComponent.vue'
 import Footer from './components/Footer.vue'
 import ApexDataServices from './ApexDataServices';
 
@@ -22,32 +21,42 @@ export default {
   name: 'App',
   components: {
     Menu,
-    ApexMap,
+    // NewMap,
+    // ApexMap
+    TestComponent,
     Footer
   },
   
-  async created() {
+  created() {
     try {
 
       let userEMail =this.$store.state.loggedUserEmail;
- 
+
       ApexDataServices.checkEMail(userEMail).then(emailIsvalid => {
         if(emailIsvalid===true){
-            
-            // todo update value of this.$store.state.loggedUserEmail through changeLoggedUserEMail() in store
             ApexDataServices.getObservations(userEMail).then( userDBRows =>{ 
               let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
-              ApexDataServices.addWeeksToUserDataObj(userDataObj);
-              ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
-              ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
+              console.log(userDataObj);
+              ApexDataServices.addSharedParcelObservations(userDataObj).then( () =>{
 
-              this.$store.commit("initUserDataObj", userDataObj);
+                ApexDataServices.addWeeksToUserDataObj(userDataObj);
+                ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
+                ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
 
-              console.log("updated $store.state.userDataObj: ")
-              console.log(this.$store.state.userDataObj)
-            })
+                this.$store.commit("initUserDataObj", userDataObj);
+
+                console.log("updated $store.state.userDataObj: ")
+                console.log(this.$store.state.userDataObj)
+
+                this.$store.commit("initUserModifiedWeekMetrics");
+
+
+
+            });
+
+            });
         }else{
-            console.log("mail is not valid")
+          console.log("mail is not valid")
         }
       });
         
@@ -58,7 +67,9 @@ export default {
       this.error = error.message;
         
     }
-}
+  },
+
+
 
 }
 </script>
