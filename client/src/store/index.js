@@ -115,7 +115,7 @@ export default new Vuex.Store({
             state.userDataObj.parcels[state.selectedParcelIdx].parcelYears[state.selectedYearIdx]
             let date = new Date(state.userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekFullDate);
 
-            let weekmetrics= {
+            let weekmetric= {
                dataUserEMail: state.userDataObj.dataUserEMail
                , dataOwnerEMail: state.userDataObj.parcels[pIdx].dataOwnerEMail
                , parcelName: state.userDataObj.parcels[pIdx].parcelName
@@ -129,8 +129,8 @@ export default new Vuex.Store({
            }
 
            console.log("initially computed week metrics");
-           console.log(weekmetrics);
-           return weekmetrics;
+           console.log(weekmetric);
+           return weekmetric;
 
          }
 
@@ -211,6 +211,7 @@ export default new Vuex.Store({
          // Weird things in vuex we connot acces getters from mutations
          week_metric.modified =true;
 
+         // local recording
          state.modifiedWeekMetrics.set(`pIdx:${state.selectedParcelIdx} yIdx:${state.selectedYearIdx} wIdx:${state.selectedYearIdx}`, week_metric)
 
          // record in database

@@ -52,7 +52,7 @@
     <div class="viewWeekMetrics">
       <p class="text">
         {{
-          `nbObsFullGrowth: ${$store.getters.getSelectedWeekMetric.nbObsFullGrowth}, nbObsSlowGrowth: ${$store.getters.getSelectedWeekMetric.nbObsFullGrowth}, nbObsStoppedGrowth: ${$store.getters.getSelectedWeekMetric.nbObsStoppedGrowth}, (modified: ${$store.getters.getSelectedWeekMetric.modified})`
+          `nbObsFullGrowth: ${$store.getters.getSelectedWeekMetric.nbObsFullGrowth}, nbObsSlowGrowth: ${$store.getters.getSelectedWeekMetric.nbObsSlowGrowth}, nbObsStoppedGrowth: ${$store.getters.getSelectedWeekMetric.nbObsStoppedGrowth}, (modified: ${$store.getters.getSelectedWeekMetric.modified})`
         }}
       </p>
     </div>
@@ -152,7 +152,8 @@ export default {
 
   methods: {
     async insertParcelDataSharedToSomeone() {
-      await ApexDataServices.sendToParcelDataSharing({
+      await ApexDataServices.sendToParcelDataSharing(
+      {
         transaction: "insert_parceldatasharing",
         dataUserEMail: "TODO ADD",
         dataOwnerEMail: this.$store.state.userDataObj.userEMail,
