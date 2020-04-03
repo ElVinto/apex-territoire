@@ -16,7 +16,7 @@
     </div>
 
     <hr />
-
+    <h1> Select week metrics </h1>
     <div class="controlWeekMetrics">
       <select v-model="selectedYearIdx">
         <option
@@ -56,8 +56,10 @@
         }}
       </p>
     </div>
+    
+    <hr />
 
-    <h1>{{ `Parcel Data Shared to someone ` }}</h1>
+    <h1> Parcel Data Shared to someone </h1>
     <div
       class="parcels"
       v-for="(sharedParcelRow,index) in parcelRowsSharedToSomeone"
@@ -70,7 +72,7 @@
       </p>
     </div>
 
-    <h1>{{`Parcel Data Shared by someone ` }}</h1>
+    <h1> Parcel Data Shared by someone </h1>
     <div
       class="parcels"
       v-for="(sharedParcelRow,index) in parcelRowsSharedBySomeone"
