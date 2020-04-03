@@ -15,7 +15,7 @@ class ApexDataServices{
         console.log("Checking email of " + loggedUserEmail);
         let body = {
             transaction: "select_useremail",
-            useremail: loggedUserEmail
+            userEMail: loggedUserEmail
         }
 
         return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ class ApexDataServices{
             try {
                 let body = {
                     transaction: "select_observations",
-                    useremail: loggedUserEmail
+                    userEMail: loggedUserEmail
                 }
                  
                 axios.post(url,body).then( res =>{
@@ -92,7 +92,7 @@ class ApexDataServices{
 
                 let body = {
                     transaction: "select_modifiedweekmetrics",
-                    useremail: loggedUserEmail
+                    userEMail: loggedUserEmail
                 }
                  
                 axios.post(url,body).then( res =>{
@@ -183,7 +183,9 @@ class ApexDataServices{
     }
 
     static sendToParcelDataSharing(req_body) {
-        console.log("sendToParcelDataSharing " + req_body)
+        console.log(`sendToParcelDataSharing`)
+        console.log(req_body)
+
 
         return new Promise((resolve, reject) => {
             try {
@@ -201,6 +203,14 @@ class ApexDataServices{
 	                        transaction: "select_parceldatasharing",
 	                        userEMail: "baptiste.oger@supagro.fr"
                         }
+                        
+                        or
+
+                        {
+	                        transaction: "select_parceldatasharing",
+	                        ownerEMail: "baptiste.oger@supagro.fr"
+                        }
+
                         */
                         if (req_body.transaction === "select_parceldatasharing") {
                             axios.post(url, req_body).then(res => {
@@ -209,6 +219,8 @@ class ApexDataServices{
                                 );
                             })
                         }
+
+
 
                         /*
                          req_body = 

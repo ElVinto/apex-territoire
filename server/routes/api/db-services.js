@@ -64,10 +64,10 @@ router.post('/login', function(req, res, next) {
         req.body = 
         {
 	        "transaction": "select_useremail",
-	        "useremail": "baptiste.oger@supagro.fr"
+	        "userEMail": "baptiste.oger@supagro.fr"
         }
         */
-       let useremail = req.body.useremail.replace("'").replace('"');
+       let useremail = req.body.userEMail.replace("'").replace('"');
         const queryTxt = 'SELECT * FROM user WHERE email = "'+useremail+'"';
         
         console.log(queryTxt);
@@ -83,8 +83,8 @@ router.post('/login', function(req, res, next) {
 
 router.get('/',  function(req, res, next) {
 
-    if(req.query.useremail === undefined){
-        res.send(" Please define a useremail to get request");
+    if(req.query.userEMail === undefined){
+        res.send(" Please define a userEMail to get request");
     }else{
 
         let queryTxt ="";
@@ -96,7 +96,7 @@ router.get('/',  function(req, res, next) {
         queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.email = '+req.query.useremail;
+        queryTxt +=' and u.email = '+req.query.userEMail;
 
         console.log(queryTxt)
 
@@ -114,7 +114,7 @@ router.post('/', function(req, res, next) {
         /*
          {
              "transaction": "select_observations",
-             "useremail": "baptiste.oger@supagro.fr"
+             "userEMail": "baptiste.oger@supagro.fr"
          }
          */
        
@@ -129,7 +129,7 @@ router.post('/', function(req, res, next) {
         queryTxt +=' FROM user u, session s, observation o'
         queryTxt +=' WHERE s.userId = u.idUser and s.idSession = o.sessionId'
         queryTxt +=' and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0'
-        queryTxt +=' and u.email = "'+req.body.useremail+'"';
+        queryTxt +=' and u.email = "'+req.body.userEMail+'"';
 
         console.log(queryTxt)
 
@@ -235,11 +235,26 @@ router.post('/', function(req, res, next) {
 	        "transaction": "select_parceldatasharing",
 	        "userEMail": "baptiste.oger@supagro.fr"
         }
-        */
+    
+        or 
+       req.body = 
+       {
+           "transaction": "select_parceldatasharing",
+           "ownerEMail": "baptiste.oger@supagro.fr"
+       }
+       */
 
        console.log(req.body);
 
-        const queryTxt = " SELECT * FROM parceldatasharing WHERE dataUserEMail = '"+req.body.userEMail+"'";
+        let queryTxt =""
+        if(req.body.userEMail!==undefined){
+             queryTxt = " SELECT * FROM parceldatasharing WHERE dataUserEMail = '"+req.body.userEMail+"'";
+        }
+
+        if(req.body.ownerEMail!==undefined){
+            queryTxt = " SELECT * FROM parceldatasharing WHERE dataOwnerEMail = '"+req.body.ownerEMail+"'";
+        }
+
 
         console.log(queryTxt);
 

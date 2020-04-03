@@ -5,6 +5,10 @@
       <hr>
       <TestComponent />
       <hr>
+      <!-- <NewMap />
+      <hr> -->
+      <!-- <ApexMap />
+      <hr> -->
       <Footer/>
   </template>
   </div>
@@ -14,6 +18,8 @@
 
 import Menu from './components/Menu.vue'
 import TestComponent from './components/TestComponent.vue'
+// import ApexMap from './components/ApexMap.vue'
+// import NewMap from './components/NewMap.vue'
 import Footer from './components/Footer.vue'
 import ApexDataServices from './ApexDataServices';
 
@@ -22,7 +28,7 @@ export default {
   components: {
     Menu,
     // NewMap,
-    // ApexMap
+    // ApexMap,
     TestComponent,
     Footer
   },
@@ -50,8 +56,6 @@ export default {
 
                 this.$store.commit("initUserModifiedWeekMetrics");
 
-
-
             });
 
             });
@@ -60,18 +64,13 @@ export default {
         }
       });
         
-      
     } catch (error) {
-
       // console.error(error)
       this.error = error.message;
-        
     }
-  },
-
-
-
+  }
 }
+
 </script>
 
 <style>
