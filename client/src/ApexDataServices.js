@@ -164,7 +164,7 @@ class ApexDataServices{
                         }
                         */
                         if(req_body.transaction==="delete_modifiedweekmetrics" ){
-                            axios.delete(url,req_body).then( res =>{
+                            axios.post(url,req_body).then( res =>{
                                 resolve(
                                     res.affectedrows
                                 );
@@ -248,7 +248,7 @@ class ApexDataServices{
                         }
                         */
                         if (req_body.transaction === "delete_parceldatasharing") {
-                            axios.delete(url, req_body).then(res => {
+                            axios.post(url, req_body).then(res => {
                                 resolve(
                                     res.affectedrows
                                 );

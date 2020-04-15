@@ -169,7 +169,6 @@ router.post('/', function(req, res, next) {
 
 
 
-
     // MODIFIED WEEK METRICS
 
     if (req.body.transaction === "select_modifiedweekmetrics"){
@@ -221,6 +220,32 @@ router.post('/', function(req, res, next) {
 
         execQuery(queryTxt).then(rows => res.json(rows));
             
+    }
+
+    if (req.body.transaction === "delete_modifiedweekmetrics") {
+        /*
+        {
+            "transaction": "delete_modifiedweekmetrics"
+            , "dataUserEMail": "baptiste.oger@supagro.fr"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+            , "yearNumber": 2019
+            , "weekNumber": 22
+        }
+        */
+    //    console.log(req.body);
+
+        const queryTxt ="DELETE FROM modifiedweekmetrics WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+            +" and yearNumber = " +req.body.yearNumber
+            +" and weekNumber = " +req.body.weekNumber ;
+
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
+
     }
 
 
@@ -283,6 +308,33 @@ router.post('/', function(req, res, next) {
             
     }
 
+ 
+
+    if (req.body.transaction === "delete_parceldatasharing") {
+        /*
+        {
+            "transaction": "delete_parceldatasharing"
+            , "dataUserEMail": "Toto@tu.ti"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+        }
+        */
+    //    console.log(req.body);
+
+
+        const queryTxt ="DELETE FROM parceldatasharing WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+           ;
+
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
+
+    }
+
+
 
 });
 
@@ -327,6 +379,7 @@ router.delete('/', function(req, res, next) {
         }
         */
     //    console.log(req.body);
+
 
         const queryTxt ="DELETE FROM parceldatasharing WHERE" 
             +" dataUserEMail = '"+req.body.dataUserEMail+"'"

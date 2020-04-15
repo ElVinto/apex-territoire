@@ -1,76 +1,80 @@
 <template>
-  <div id="app" v-if=" ($store.state.userDataObj!==null) ">
-  <template>
-      <Menu msg="Place the menu here"/>
-      <hr>
-      <TestComponent />
-      <hr>
-      <!-- <NewMap />
+  <!-- <div id="app" v-if=" ($store.state.userDataObj!==null) "> -->
+  <div id="app">
+    <template>
+      <!-- <Menu msg="Place the menu here" />
+      <hr /> -->
+      <!-- <TestComponent />
       <hr> -->
-      <!-- <ApexMap />
-      <hr> -->
-      <Footer/>
-  </template>
+
+      <ApexMap />
+      <hr />
+      <!-- <BasicVue2LeafletEx />
+      <hr /> -->
+
+      <Footer />
+    </template>
   </div>
 </template>
 
 <script>
-
-import Menu from './components/Menu.vue'
-import TestComponent from './components/TestComponent.vue'
-// import ApexMap from './components/ApexMap.vue'
+// import Menu from "./components/Menu.vue";
+// import TestComponent from './components/TestComponent.vue'
+import ApexMap from "./components/ApexMap.vue";
+// import BasicVue2LeafletEx from "./components/BasicVue2LeafletEx.vue";
 // import NewMap from './components/NewMap.vue'
-import Footer from './components/Footer.vue'
-import ApexDataServices from './ApexDataServices';
+
+import Footer from "./components/Footer.vue";
+
+import ApexDataServices from "./ApexDataServices";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Menu,
+    // Menu,
     // NewMap,
-    // ApexMap,
-    TestComponent,
-    Footer
+    ApexMap,
+    // BasicVue2LeafletEx,
+    // TestComponent,
+    Footer,
   },
-  
+
   created() {
     try {
+      let userEMail = this.$store.state.loggedUserEmail;
 
-      let userEMail =this.$store.state.loggedUserEmail;
-
-      ApexDataServices.checkEMail(userEMail).then(emailIsvalid => {
-        if(emailIsvalid===true){
-            ApexDataServices.getObservations(userEMail).then( userDBRows =>{ 
-              let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
-              console.log(userDataObj);
-              ApexDataServices.addSharedParcelObservations(userDataObj).then( () =>{
-
+      ApexDataServices.checkEMail(userEMail).then((emailIsvalid) => {
+        if (emailIsvalid === true) {
+          ApexDataServices.getObservations(userEMail).then((userDBRows) => {
+            let userDataObj = ApexDataServices.extractUserDataObjFrom(
+              userDBRows
+            );
+            console.log(userDataObj);
+            ApexDataServices.addSharedParcelObservations(userDataObj).then(
+              () => {
                 ApexDataServices.addWeeksToUserDataObj(userDataObj);
                 ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
                 ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
 
                 this.$store.commit("initUserDataObj", userDataObj);
 
-                console.log("updated $store.state.userDataObj: ")
-                console.log(this.$store.state.userDataObj)
+                console.log("updated $store.state.userDataObj: ");
+                console.log(this.$store.state.userDataObj);
 
                 this.$store.commit("initUserModifiedWeekMetrics");
-
-            });
-
-            });
-        }else{
-          console.log("mail is not valid")
+              }
+            );
+          });
+        } else {
+          console.log("mail is not valid");
         }
       });
-        
     } catch (error) {
       // console.error(error)
       this.error = error.message;
     }
-  }
-}
-
+  },
+};
 </script>
 
 <style>

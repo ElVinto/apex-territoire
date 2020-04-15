@@ -45,8 +45,18 @@ sudo npm i -g @vue/cli
 # create client app project folder 
 vue create client
 
+# handle CSS style 
+npm install bootstrap-vue
+npm install --save jquery popper.js (in the project of Amin check if we can get rid of this )
+
+# handle Chartjs 
+npm install vue-chartjs chart.js --save
+
 # handle http requests
-npm i axios dotenv leaflet
+npm install axios 
+
+# handle env variable
+npm install dotenv 
 
 # install vuex store
 npm install vuex --save
@@ -54,7 +64,8 @@ mkdir store
 cd store
 touch index.js
 
-
+# install leaflet and vue2leaflet
+npm install leaflet vue2-leaflet --save
 
 
 
@@ -169,6 +180,9 @@ git push origin master
 
 
 
+
+
+
 #  create table  modifiedweekmetrics
 CREATE TABLE  modifiedweekmetrics ( 
   , dataUserEMail varchar(50)
@@ -186,7 +200,7 @@ CREATE TABLE  modifiedweekmetrics (
 
 
 
-# TODO create table parcelDataSharing 
+# create table parcelDataSharing 
 CREATE TABLE sharedparcels ( 
   dataOwnerEMail varchar(50)
   , dataUserEMail varchar(50)
@@ -199,4 +213,14 @@ CREATE TABLE sharedparcels (
 35 | 0e0f7b429eef47e7 | Guilhem                      | Toto@tu.ti                                         | Guilhem Agrotic 
 30 | cd423836048d5694 | Leo Pichon                   | Pichon.leo@gmail.com                               | Supagro   
 
+
+
+CREATE TABLE authentification ( 
+  userEMail varchar(255)
+  , passwordRequire boolean
+  , password varchar(255)
+  , PRIMARY KEY (userEMail) 
+);
+
+alter table authentification modify password varchar(255) ;
 

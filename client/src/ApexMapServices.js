@@ -1,44 +1,29 @@
-import leaflet from 'leaflet';
-import markercluster from 'leaflet.markercluster';
-
 class ApexMapServices{
 
-    static checkEMail(loggedUserEmail) {
-       
+ 
+
+    static avgGrowthToGreenColor(avgGrowth) {
+        if (avgGrowth < 0) {
+            return 'gray';
+        }
+
+        if (avgGrowth <= 0.125) {
+            return 'green_0';
+        }
+        if (avgGrowth <= 0.375) {
+            return 'green_25';
+        }
+        if (avgGrowth <= 0.625) {
+            return 'green_50';
+        }
+        if (avgGrowth <= 0.875) {
+            return 'green_75';
+        }
+        if (avgGrowth <= 1) {
+            return 'green_100';
+        }
+        return 'gray';
     }
-
-
-    //  example of object
-    // static MonitoredObservation(oLabel, oDateInMs, oOwnerName, oUserName, oCoord) {
-    
-    //     this.initObsvValueFromLabel = function (apexLabel) {
-    //         switch (apexLabel) {
-    //             case 'P':
-    //                 return 1;
-        
-    //             case 'R':
-    //                 return 0.5;
-        
-    //             case 'C':
-    //                 return 0;
-    //             default:
-    //                 return undefined;
-    //         }
-    //     }
-    
-    
-    //     this.obsvLabel = oLabel;
-    //     this.obsvValue = this.initObsvValueFromLabel(oLabel);
-    //     this.obsvDateInMs = oDateInMs;
-    //     this.obsvOwnerName = oOwnerName;
-    //     this.obsvUserName = oUserName;
-    //     this.obsvCoord = oCoord;
-    
-    
-    //     // htid
-    // }
-
-
 
 }
 
