@@ -1,35 +1,50 @@
 <template>
-  <div class="footer">
-    <h1>{{ msg }}</h1>
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div>
+<div class="footer">
+      <div class="zoom">
+        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src="https://www.commodafrica.com/sites/commodafrica.com/files/inrae.png" class="icone" target="_blank"></i></a>
+        <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src="https://www.hdigitag.fr/wp-content/uploads/cropped-logoDigitAg-perim.png" class="icone" ></i></a>
+        <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src='https://www.montpellier.archi.fr/wp-content/uploads/2019/02/Logo_MUSE_Original.png' class="icone"  ></i></a>
+      </div>
+      <div class="copyright " >
+         &copy; 2020 Copyright: <a href="https://www.inrae.fr/centres/occitanie-montpellier" target="_blank">  INRAE OCCITANIE MONTPELLIER</a>
+      </div>
+</div>
 </template>
 
 <script>
-export default {
-  name: 'Footer',
-  data () {
-    return{
-      msg: "Place the footer here"
+
+  
+  export default {
+    name: 'Footer',
+    components: {
     }
   }
-}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+
+.zoom p {
+text-align:center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.zoom img {
+max-width: 5%;
+	height: auto;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.zoom img:hover {
+max-width: 12%;
+	height: auto;
 }
-a {
-  color: #42b983;
+
+img {
+  border-radius: 10%;
 }
+.icone{
+	max-width: 10%;
+	height: auto;
+}
+
+.zoom{background: gray;padding: 15px}
+.copyright{background: black; padding: 15px;
+  text-align: center;
+  color: white;}
 </style>

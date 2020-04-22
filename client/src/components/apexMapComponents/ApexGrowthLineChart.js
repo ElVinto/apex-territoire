@@ -113,12 +113,12 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 legend: {
-                    position: 'right'
+                    position: 'bottom'
                 },
                 scales: {
                     xAxes: [{
                         ticks: {
-                            suggestedMax: 5
+                            suggestedMax: 12
                         }
                     }],
                     yAxes: [{
@@ -128,7 +128,7 @@ export default {
                         scaleLabel: {
                             display: true,
                             labelString: 'Indice croiss.',
-                            fontSize: 15
+                            fontSize: 11
                         },
                         ticks: {
                             max: 1,
@@ -142,7 +142,7 @@ export default {
                         scaleLabel: {
                             display: true,
                             labelString: '% Apex',
-                            fontSize: 15
+                            fontSize: 11
                         },
                         ticks: {
                             max: 100,
@@ -155,7 +155,14 @@ export default {
         }
     },
 
-    
+    mounted(){
+        
+        this.$nextTick(() => {
+      
+            this.$store.commit("incrementForceComponentUpdateCounter");
+      
+          });
+      },
 
     
     computed: {
@@ -165,6 +172,9 @@ export default {
 
                 let selectedParcelIdx = this.$store.state.selectedParcelIdx;
                 let selectedYearIdx = this.$store.state.selectedYearIdx;
+                
+                let forcedChartUpdateCounter = this.$store.state.forceComponentUpdateCounter;
+
 
                 let selectedParcelYearWeeksPrctFullGrowth = [];
                 let selectedParcelYearWeeksPrctSlowGrowth = [];
@@ -221,11 +231,12 @@ export default {
                     prctSlowGrowth: selectedParcelYearWeeksPrctSlowGrowth,
                     prctStoppedGrowth: selectedParcelYearWeeksPrctStoppedGrowth,
                     icApex: selectedParcelYearWeeksAvgGrowth,
+                    forcedChartUpdateCounter: forcedChartUpdateCounter
                 }
                 
 
-                console.log("CALL  selectedParcelYearWeeksGrowthData ");
-                console.log(selected_parcel_year_weeks_data);
+                // console.log("CALL  selectedParcelYearWeeksGrowthData ");
+                // console.log(selected_parcel_year_weeks_data);
 
                 return selected_parcel_year_weeks_data;
             }
@@ -234,8 +245,8 @@ export default {
 
     watch: {
         selectedParcelYearWeeksGrowthData(newVal){
-            console.log("WATCH selectedParcelYearWeeksGrowthData");
-            console.log(newVal);
+            // console.log("WATCH selectedParcelYearWeeksGrowthData");
+            // console.log(newVal);
             
             this.chartData.labels = newVal.weekLabelList;
             this.chartData.datasets[0].data = newVal.icApex;

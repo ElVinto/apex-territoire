@@ -1,78 +1,36 @@
 <template>
-  <!-- <div id="app" v-if=" ($store.state.userDataObj!==null) "> -->
   <div id="app">
-    <template>
-      <!-- <Menu msg="Place the menu here" />
-      <hr /> -->
-      <!-- <TestComponent />
-      <hr> -->
+    
+    
+    <div class="header ">
+      <my-header />
+    </div>
 
-      <ApexMap />
-      <hr />
-      <!-- <BasicVue2LeafletEx />
-      <hr /> -->
+    <div class="navbar" v-if= "$router.currentRoute.path !== '/' ">
+      <navbar />
+    </div>
+    
+    <router-view />
 
-      <Footer />
-    </template>
+    <div class="footer ">
+      <my-footer />
+    </div>
+
   </div>
 </template>
 
 <script>
-// import Menu from "./components/Menu.vue";
-// import TestComponent from './components/TestComponent.vue'
-import ApexMap from "./components/ApexMap.vue";
-// import BasicVue2LeafletEx from "./components/BasicVue2LeafletEx.vue";
-// import NewMap from './components/NewMap.vue'
+import footer from "./components/Footer";
+import header from "./components/Header";
+import navbar from "./components/Navbar";
 
-import Footer from "./components/Footer.vue";
-
-import ApexDataServices from "./ApexDataServices";
 
 export default {
   name: "App",
   components: {
-    // Menu,
-    // NewMap,
-    ApexMap,
-    // BasicVue2LeafletEx,
-    // TestComponent,
-    Footer,
-  },
-
-  created() {
-    try {
-      let userEMail = this.$store.state.loggedUserEmail;
-
-      ApexDataServices.checkEMail(userEMail).then((emailIsvalid) => {
-        if (emailIsvalid === true) {
-          ApexDataServices.getObservations(userEMail).then((userDBRows) => {
-            let userDataObj = ApexDataServices.extractUserDataObjFrom(
-              userDBRows
-            );
-            console.log(userDataObj);
-            ApexDataServices.addSharedParcelObservations(userDataObj).then(
-              () => {
-                ApexDataServices.addWeeksToUserDataObj(userDataObj);
-                ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
-                ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
-
-                this.$store.commit("initUserDataObj", userDataObj);
-
-                console.log("updated $store.state.userDataObj: ");
-                console.log(this.$store.state.userDataObj);
-
-                this.$store.commit("initUserModifiedWeekMetrics");
-              }
-            );
-          });
-        } else {
-          console.log("mail is not valid");
-        }
-      });
-    } catch (error) {
-      // console.error(error)
-      this.error = error.message;
-    }
+    "my-footer": footer,
+    "my-header": header,
+    navbar: navbar,
   },
 };
 </script>

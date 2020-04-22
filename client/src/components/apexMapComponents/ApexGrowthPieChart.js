@@ -11,6 +11,8 @@ export default {
     data(){
         return{
 
+            
+
             chartData: {
                 labels: ["% Pleine croissance   ", "% Croissance ralentie", "% Croissance arrétée"],
                 datasets: [{
@@ -53,26 +55,30 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 legend: {
-                    position: 'bottom',
+                    position: 'right',
                     onClick: (e) => e.stopPropagation()
                 }
             }
         }
     },
 
+    mounted(){
+        
+        // a trick to force plot update when changing page
+        this.$nextTick(() => {
+      
+            this.$store.commit("incrementForceComponentUpdateCounter");
+      
+          });
+        
+    },
     
     computed: {
         
         selectedWeekPieData :{
             get(){
 
-                if(this.$store.state.userDataObj === null){
-
-                    console.log("CALL selectedPieData ");
-                    console.log([0,0,0]);
-
-                    return [0,0,0];
-                }
+                let forcedChartUpdateCounter = this.$store.state.forceComponentUpdateCounter ;
 
                 let week_metric = this.$store.getters.getSelectedWeekMetric;
                 let nbObsFullGrowth = parseInt(week_metric.nbObsFullGrowth);
@@ -91,22 +97,29 @@ export default {
                     prctStoppedGrowth = Math.round((nbObsStoppedGrowth / nbTotalObs) * 100)
                 }
 
-                console.log("CALL selectedPieData ");
-                console.log([prctFullGrowth,prctSlowGrowth,prctStoppedGrowth]);
+                let result ={
+                    nbTotalObs: nbTotalObs,
+                    prctGrowthList: [prctFullGrowth,prctSlowGrowth,prctStoppedGrowth],
+                    forcedChartUpdateCounter : forcedChartUpdateCounter
+                }
+                // console.log("CALL selectedPieData ");
+                // console.log(result.prctGrowthList);
 
-                return [prctFullGrowth,prctSlowGrowth,prctStoppedGrowth];
+                return result;
             }
         }
     },
 
     watch: {
         selectedWeekPieData(newVal){
-            console.log("WATCH selectedPieData ");
-            console.log(newVal);
-            if(this.$store.getters.getSelectedWeekMetricTotalNbObs>0){
-                this.chartData.datasets[0].data = newVal;
+            
+            // console.log("WATCH selectedPieData ");
+            // console.log(newVal);
+            if(newVal.nbTotalObs >0){
+                this.chartData.datasets[0].data = newVal.prctGrowthList;
                 this.renderChart(this.chartData,this.options)
             }else{
+                this.chartNoData.datasets[0].data = [-1];
                 this.renderChart(this.chartNoData,this.options)
             }
         },

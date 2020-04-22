@@ -47,7 +47,7 @@ export default {
                 scales: {
                     xAxes: [{
                         ticks: {
-                            suggestedMax: 5
+                            suggestedMax: 10
                         }
                     }],
                     yAxes: [{
@@ -82,7 +82,15 @@ export default {
         }
     },
 
+    mounted(){
     
+        this.$nextTick(() => {
+      
+            this.$store.commit("incrementForceComponentUpdateCounter");
+      
+        });
+    
+    },
 
     
     computed: {
@@ -90,6 +98,7 @@ export default {
         selectedParcelYearWeeksHydricConstraint :{
             get(){
 
+                let forcedChartUpdateCounter = this.$store.state.forceComponentUpdateCounter ;
 
                 let hydricConstraints = [];
 
@@ -150,11 +159,12 @@ export default {
                 let selected_parcel_year_weeks_hydric_constraints = {
                     weekLabelList : selectedParcelYearWeekLabelList,
                     hydricContraintList: hydricConstraints,
+                    forcedChartUpdateCounter : forcedChartUpdateCounter
                 }
                 
 
-                console.log("CALL  selectedParcelYearWeeksHydricConstraint ");
-                console.log(selected_parcel_year_weeks_hydric_constraints);
+                // console.log("CALL  selectedParcelYearWeeksHydricConstraint ");
+                // console.log(selected_parcel_year_weeks_hydric_constraints);
 
                 return selected_parcel_year_weeks_hydric_constraints;
             }
@@ -163,8 +173,9 @@ export default {
 
     watch: {
         selectedParcelYearWeeksHydricConstraint(newVal){
-            console.log("WATCH selectedParcelYearWeeksData");
-            console.log(newVal);
+
+            // console.log("WATCH selectedParcelYearWeeksData");
+            // console.log(newVal);
             
             this.chartData.labels = newVal.weekLabelList;
             this.chartData.datasets[0].data = newVal.hydricContraintList;
