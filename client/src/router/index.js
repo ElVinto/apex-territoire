@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Profil from '../components/Profile.vue';
-import Login from '../components/Login.vue';
-import Informations from '../components/Informations.vue';
 
-import Partage from '../components/Partage';
 import ApexMap from '../components/ApexMap';
+import Edit from '../components/Edit.vue';
+import Partage from '../components/Partage';
+import Export from '../components/Export';
+import Profil from '../components/Profile.vue';
+import Guide from '../components/Guide.vue';
+
+import Login from '../components/Login.vue';
 import Addpsw from '../components/Addpsw';
 import ResetP from '../components/ResetPassword';
-import Export from '../components/Export';
-
 
 
 Vue.use(Router)
@@ -18,9 +19,27 @@ export default new Router({
   routes: [
 
     {
+      path: '/map',
+      name: 'map',
+      component: ApexMap
+    },
+
+    {
+      path: '/edit',
+      name: 'edit',
+      component: Edit
+    },
+
+    {
       path: '/partage',
       name: 'partage',
       component: Partage
+    },
+
+    {
+      path: '/export',
+      name: 'export',
+      component: Export
     },
 
     {
@@ -28,18 +47,12 @@ export default new Router({
       name: 'profil',
       component: Profil
     },
+
     {
-      path: '/export',
-      name: 'export',
-      component: Export
+      path: '/guide',
+      name: 'guide',
+      component: Guide
     },
-
-
-    {
-      path: '/informations',
-      name: 'informations',
-      component: Informations
-    }, 
     
     {
       path: '/',
@@ -58,14 +71,6 @@ export default new Router({
       name: 'resetp',
       component: ResetP
     },
-
-    {
-      path: '/map',
-      name: 'map',
-      component: ApexMap
-    },
-
-
 
   ]
 })

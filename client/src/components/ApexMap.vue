@@ -43,9 +43,13 @@
               v-bind:key="index"
               v-bind:value="index"
             >
-              {{ pName }} ({{
+              {{ pName }} 
+              ({{
+              $store.getters.getDisplayedUserNameIfNeeded(
+                $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
-              }})
+              )
+            }})
             </option>
           </select>
         </div>
@@ -150,7 +154,7 @@
                         <br />
                       </template>
                       <template v-else> (pas d'observations)<br /> </template>
-                      <router-link to="/informations" class="nav-link" style="text-align:right">éditer</router-link>
+                      <router-link to="/edit" class="nav-link" style="text-align:right">éditer</router-link>
                     </p>
                   </div>
                 </l-popup>
@@ -217,7 +221,7 @@
         ></apex-hydric-constraint-line-chart>
       </div>
       <hr />
-      <router-link to="/informations" class="nav-link" >éditer</router-link>
+      <router-link to="/edit" class="nav-link" >éditer</router-link>
     </div>
   </div>
 </template>

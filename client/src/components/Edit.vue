@@ -3,7 +3,7 @@
     <div class="meta">
       <div class="title">
         <hr />
-        <h4>Bonjour {{ $store.state.userDataObj.userName }}</h4>
+        <h4>Bonjour  {{ $store.getters.getDisplayedUserName }}</h4>
         <hr />
       </div>
 
@@ -50,9 +50,13 @@
               v-for="(pName, index) in $store.getters.parcelNameList"
               v-bind:key="index"
               v-bind:value="index"
-              >{{ pName }} ({{
+              >{{ pName }} 
+              ({{
+              $store.getters.getDisplayedUserNameIfNeeded(
+                $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
-              }})
+              )
+            }})
             </option>
           </select>
         </div>

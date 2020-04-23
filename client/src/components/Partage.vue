@@ -2,7 +2,7 @@
   <div class="global">
     <div class="title">
       <hr />
-      <h4>Bonjour {{ $store.state.userDataObj.userName }}</h4>
+      <h4>Bonjour {{ $store.getters.getDisplayedUserName }}</h4>
       <hr />
     </div>
 
@@ -10,7 +10,7 @@
       <h5 id="menutitle">
         <b
           >Nouveau partage des observations collectées par
-          {{ $store.state.userDataObj.userName }}
+          {{ $store.getters.getDisplayedUserName }}
         </b>
       </h5>
 
@@ -65,8 +65,8 @@
         <h5>
           <b>
             Liste des observations partagées par
-            {{ $store.state.userDataObj.userName }}</b
-          >
+            {{ $store.getters.getDisplayedUserName }}
+          </b>
         </h5>
         <table class="table-striped">
           <thead>
@@ -83,7 +83,7 @@
               v-bind:index="index"
               v-bind:key="index"
             >
-              <td>{{ sharedParcelRow.dataOwnerEMail }}</td>
+              <td>{{ $store.getters.getDisplayedUserEMail }}</td>
               <td>{{ sharedParcelRow.dataUserEMail }}</td>
               <td>{{ sharedParcelRow.parcelName }}</td>
               <td>
@@ -125,7 +125,7 @@
               v-bind:key="index"
             >
               <td>{{ sharedParcelRow.dataOwnerEMail }}</td>
-              <td>{{ sharedParcelRow.dataUserEMail }}</td>
+              <td>{{ $store.getters.getDisplayedUserEMail }}</td>
               <td>{{ sharedParcelRow.parcelName }}</td>
             </tr>
           </tbody>

@@ -45,6 +45,7 @@ const getDefaultState = () => {
       mailpresent: '',
       PasswordRequire: '',
       loggedUserEmail: "",
+      demoUserEMail:"",
       userDataObj: null,
       selectedParcelIdx: 0,
       selectedYearIdx: 0,
@@ -62,17 +63,21 @@ export default new Vuex.Store({
 
    state: {
 
+      
 
       activedNavbar: ""
       , mailpresent: ''
-      , PasswordRequire: '',
+      , PasswordRequire: ''
 
       /* corresponding user email  ex:
          baptiste.oger@supagro.fr (userId:14 userId:47 )  
          Toto@tu.ti (userId:35), 
          Pichon.leo@gmail.com (userId:35)
       */
-      loggedUserEmail: ""
+      , loggedUserEmail: ""
+
+      // user e-mail in demo mode (for visitor)
+      , demoUserEmail:""
 
       // MonitoredUser Object computed and reorganised logged-in user data pour from the database 
       , userDataObj: null // in a component call: this.$store.state.userDataObj
@@ -103,6 +108,35 @@ export default new Vuex.Store({
 
    // userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx]
    getters: { // computed methods
+
+      getDisplayedUserEMail: (state) => {
+         if (state.demoUserEmail) {
+            return "utilisateur.demo@apex-territoire.fr"
+         } else {
+            return state.loggedUserEmail
+         }
+      },
+
+      getDisplayedUserName: (state) => {
+         if (state.demoUserEmail) {
+            return "Utilisateur Démo"
+         } else {
+            if(state.userDataObj)
+               return state.userDataObj.userName
+            else
+               return "No userName"
+         }
+      },
+
+      getDisplayedUserNameIfNeeded: (state) => (email,name)=>{
+         if (state.demoUserEmail) {
+            if(email===state.demoUserEmail){
+               return "Utilisateur Démo"
+            } 
+         } 
+         return name;
+      },
+
 
       parcelNameList: (state) => {
          if (state.userDataObj !== null) {
@@ -320,6 +354,10 @@ export default new Vuex.Store({
 
       initLoggedUserEmail(state, userMail) {
          state.loggedUserEmail = userMail;
+      },
+
+      initDemoUserEmail(state, userMail) {
+         state.demoUserEmail = userMail;
       },
 
       // in component uses: this.$store.commit("initUserDataObj", usrDataObj);

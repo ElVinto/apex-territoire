@@ -4,10 +4,15 @@
 <div  class="topnav" v-if="$store.state.activedNavbar">
   
   <router-link to="/map" class="nav-link">Carte</router-link>
-  <router-link  to="/informations" class="nav-link">Editer</router-link>
+  <router-link  to="/edit" class="nav-link">Editer</router-link>
   <router-link to="/partage" class="nav-link">Partager</router-link>
   <router-link to="/export" class="nav-link">Exporter</router-link>
-  <router-link to="/profil" class="nav-link">Profil</router-link>
+  
+  
+  <router-link to="/profil" class="nav-link">Authentification</router-link>
+  <router-link to="/guide" class="nav-link">Guide</router-link>
+
+  <!-- Guide Pratique-->
   
   <a id="exit"  class="nav-link" href @click="logout">LogOut</a>
   

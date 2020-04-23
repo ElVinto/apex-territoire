@@ -13,24 +13,26 @@
         <h1>Login</h1>
 
         <div class="form-group">
-          <p id="p" style="display:block">
-            Appuyer directement sur continuer pour se connecter sur le compte de
-            l'utilisateur démo
-          </p>
+          
           <label for="EMail"><b>Mail</b></label>
           <input
             v-model="EMail"
             type="text"
             class="form-control"
             name="EMail"
-            placeholder="baptiste.oger@supagro.fr"
+
           />
+          <p id="p" style="display:block">
+            Visiteur en mode démo :
+            clicker directement sur  
+          </p>
           <button
             id="div1"
             @click="checkEMail()"
             class="btn btn-primary btn-block"
             style="display:block"
           >
+          
             <span>Continuer</span>
           </button>
           <p>{{ msg }}</p>
@@ -81,8 +83,6 @@ export default {
   data() {
     return {
       EMail: "",
-      email: "",
-      loggedUserEmail: "",
       msg: "",
       message: "",
       password: "",
@@ -95,9 +95,12 @@ export default {
   methods: {
     async checkEMail() {
       if (this.EMail === "") {
-        let loggedUserEmail = "baptiste.oger@supagro.fr";
+
+        let loggedUserEmail = "Toto@tu.ti"; // baptiste.oger@supagro.fr
 
         this.$store.commit("initLoggedUserEmail", loggedUserEmail);
+        this.$store.commit("initDemoUserEmail", loggedUserEmail);
+        
 
         ApexDataServices.getObservations(loggedUserEmail).then((userDBRows) => {
           let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
@@ -118,23 +121,14 @@ export default {
 
               console.log("Routing to ApexMap");
 
-              this.$router.push("/map");
+              this.$router.push("/guide");
             });
           });
         });
 
-        // if (this.$store.state.userDataObj !== null) {
-        //   this.$store.dispatch("login", { loggedUserEmail });
 
-        //   this.$router.push("/map");
-        //   let activedNavbar = "true";
-        //   this.$store.commit("initActivedNavbar", activedNavbar);
-        // } else {
-        //   console.log("dataobject non talecharger");
-        // }
       } else {
         let loggedUserEmail = this.EMail;
-        this.$store.commit("initLoggedUserEmail", loggedUserEmail);
 
         ApexDataServices.checkEMail(loggedUserEmail).then((emailIsvalid) => {
           if (emailIsvalid === true) {
@@ -188,7 +182,6 @@ export default {
                                     "initActivedNavbar",
                                     activedNavbar
                                   );
-
                                   console.log("Routing to ApexMap");
 
                                   this.$router.push("/map");
@@ -234,9 +227,9 @@ export default {
                             this.$store.commit("initmailpresent", mailpresent);
                             ApexDataServices.mailAddToAuth(loggedUserEmail).then((mailad) => {
                               if (mailad === true) {
-                                console.log("mail ajouté à authentification");
+                                console.log("mail ajouté à l'authentification");
                               } else {
-                                ("mail non ajouté à authentification");
+                                ("mail non ajouté à l'authentification");
                               }
                             });
                           });
@@ -247,7 +240,7 @@ export default {
               }
             );
           } else {
-            this.msg = "mail valide";
+            this.msg = "mail inconnu, vérifier que le mail est enregistré dans ApeX Vignes";
           }
         });
       }
