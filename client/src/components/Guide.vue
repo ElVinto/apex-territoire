@@ -121,7 +121,7 @@ export default {
     margin-left: auto;
     margin-right: auto;
   }
-.global{padding: 10px;}
+.global{padding: 30px;}
 p{
   text-align: justify;
 }
