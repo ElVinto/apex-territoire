@@ -1,6 +1,6 @@
 <template>
 
-   <div class="header" style="background-image:url(images/imagee.png) ; background-size: 2000px 250px;">
+   <div class="header" style="background-image:url(images/imagee.png) ; background-size: 2000px 800px;margin: 1px;">
      <h1>ApeX Territoire</h1>
    </div>
 

@@ -1,7 +1,6 @@
 <template>
   <div class="global">
-    <br />
-    <div class="menu">
+    
       <hr />
       <h4 class="title" style="background-color:grey">
         Bonjour {{ $store.getters.getDisplayedUserName }}
@@ -30,14 +29,15 @@
           Ainsi, en plus de proposer une visualisation géolocalisées des indicateurs de croissance des apex,
           Apex Territoire est aussi une plate forme qui permet la mise-à-jour et le partage d'indicateurs 
           qui permettront de mieux comprendre et comparer la croissance des apex de vignes à travers différentes campagne et différents parcelles.
-        </p>
-
-        <p>
           Pour satifaire ces objectifs plusieurs fonctionalités ont été implémentés:
         </p>
 
-        <router-link to="/map" class="nav-link">Carte</router-link>
+        
+          
+        
 
+        <router-link to="/map" class="nav-link">Carte</router-link>
+        <p>
           La carte permet de localiser par des icones les parcelles observées par l'utilisateur 
           mais aussi les parcelles pour lesquelles l'utilisateur est destinataire du partage d'observations.
           Recentrer la carte sur une campagne, une semaine et une parcelle d'intéret à l'aide des menus de controles situé en haut de pages. 
@@ -50,7 +50,7 @@
           Les indicateurs de croissance pour la semaine et la campagne, sont instantannément recalculé en fonction
           chaque de la campagne, de la semaine et de la parcelle sélectionnée.
           Ces indicateurs d'évolution de croissance sont issus d'Apex Vignes.
-
+        </p>
 
         <router-link  to="/edit" class="nav-link">Editer</router-link>
 
@@ -90,7 +90,7 @@
     <!-- User Demo Guide-->
 
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -115,9 +115,15 @@ export default {
 };
 </script>
 <style scoped>
+ .title {
+    grid-area: tl;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 p{
-  text-align: justify;
+  text-align: justify;padding-left: 40px;padding-right: 40px;
 }
 .nav-link{
   text-align: center;

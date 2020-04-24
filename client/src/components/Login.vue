@@ -1,7 +1,7 @@
 <template>
   <div
     class="login"
-    style="background-image:url(images/imagee.png) ;background-size: 2000px 1000px;"
+    style="background-image:url(images/imagee.png) ;background-size: 2000px 1000px;padding:100px;margin: 1px;"
   >
     <div class="col-md-12">
       <div class="card card-container">

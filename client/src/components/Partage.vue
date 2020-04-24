@@ -56,9 +56,9 @@
       >
         Ajouter
       </button>
-      <p>{{ message }}</p>
+     
     </div>
-
+<p>{{ message }}</p>
     <hr />
     <div class="body">
       <div class="obspartager">
@@ -334,9 +334,11 @@ export default {
 };
 </script>
 <style scoped>
+
+.global{padding: 10px;}
 .title {
   grid-area: tl;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .menu {
   grid-area: mn;
@@ -350,6 +352,7 @@ h4 {
   background: gray;
 }
 p {
+ 
   font-weight: bold;
   width: auto;
   text-align: center;
@@ -357,19 +360,16 @@ p {
   margin-right: auto;
   margin-top: 10px;
 }
-hr {
-  border: 1px solid black;
-  border-radius: 10px;
-  grid-area: hr;
-}
+
 /*Phone*/
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 900px) {
   .global {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       "tl"
       "mn"
+      "p"
       "bd";
   }
 
@@ -396,100 +396,12 @@ hr {
   }
 }
 
-/*Tablette*/
-@media screen and (min-width: 600px) and (max-width: 1200px) {
-  #menulabel1 {
-    grid-area: mnlb1;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #menutitle {
-    grid-area: mntl;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #menuselect {
-    grid-area: mnsl;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #menuinput {
-    grid-area: mnip;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #menulabel2 {
-    grid-area: mnlb2;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #buttonverif {
-    grid-area: btnvr;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #buttoninsert {
-    grid-area: btnva;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
 
-  .global {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-areas:
-      "tl tl tl tl tl  "
-      "mn mn bd bd bd"
-      "mn mn bd bd bd";
-  }
-
-  .menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-      "mntl mntl"
-      "mnlb1 mnsl "
-      "mnlb2 mnip"
-      "mnlb2 mnip"
-      "btnvr btnva";
-  }
-  table {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    border-collapse: collapse;
-  }
-  tr:nth-of-type(odd) {
-    background: #eee;
-  }
-  th {
-    background: #333;
-    color: white;
-    font-weight: bold;
-  }
-  td,
-  th {
-    padding: 6px;
-    border: 1px solid #ccc;
-    text-align: left;
-  }
-}
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
   .title {
     grid-area: tl;
-    margin-top: 20px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 0px;
+    
   }
   .menu {
     grid-area: mn;
@@ -553,8 +465,9 @@ hr {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       "tl"
-      "mn "
-      "bd ";
+      "mn"
+      "p"
+      "bd";
   }
 
   .menu {
@@ -565,7 +478,8 @@ hr {
       "mnlb1 mnsl "
       "mnlb2 mnip"
       "mnlb2 mnip"
-      "btnvr btnva";
+      "btnvr btnva"
+      ;
   }
 
   table,

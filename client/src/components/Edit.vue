@@ -13,7 +13,7 @@
           <select
             v-model="selectedYearIdx"
             class="custom-select"
-            style="width:260px;"
+            style="width:auto;"
           >
             <option
               v-for="(elmt, index) in $store.getters.yearNumberList"
@@ -29,7 +29,7 @@
           <select
             v-model="selectedWeekIdx"
             class="custom-select"
-            style="width:260px;"
+            style="width:auto;"
           >
             <option
               v-for="(elmt, index) in $store.getters.weekLabelList"
@@ -44,7 +44,7 @@
           <select
             v-model="selectedParcelIdx"
             class="custom-select"
-            style="width:260px;"
+            style="width:auto;"
           >
             <option
               v-for="(pName, index) in $store.getters.parcelNameList"
@@ -76,24 +76,28 @@
           </thead>
           <tbody>
             <td>
-               <b-form-input type="number" v-model="selectedWeekMetric.nbObsFullGrowth" />
+               <b-form-input type="number" v-model="selectedWeekMetric.nbObsFullGrowth" style="width:auto; text-align: center;
+  margin-left: auto;
+  margin-right: auto;"/>
             </td>
             <td>
-              <b-form-input type="number" v-model="selectedWeekMetric.nbObsSlowGrowth" />
+              <b-form-input type="number" v-model="selectedWeekMetric.nbObsSlowGrowth" style="width:auto; text-align: center;
+  margin-left: auto;
+  margin-right: auto;" />
             </td>
             <td>
-              <b-form-input type= "number" v-model="selectedWeekMetric.nbObsStoppedGrowth"/>
+              <b-form-input type= "number" v-model="selectedWeekMetric.nbObsStoppedGrowth" style="width:auto; text-align: center;
+  margin-left: auto;
+  margin-right: auto;"/>
             </td>
             <td>
               <button
-                id="btnsendmodif"
+                id="btnsendmodif" style="margin-right:20px"
                 @click="updateSelectedWeekMetric()"
                 class="btn btn-primary btn-sm"
               >
                 Modifier
               </button>
-            </td>
-            <td>
               <button
                 id="btnsenddelete"
                 @click="reInitSelectedWeekMetric()"
@@ -135,7 +139,7 @@
 
     <!-- Indicators Components  -->
     <div class="graphe">
-      <div id="title">
+      <div id="titlegraphe">
         <p style="font-size:20px">
           parcelle:
           {{
@@ -412,6 +416,7 @@ export default {
 </script>
 
 <style scoped>
+.global{padding: 10px;}
 .btn {
   grid-area: btn;
 }
@@ -432,9 +437,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.case {
-  grid-area: case;
-}
+
 #campagne {
   grid-area: ca;
   text-align: center;
@@ -468,15 +471,11 @@ export default {
 #graphe3 {
   grid-area: gr3;
 }
-#title {
+#titlegraphe {
   grid-area: ti;
 }
 
-hr {
-  border: 0.5px solid gray;
-  border-radius: 10px;
-  grid-area: hr;
-}
+
 .item {
   text-align: center;
   margin-left: auto;
@@ -490,7 +489,7 @@ hr {
 
 .title {
   grid-area: tl;
-  margin: 10px;
+  margin: 0px;
 }
 h4 {
   background: gray;
@@ -501,7 +500,7 @@ h4 {
   font-weight: bold;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 900px) {
   .global {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -550,60 +549,9 @@ h4 {
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 1200px) {
-  .global {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-      "meta "
-      "gr";
-  }
 
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-  tr {
-    border: 1px solid #ccc;
-  }
-  td {
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-  td:before {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-  }
-  td:nth-of-type(1):before {
-    content: "Pleine croissance ";
-  }
-  td:nth-of-type(2):before {
-    content: "Croissance ralentie";
-  }
-  td:nth-of-type(3):before {
-    content: "Croissance arrêtée";
-  }
-  td:nth-of-type(4):before {
-    content: "Operation";
-  }
-}
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
   #campagne {
     margin-top: 15px;
   }
@@ -615,10 +563,15 @@ h4 {
   }
   .title {
     grid-area: tl;
-    margin-top: 20px;
+    margin-top: 0px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+  }
+  .table{
+    grid-area: tl;
+    margin-top: 20px;
+    
   }
   .global {
     display: grid;
@@ -638,11 +591,13 @@ h4 {
       "pa"
       "cap";
   }
+  
   table,
   thead,
   tbody,
   th,
   td,
+  b-form-input,
   tr {
     display: block;
   }
@@ -658,15 +613,19 @@ h4 {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50%;
+    padding-left: 0%;
+    height: 80px;
   }
+  
   td:before {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    padding-right: 1px;
     white-space: nowrap;
+    margin-right: 20px;
   }
   td:nth-of-type(1):before {
     content: "Pleine croissance ";
@@ -677,8 +636,6 @@ h4 {
   td:nth-of-type(3):before {
     content: "Croissance arrêtée";
   }
-  td:nth-of-type(4):before {
-    content: "Operation";
-  }
+  
 }
 </style>

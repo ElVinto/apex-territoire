@@ -42,6 +42,7 @@ const getDefaultState = () => {
    return {
 
       activedNavbar: "",
+      navbarModel: '',
       mailpresent: '',
       PasswordRequire: '',
       loggedUserEmail: "",
@@ -64,7 +65,7 @@ export default new Vuex.Store({
    state: {
 
       
-
+      navbarModel: "",
       activedNavbar: ""
       , mailpresent: ''
       , PasswordRequire: ''
@@ -111,7 +112,7 @@ export default new Vuex.Store({
 
       getDisplayedUserEMail: (state) => {
          if (state.demoUserEmail) {
-            return "utilisateur.demo@apex-territoire.fr"
+            return "visiteur.demo@apex-territoire.fr"
          } else {
             return state.loggedUserEmail
          }
@@ -119,7 +120,7 @@ export default new Vuex.Store({
 
       getDisplayedUserName: (state) => {
          if (state.demoUserEmail) {
-            return "Utilisateur Démo"
+            return "Visiteur Démo"
          } else {
             if(state.userDataObj)
                return state.userDataObj.userName
@@ -338,6 +339,10 @@ export default new Vuex.Store({
 
       RESET: state => {
          Object.assign(state, getDefaultState());
+      },
+
+      initNavbarModel(state, navbarModel) {
+         state.navbarModel = navbarModel;
       },
 
       initActivedNavbar(state, activedNavbar) {

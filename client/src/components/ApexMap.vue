@@ -5,13 +5,14 @@
     style="position:relative; left: 20px; width: 100%; "
     v-if="$store.state.userDataObj !== null"
   >
-    <div class="body">
+    
       <div class="menu">
         <!-- Selecting Year Parcel -->
-        <div class="case">
-          <div class="campagne ">
+        
+          <div id="campagne ">
             campagne :
-            <select v-model="selectedYearIdx">
+            <select v-model="selectedYearIdx" class="custom-select"
+            style="width:auto;">
               <option
                 v-for="(elmt, index) in $store.getters.yearNumberList"
                 v-bind:key="index"
@@ -22,9 +23,10 @@
             </select>
           </div>
 
-          <div class="semaine">
+          <div id="semaine">
             semaine :
-            <select v-model="selectedWeekIdx">
+            <select v-model="selectedWeekIdx" class="custom-select"
+            style="width:auto;">
               <option
                 v-for="(elmt, index) in $store.getters.weekLabelList"
                 v-bind:key="index"
@@ -34,29 +36,26 @@
               </option>
             </select>
           </div>
-        </div>
-        <div class=" parcelle">
+        
+        <div id=" parcelle">
           parcelle :
-          <select v-model="selectedParcelIdx">
+          <select v-model="selectedParcelIdx" class="custom-select"
+            style="width:auto;">
             <option
               v-for="(pName, index) in $store.getters.parcelNameList"
               v-bind:key="index"
               v-bind:value="index"
             >
-              {{ pName }} 
-              ({{
-              $store.getters.getDisplayedUserNameIfNeeded(
-                $store.state.userDataObj.parcels[index].dataOwnerEMail,
+              {{ pName }} ({{
                 $store.state.userDataObj.parcels[index].dataOwnerName
-              )
-            }})
+              }})
             </option>
           </select>
         </div>
 
         <!-- Previous year -->
-        <div class="campagnepr">
-          <button
+        <div id="campagnepr">
+          <button class="btn btn-dark"
             id="viewPrevYear"
             @mouseover="showPrevYear(true)"
             @mouseout="showPrevYear(false)"
@@ -154,7 +153,7 @@
                         <br />
                       </template>
                       <template v-else> (pas d'observations)<br /> </template>
-                      <router-link to="/edit" class="nav-link" style="text-align:right">éditer</router-link>
+                      <router-link to="/informations" class="nav-link" style="text-align:right">éditer</router-link>
                     </p>
                   </div>
                 </l-popup>
@@ -163,7 +162,7 @@
           </l-map>
         </div>
       </div>
-    </div>
+    
 
     <!-- Indicators Components  -->
     <div class="graphe">
@@ -182,7 +181,7 @@
       <hr /> 
 
       <div id="graphe1">
-        <p style="font-size:20px">
+        <p style="font-size:15px">
           croissance des apex semaine du
           {{
             this.$store.getters.weekLabelList[this.$store.state.selectedWeekIdx]
@@ -200,7 +199,7 @@
       <!-- évolution par rapport à semaine précédente
       <hr> -->
       <div id="graphe2">
-        <p style="font-size:20px;">
+        <p style="font-size:15px;">
           évolution de la croissance des apex
           {{
             this.$store.getters.yearNumberList[
@@ -212,6 +211,7 @@
       </div>
       <hr />
       <div id="graphe3">
+        <p style="font-size:15px;">
         évolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
@@ -219,11 +219,13 @@
         <apex-hydric-constraint-line-chart
           class="item"
         ></apex-hydric-constraint-line-chart>
+         </p>
       </div>
       <hr />
-      <router-link to="/edit" class="nav-link" >éditer</router-link>
+      <router-link to="/informations" class="nav-link" >éditer</router-link>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -450,179 +452,98 @@ export default {
 </script>
 
 <style scoped>
-.body {
-  grid-area: bo;
-  height: 110%;
-  position: relative;
-  margin-bottom: 20px;
-  margin-right: 15px;
-}
-.menu {
-  grid-area: me;
-  height: 0px;
-  width: 100%;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 10px;
-}
-.campagne {
-  grid-area: ca;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.semaine {
-  grid-area: se;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.parcelle {
-  grid-area: pa;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.graphe {
-  grid-area: gr;
+
+.menu{ grid-area: me ;height: 100%;width: 100%;padding: 5px;}
+#campagne{grid-area: ca ;}
+#semaine{grid-area: se;}
+#parcelle{grid-area: pa;}
+#campagnepr{grid-area: cap;}
+
+
+.graphe{grid-area: gr;
+  margin: 20px;
   margin-right: 10px;
 }
-.campagnepr {
-  grid-area: cap;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-#graphe1 {
-  grid-area: gr1;
-}
-#graphe2 {
-  grid-area: gr2;
-}
-#graphe3 {
-  grid-area: gr3;
-}
-#title {
-  grid-area: ti;
-}
-.case {
-  grid-area: case;
-}
-.headermap {
-  height: 0px;
-  grid-area: hm;
-  width: 0px;
-}
-.item {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0px;
-  margin-top: 10px;
-  width: 300px;
-  height: 150px;
-  padding: 00px;
-}
-.map {
-  grid-area: ma;
-  height: 100%;
-  width: 100%;
+#graphe1{grid-area: gr1;}
+#graphe2{grid-area: gr2;}
+#graphe3{grid-area: gr3;}
+#title{grid-area: ti;}
+
+
+.map{ grid-area: map;}
+.headermap{grid-area:hdm;}
+.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 10px; width: 300px ;height: 150px; padding: 00px;}
+.bodymap{grid-area: bdm;}
+
+@media (max-width: 900px) {
+.map{ grid-area: map; height: 600px ; width: 100%;} 
+#campagne{grid-area: ca ;}
+#semaine{grid-area: se;margin-top: 10px;margin-bottom: 10px;}
+#parcelle{grid-area: pa;margin-bottom: 10px;}
+#campagnepr{grid-area: cap;margin-top: 10px;position: relative;}
+.global {display: grid;
+        grid-template-columns: auto 1fr;
+         grid-template-columns: repeat(1,1fr);
+         grid-template-rows: auto 1fr;
+         grid-template-rows: repeat(1fr, 10fr,10fr);
+         grid-template-areas: 
+          "me"
+          "map"
+          "gr"}
+
+.map{display: grid;
+         grid-template-columns: repeat(1,1fr);
+         grid-template-rows: auto 1fr;
+         grid-template-rows: repeat(1fr, 10fr);
+         grid-template-areas:
+          "hdm"
+          "bdm" } 
+
+.menu{display: grid;
+         grid-template-columns: auto 1fr; 
+         grid-template-rows: auto 1fr;
+         grid-template-columns: repeat(1,1fr);
+         grid-template-rows: repeat(1fr,1fr,2fr);
+         grid-template-areas: 
+          "ca" 
+          "se"
+          "pa"
+          "cap"
+          }   
   
-  margin-top: 10px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.bodymap {
-  grid-area: bdm;
-}
+    }
 
-@media (min-width: 1200px) {
-  .global {
-    display: grid;
-    grid-template-columns: repeat(4, 10fr);
+@media (min-width: 900px) {
 
-    grid-template-areas: "bo bo bo gr  ";
-  }
+.global {display: grid;
+         grid-template-columns: repeat(3fr, 1fr);
+         grid-template-rows: auto 1fr;
+         grid-template-rows: repeat(1fr, 10fr);
+         grid-template-areas: 
+ 
+           "me me gr"
+           "map map gr"
+           }
+          
 
-  .body {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-auto-rows: repeat(12, 1fr);
-    grid-template-areas:
-      "me"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma";
-  }
-  .map {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas: "bdm";
-  }
-  .menu {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: "case pa cap ";
-  }
-  .case {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: "ca se ";
-  }
-}
+.map{display: grid;
+        grid-template-columns: auto 1fr; 
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: auto 1fr; 
+        grid-template-rows: repeat(0, 1fr);
+         grid-template-areas:
+          "hdm"
+          "bdm" 
+          }
 
-@media screen and (min-width: 600px) and (max-width: 1200px) {
-}
-@media (max-width: 600px) {
-  .global {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas:
-      "bo"
-      "gr";
-  }
-
-  .body {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-auto-rows: repeat(14, 1fr);
-    grid-template-areas:
-      "me"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma"
-      "ma";
-  }
-  .menu {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas:
-      "case "
-      "pa "
-      "cap ";
-  }
-  .case {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas:
-      "ca "
-      "se ";
-  }
-}
+.menu{display: grid;
+         grid-template-columns: auto 1fr; 
+         grid-template-rows: auto 1fr;
+         grid-template-columns: repeat(1fr, 1fr,2fr, 2fr);
+         grid-template-rows: repeat(2fr);
+         grid-template-areas: 
+          "ca se pa cap " 
+          }   
+  
+    }
 </style>

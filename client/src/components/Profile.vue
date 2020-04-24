@@ -56,13 +56,7 @@ export default {
 };
 </script>
 <style scoped>
-table {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-  border-collapse: collapse;
-}
+.global{padding: 10px;}
 tr:nth-of-type(odd) {
   background: #eee;
 }
