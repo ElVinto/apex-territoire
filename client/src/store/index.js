@@ -111,7 +111,7 @@ export default new Vuex.Store({
 
       getDisplayedUserEMail: (state) => {
          if (state.demoUserEmail) {
-            return "utilisateur.demo@apex-territoire.fr"
+            return "visiteur.demo@apex-territoire.fr"
          } else {
             return state.loggedUserEmail
          }
@@ -119,7 +119,7 @@ export default new Vuex.Store({
 
       getDisplayedUserName: (state) => {
          if (state.demoUserEmail) {
-            return "Utilisateur Démo"
+            return "Visiteur Démo"
          } else {
             if(state.userDataObj)
                return state.userDataObj.userName
