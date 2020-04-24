@@ -456,6 +456,7 @@ export default {
 };
 </script>
 <style scoped>
+.global{padding: 10px;}
 .divmenu {
   margin-top: 20px;
 }
@@ -498,7 +499,7 @@ export default {
 
 .title {
   grid-area: tl;
-  padding: 10px;
+  padding: 0px;
 }
 .topnav {
   grid-area: nv;
@@ -509,13 +510,10 @@ export default {
 h4 {
   background: gray;
 }
-hr {
-  border: 0.5px solid black;
-  border-radius: 10px;
-  grid-area: hr;
-}
 
-@media screen and (min-width: 1200px) {
+
+
+@media screen and (min-width: 1100px) {
   .global {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -555,78 +553,22 @@ hr {
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 1200px) {
-  .global {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-      "tl tl tl gr"
-      "mn mn mn gr"
-      "bd bd bd gr"
-      "ex ex ex gr";
-  }
 
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-  tr {
-    border: 1px solid #ccc;
-  }
-  td {
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-  td:before {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-  }
-  td:nth-of-type(1):before {
-    content: "Pleine croissance ";
-  }
-  td:nth-of-type(2):before {
-    content: "Croissance ralentie";
-  }
-  td:nth-of-type(3):before {
-    content: "Croissance arrêtée";
-  }
-  td:nth-of-type(4):before {
-    content: "Operation";
-  }
-}
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1100px) {
   .title {
     grid-area: tl;
-    margin-top: 20px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 0px;
+   
   }
   .global {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
-      "tl tl"
-      "mn mn"
-      "bd bd"
-      "gr gr"
-      "ex ex";
+      "tl"
+      "mn"
+      "bd"
+      "gr"
+      "ex";
   }
   .menu {
     display: grid;

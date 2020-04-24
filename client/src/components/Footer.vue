@@ -1,9 +1,9 @@
 <template>
 <div class="footer">
       <div class="zoom">
-        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src="https://www.commodafrica.com/sites/commodafrica.com/files/inrae.png" class="icone" target="_blank"></i></a>
-        <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src="https://www.hdigitag.fr/wp-content/uploads/cropped-logoDigitAg-perim.png" class="icone" ></i></a>
-        <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src='https://www.montpellier.archi.fr/wp-content/uploads/2019/02/Logo_MUSE_Original.png' class="icone"  ></i></a>
+        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/inrae.png class="icone" target="_blank"></i></a>
+        <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/Digitag.png class="icone" ></i></a>
+        <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo_MUSE.png class="icone"  ></i></a>
       </div>
       <div class="copyright " >
          &copy; 2020 Copyright: <a href="https://www.inrae.fr/centres/occitanie-montpellier" target="_blank">  INRAE OCCITANIE MONTPELLIER</a>

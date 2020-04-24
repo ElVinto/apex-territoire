@@ -1,7 +1,6 @@
 <template>
   <div class="global">
-    <br />
-    <div class="menu">
+    
       <hr />
       <h4 class="title" style="background-color:grey">
         Bonjour {{ $store.getters.getDisplayedUserName }}
@@ -90,7 +89,7 @@
     <!-- User Demo Guide-->
 
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -115,7 +114,14 @@ export default {
 };
 </script>
 <style scoped>
-
+ .title {
+    grid-area: tl;
+    margin-top: 0px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.global{padding: 10px;}
 p{
   text-align: justify;
 }

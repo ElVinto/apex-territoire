@@ -53,25 +53,6 @@ export default {
     }
   },
   methods: {
-    /*async ajoutpws() {
-    <button id="buttoninsert" class="btn btn-success btn-sm" @click=" ajoutpws()">Ajouter</button>
-          var password = this.password   
-          var password_repeat = this.password_repeat
-          var userEMail = this.$store.state.userDataObj.userEMail
-          if(password !== null || password_repeat !== null ){ 
-                if(password === password_repeat){
-                   this.msg = ''
-                  await ApexDataServices.pwsadd({
-                          transaction: "insert_password",
-                          UserEMail:userEMail,
-                          passwordRequire : true,
-                          password :password });          
-                }else{this.msg = 'les mots de passe saisis ne sont pas identiques'}}
-                
-          if(password === null || password_repeat === null ){ this.msg='il faut remplir toutes les cases' }
-                
-    },*/
-
     async updatepws() {
       var password = this.password;
       var password_repeat = this.password_repeat;
