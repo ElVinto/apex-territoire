@@ -24,7 +24,7 @@
           />
           <p id="p" style="display:block">
             Visiteur en mode démo :
-            clicker directement sur  
+            cliquer directement sur  
           </p>
           <button
             id="div1"
