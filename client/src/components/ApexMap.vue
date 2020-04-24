@@ -222,7 +222,7 @@
          </p>
       </div>
       <hr />
-      <router-link to="/informations" class="nav-link" >éditer</router-link>
+      <router-link to="/edit" class="nav-link" >éditer</router-link>
     </div>
   </div>
 
