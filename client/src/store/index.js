@@ -42,6 +42,7 @@ const getDefaultState = () => {
    return {
 
       activedNavbar: "",
+      navbarModel: '',
       mailpresent: '',
       PasswordRequire: '',
       loggedUserEmail: "",
@@ -64,7 +65,7 @@ export default new Vuex.Store({
    state: {
 
       
-
+      navbarModel: "",
       activedNavbar: ""
       , mailpresent: ''
       , PasswordRequire: ''
@@ -338,6 +339,10 @@ export default new Vuex.Store({
 
       RESET: state => {
          Object.assign(state, getDefaultState());
+      },
+
+      initNavbarModel(state, navbarModel) {
+         state.navbarModel = navbarModel;
       },
 
       initActivedNavbar(state, activedNavbar) {
