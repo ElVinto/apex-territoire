@@ -297,6 +297,7 @@ export default {
       this.msg="";
       this.errors=[];
 
+
       console.log("START updateSelectedWeekMetric")
 
       if(this.formIsValid()){
@@ -316,7 +317,12 @@ export default {
 
       
           this.errors = []
-          this.msg = "Les données de la semaine ont bien été modifiées"
+          this.msg = "Les données de la semaine ont bien été modifiées, "
+          if(this.$store.state.demoUserEmail){
+             this.msg += " pour l'"
+              +this.$store.getters.getDisplayedUserName
+              +" ces modifications sont effectives que le temps de la session"
+          }
         
           
         
@@ -346,6 +352,11 @@ export default {
 
         this.errors = []
         this.msg = "Les données de la semaine ont été réinitialisées aux valeurs collectées dans ApeX Vignes"
+         if(this.$store.state.demoUserEmail){
+             this.msg += " pour l'"
+              +this.$store.getters.getDisplayedUserName
+              +" ces modifications sont effectives que le temps de la session"
+          }
 
       })
       

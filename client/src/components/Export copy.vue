@@ -1,11 +1,9 @@
 <template>
   <div class="global" v-if="$store.state.userDataObj !== null">
     <br />
-     <div class="title">
+    <div class="title">
       <hr />
-      <h4>
-        Bonjour {{ $store.getters.getDisplayedUserName }}
-      </h4>
+      <h4>Bonjour {{ $store.getters.getDisplayedUserName }}</h4>
       <hr />
     </div>
 
@@ -39,7 +37,7 @@
             v-for="(elmt, index) in $store.getters.weekLabelList"
             v-bind:key="index"
             v-bind:value="index"
-            >
+          >
             {{ elmt }}
           </option>
         </select>
@@ -57,8 +55,7 @@
             v-for="(pName, index) in $store.getters.parcelNameList"
             v-bind:key="index"
             v-bind:value="index"
-            >{{ pName }} 
-            ({{
+            >{{ pName }} ({{
               $store.getters.getDisplayedUserNameIfNeeded(
                 $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
@@ -82,8 +79,7 @@
       </div>
 
       <hr />
-
-      <div id>
+      <div>
         <p style="font-size:20px">
           croissance des apex semaine du
           {{
@@ -95,25 +91,27 @@
             ]
           }}
         </p>
-        <apex-growth-pie-chart class="item" id="graphe1"></apex-growth-pie-chart>
+        <apex-growth-pie-chart
+          class="item"
+          id="graphe1"
+        ></apex-growth-pie-chart>
       </div>
       <hr />
 
       <!-- évolution par rapport à semaine précédente
       <hr> -->
       <div id="graphe21">
-        <p style="font-size:20px;">
-          évolution de la croissance des apex
-          {{
-            this.$store.getters.yearNumberList[
-              this.$store.state.selectedYearIdx
-            ]
-          }}
-          <apex-growth-line-chart class="item" id="graphe2"></apex-growth-line-chart>
-        </p>
+        évolution de la croissance des apex
+        {{
+          this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
+        }}
+        <apex-growth-line-chart
+          class="item"
+          id="graphe2"
+        ></apex-growth-line-chart>
       </div>
       <hr />
-      <div >
+      <div>
         évolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
@@ -123,7 +121,6 @@
           id="graphe3"
         ></apex-hydric-constraint-line-chart>
       </div>
-      
     </div>
 
     <div class="export" style="margin-top:10px">
@@ -131,11 +128,7 @@
       <button
         id="expdf"
         @click="
-          exportPDF(
-            $store.getters.getSelectedWeekMetric.nbObsFullGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsSlowGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsStoppedGrowth
-          )
+          exportPDF()
         "
         class="btn btn-danger btn-sm"
       >
@@ -144,11 +137,7 @@
       <button
         id="excsv"
         @click="
-          ExportCSV(
-            $store.getters.getSelectedWeekMetric.nbObsFullGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsSlowGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsStoppedGrowth
-          )
+          ExportCSV()
         "
         class="btn btn-success btn-sm"
       >
@@ -160,7 +149,7 @@
 </template>
 
 <script>
-
+import ApexMapServices from "../services/ApexMapServices";
 
 // import subcomponents librairies and
 import ApexGrowthPieChart from "./apexMapComponents/ApexGrowthPieChart";
@@ -191,6 +180,10 @@ export default {
       selectedYearIdx: 0,
       selectedWeekIdx: 0,
       parceld: "",
+      hydricConstraint: 3,
+      prctSlowGrowth: 0,
+      prctFullGrowth: 0,
+      avgGrowth: 0,
     };
   },
 
@@ -198,7 +191,7 @@ export default {
     if (!this.$store.state.loggedUserEmail) {
       this.$router.push("/");
     }
-this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
+    this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     this.selectedYearIdx = this.$store.state.selectedYearIdx;
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
   },
@@ -207,40 +200,92 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     if (!this.$store.state.loggedUserEmail) {
       this.$router.push("/");
     }
-    
+
     this.$nextTick(() => {
-      
       this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
       this.selectedYearIdx = this.$store.state.selectedYearIdx;
       this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
 
       this.$store.commit("incrementForceComponentUpdateCounter");
-
     });
-
   },
-  
-  methods: {    
-    exportPDF(nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth) {
+
+  methods: {
+
+    exportPDF(nbObsStoppedGrowth, nbObsSlowGrowth, nbObsFullGrowth) {
+      
+      
+      let columns = [
+        "parcelle",
+        "campagne",
+        "semaine",
+        "# Pleine croiss.",
+        "# Croiss. ralentie",
+        "# Croiss. arrêtée",
+        
+        "% Pleine croiss",
+        "% Croiss. ralentie",
+        "% Croiss. arrêtée",
+        
+        "ic-Apex",
+        "constraintes hydrique",
+      ];
+
+      let rows = [];
+
+      let selectedParcelYearWeekLabelList = this.$store.getters.weekLabelList;
+      let nbWeeks = selectedParcelYearWeekLabelList.length;
+      for (let wIdx = 0; wIdx < nbWeeks; wIdx++) {
+        let week_metric = this.$store.getters.getWeekMetric(
+          selectedParcelIdx,
+          selectedYearIdx,
+          wIdx
+        );
+
+        let row =[];
+        row.push(this.$store.getters.parcelNameList[this.selectedParcelIdx]);
+        row.push(this.$store.getters.yearNumberList[this.selectedYearIdx]);
+        row.push(this.$store.getters.weekLabelList[this.selectedWeekIdx]);
+
+        rows.push(row)
+
+        console.log(week_metric);
+      }
+
       var parcelName = this.$store.state.userDataObj.parcels[
         this.$store.state.selectedParcelIdx
       ].parcelName;
-      var yearNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearNumber;
-      var weekNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearWeeks[
-        this.$store.state.selectedWeekIdx
-      ].weekNumber;
-      var columns = [
-        "parcelle",
-        "compagne",
-        "semaine",
-        "Croissance arrêtée",
-        "Croissance ralentie",
-        "Pleine croissance",
-      ];
+      var yearNumber = this.$store.getters.yearNumberList;
+      var weekNumber = this.$store.getters.weekLabelList;
+
+      var nbTotalObs =
+        parseInt(nbObsFullGrowth) +
+        parseInt(nbObsSlowGrowth) +
+        parseInt(nbObsStoppedGrowth);
+      console.log(nbTotalObs);
+
+      if (nbTotalObs > 0) {
+        var prctFullGrowth = Math.round((nbObsFullGrowth / nbTotalObs) * 100);
+        var prctSlowGrowth = Math.round((nbObsSlowGrowth / nbTotalObs) * 100);
+        var avgGrowth = (prctSlowGrowth * 0.5 + prctFullGrowth) / 100.0;
+      }
+
+      if (avgGrowth >= 0.75) {
+        this.hydricConstraint = 0;
+      } else {
+        if (prctSlowGrowth >= 5) {
+          this.hydricConstraint = 1;
+        } else {
+          if (prctSlowGrowth <= 90) {
+            this.hydricConstraint = 2;
+          }
+        }
+      }
+      if (nbTotalObs <= 0) {
+        this.hydricConstraint = 0;
+      }
+
+      
       var rows = [
         [
           parcelName,
@@ -249,11 +294,35 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
           nbObsStoppedGrowth,
           nbObsSlowGrowth,
           nbObsFullGrowth,
+          prctSlowGrowth,
+          prctFullGrowth,
+          avgGrowth,
+          this.hydricConstraint,
         ],
-      ];
-      var pdf = new jsPDF("p", "pt");
+      ];``
+      var pdf = new jsPDF("landscape");
 
-      pdf.autoTable(columns, rows);
+      var graphe1 = document.getElementById("pie-chart");
+      var graphe2 = document.getElementById("line-chart");
+      var graphe3 = document.getElementById("graphe3").children[1];
+
+      var graphe1Img = graphe1.toDataURL();
+      var graphe2Img = graphe2.toDataURL();
+      var graphe3Img = graphe3.toDataURL();
+
+      //                    colonne ligne  largueur hauteur
+      pdf.addImage(graphe1Img, "NPG", 10, 60, 60, 60);
+      pdf.addImage(graphe2Img, "NPG", 90, 60, 90, 60);
+      pdf.addImage(graphe3Img, "NPG", 210, 60, 60, 60);
+      pdf.text(130, 10, "Les grahiques");
+
+      pdf.addPage("a4", "l");
+      pdf.text(120, 10, "Donnes des parcelles");
+      pdf.autoTable(columns, rows, {
+        margin: { top: 20, halign: "center" },
+        rowStyles: { 0: { halign: "center" } },
+      });
+
       pdf.save("table.pdf");
     },
 
@@ -261,9 +330,14 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
       var NomParcel = "Nom de parcelle";
       var Compagne = "Compagne";
       var Semaine = "Semaine";
-      var croissanceaccelere = "croissance accelere";
-      var croissancerelentie = "croissance ralentie ";
-      var croissancestoppe = "croissance stopper";
+      var croissanceaccelere = "Pleine.croiss";
+      var croissancerelentie = "Croiss.ralentie";
+      var croissancestoppe = "Croiss.arrêtée";
+      var Croissralentie = "Croiss.ralentie";
+      var Pleinecroiss = "Pleine.croiss";
+      var avgGrowthOb = "avgGrowth";
+      var hydricConstraintsOb = "hydricConstraints";
+
       var parcelName = this.$store.state.userDataObj.parcels[
         this.$store.state.selectedParcelIdx
       ].parcelName;
@@ -274,7 +348,34 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
         this.$store.state.selectedParcelIdx
       ].parcelYears[this.$store.state.selectedYearIdx].yearWeeks[
         this.$store.state.selectedWeekIdx
-      ].weekNumber;
+      ].weekLabel;
+      var nbTotalObs =
+        parseInt(nbObsFullGrowth) +
+        parseInt(nbObsSlowGrowth) +
+        parseInt(nbObsStoppedGrowth);
+
+      if (nbTotalObs > 0) {
+        var prctFullGrowth = Math.round((nbObsFullGrowth / nbTotalObs) * 100);
+        var prctSlowGrowth = Math.round((nbObsSlowGrowth / nbTotalObs) * 100);
+        var avgGrowth = (prctSlowGrowth * 0.5 + prctFullGrowth) / 100.0;
+      }
+
+      if (avgGrowth >= 0.75) {
+        this.hydricConstraint = 0;
+      } else {
+        if (prctSlowGrowth >= 5) {
+          this.hydricConstraint = 1;
+        } else {
+          if (prctSlowGrowth <= 90) {
+            this.hydricConstraint = 2;
+          }
+        }
+      }
+      if (nbTotalObs <= 0) {
+        this.hydricConstraint = 0;
+      }
+
+      var hydricConstraint = this.hydricConstraint;
       var arrObject = [
         {
           NomParcel,
@@ -283,6 +384,10 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
           croissanceaccelere,
           croissancerelentie,
           croissancestoppe,
+          Pleinecroiss,
+          Croissralentie,
+          avgGrowthOb,
+          hydricConstraintsOb,
         },
       ];
       var arrData = [
@@ -293,12 +398,16 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
           nbObsFullGrowth,
           nbObsSlowGrowth,
           nbObsStoppedGrowth,
+          prctFullGrowth,
+          prctSlowGrowth,
+          avgGrowth,
+          hydricConstraint,
         },
       ];
 
       let csvContent = "data:text/csv;charset=utf-8,";
       csvContent += [
-        Object.keys(arrObject[0]).join(";"),
+        arrObject.map((item) => Object.values(item).join(";")),
         arrData.map((item) => Object.values(item).join(";")),
       ]
         .join("\n")
@@ -312,12 +421,6 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     },
   },
 
-  computed: {
-    depletedProducts() {
-      return this.$store.getters.getSelectedWeekMetric;
-    },
-  },
-
   watch: {
     selectedParcelIdx: function(val) {
       this.$store.commit("updateSelectedParcelIdx", val);
@@ -328,10 +431,6 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     },
     selectedWeekIdx: function(val) {
       this.$store.commit("updateSelectedWeekIdx", val);
-    },
-
-    currentCenter: function(val) {
-      this.$refs.parcelInfoMap.setCenter(val);
     },
   },
 };
@@ -361,12 +460,7 @@ this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
   margin-left: auto;
   margin-right: auto;
 }
-.export {
-  grid-area: ex;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .graphe {
   grid-area: gr;
   height: 100%;

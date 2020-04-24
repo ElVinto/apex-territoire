@@ -217,48 +217,61 @@ export default {
       this.message = "";
 
       return new Promise((resolve, reject) => {
-        let mailAndParcelAlreadyShared = false;
-        for (let parcelDataSharingRow of this.parcelRowsSharedToSomeone) {
-          if (
-            parcelDataSharingRow.dataOwnerEMail ===
-              this.$store.state.loggedUserEmail &&
-            parcelDataSharingRow.dataUserEMail === this.mailp &&
-            parcelDataSharingRow.parcelName === this.parcelp
-          ) {
-            
-            this.message =
-              "Les informations de la parcelle sont déjà partagées avec l'utilisateur";
-            mailAndParcelAlreadyShared =true;
+
+        if(this.$store.state.demoUserEmail){
+          this.message = this.$store.getters.getDisplayedUserEMail
+          +" n'est pas authorisé à ajouter de nouveaux partages"
+          resolve(false)
+        }else{
+          let mailAndParcelAlreadyShared = false;
+          for (let parcelDataSharingRow of this.parcelRowsSharedToSomeone) {
+            if (
+              parcelDataSharingRow.dataOwnerEMail ===
+                this.$store.state.loggedUserEmail &&
+              parcelDataSharingRow.dataUserEMail === this.mailp &&
+              parcelDataSharingRow.parcelName === this.parcelp
+            ) {
+              
+              this.message =
+                "Les informations de la parcelle sont déjà partagées avec l'utilisateur";
+              mailAndParcelAlreadyShared =true;
+            }
           }
-        }
-          if(mailAndParcelAlreadyShared){
-            resolve(false)
-          }else{
-          try {
-            ApexDataServices.checkEMail(this.mailp).then((emailIsvalid) => {
-              if (emailIsvalid === true) {
-                if (this.parcelp) {
-                  this.message = "La parcelle et le mail sont valides";
-                  this.parcelName = this.parcelp;
-                  resolve(true);
+            if(mailAndParcelAlreadyShared){
+              resolve(false)
+            }else{
+            try {
+              ApexDataServices.checkEMail(this.mailp).then((emailIsvalid) => {
+                if (emailIsvalid === true) {
+                  if (this.parcelp) {
+                    this.message = "La parcelle et le mail sont valides";
+                    this.parcelName = this.parcelp;
+                    resolve(true);
+                  } else {
+                    this.message = "Choisir la parcelle";
+                    resolve(false);
+                  }
                 } else {
-                  this.message = "Choisir la parcelle";
-                  resolve(false);
+                  this.message = "Mail non valide";
+                  this.parcelName = "";
+                  resolve(true);
                 }
-              } else {
-                this.message = "Mail non valide";
-                this.parcelName = "";
-                resolve(true);
-              }
-            });
-          } catch (err) {
-            reject(err);
+              });
+            } catch (err) {
+              reject(err);
+            }
           }
         }
       });
     },
 
     async insertParcelDataSharedToSomn() {
+
+      if(this.$store.state.demoUserEmail){
+        this.message = this.$store.getters.getDisplayedUserName
+        +" n'est pas authorisé à ajouter de nouveaux partages, connectez-vous en tant qu'utilisateur"
+        return
+      }
       console.log("START insertParcelDataSharedToSomn");
 
       let mailAndParcelAreValid = await this.checkEMailAndParcel(this.mailp);
@@ -290,6 +303,11 @@ export default {
     },
 
     async deleteParcelDataSharedToSomn(OwnerEMail, UserEMail, parcelName) {
+
+      if(this.$store.state.demoUserEmail){
+        this.message = this.$store.getters.getDisplayedUserName+" n'est pas authorisé à supprimer les informations de partage"
+        return
+      }
 
       await ApexDataServices.sendToParcelDataSharing({
         transaction: "delete_parceldatasharing",

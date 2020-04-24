@@ -385,9 +385,6 @@ export default new Vuex.Store({
          console.log(" store updated state.selectedWeekIdx " + state.selectedWeekIdx)
       },
 
-
-      
-
       incrementForceComponentUpdateCounter(state){
          state.forceComponentUpdateCounter=  state.forceComponentUpdateCounter +1;
       }
@@ -465,9 +462,13 @@ export default new Vuex.Store({
          //    console.log("k: "+k+" v:");
          //    console.log(v);
          // }
-
-         state.userModifiedWeekMetrics.set(`pIdx:${state.selectedParcelIdx} yIdx:${state.selectedYearIdx} wIdx:${state.selectedWeekIdx}`, week_metric)
          
+         state.userModifiedWeekMetrics.set(`pIdx:${state.selectedParcelIdx} yIdx:${state.selectedYearIdx} wIdx:${state.selectedWeekIdx}`, week_metric)
+         if(state.demoUserEmail){
+            console.log(" saveSelectedWeekMetric: update are kept only for the time of the user session");
+            return
+         }
+
          // console.log(`after insertion userModifiedWeekMetrics`)
          // for( let [k,v] of state.userModifiedWeekMetrics ){
          //    console.log("k:"+k+" v:");
@@ -497,6 +498,11 @@ export default new Vuex.Store({
          if (week_metric.modified) {
 
             state.userModifiedWeekMetrics.delete(`pIdx:${state.selectedParcelIdx} yIdx:${state.selectedYearIdx} wIdx:${state.selectedWeekIdx}`, week_metric)
+
+            if(state.demoUserEmail){
+               console.log(" deleteSelectedWeekMetric: delete are considered only for the time of the user session");
+               return
+            }
 
             week_metric.transaction = "delete_modifiedweekmetrics";
             ApexDataServices.sendToModifiedWeekMetrics(week_metric).then(res => {
