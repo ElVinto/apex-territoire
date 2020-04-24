@@ -1,18 +1,15 @@
 <template>
   <div class="global" v-if="$store.state.userDataObj !== null">
     <br />
-
     <div class="title">
       <hr />
-      <h4>
-        Bonjour {{ $store.getters.getDisplayedUserName }}
-      </h4>
+      <h4>Bonjour {{ $store.getters.getDisplayedUserName }}</h4>
       <hr />
     </div>
 
     <div class="menu">
       <div class="divmenu">
-        <label id="label"><b>Compagne</b></label>
+        <label id="label"><b>Campagne</b></label>
         <select
           id="select"
           v-model="selectedYearIdx"
@@ -40,7 +37,8 @@
             v-for="(elmt, index) in $store.getters.weekLabelList"
             v-bind:key="index"
             v-bind:value="index"
-            >{{ elmt }}
+          >
+            {{ elmt }}
           </option>
         </select>
       </div>
@@ -57,8 +55,7 @@
             v-for="(pName, index) in $store.getters.parcelNameList"
             v-bind:key="index"
             v-bind:value="index"
-            >{{ pName }} 
-            ({{
+            >{{ pName }} ({{
               $store.getters.getDisplayedUserNameIfNeeded(
                 $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
@@ -69,7 +66,7 @@
       </div>
     </div>
 
-    <div class="graphe">
+    <div class="graphe" id="graphe">
       <div id="title">
         <p style="font-size:20px">
           parcelle:
@@ -82,8 +79,7 @@
       </div>
 
       <hr />
-
-      <div id="graphe1">
+      <div>
         <p style="font-size:20px">
           croissance des apex semaine du
           {{
@@ -95,62 +91,44 @@
             ]
           }}
         </p>
-        <apex-growth-pie-chart class="item"></apex-growth-pie-chart>
+        <apex-growth-pie-chart
+          class="item"
+          id="graphe1"
+        ></apex-growth-pie-chart>
       </div>
       <hr />
 
       <!-- évolution par rapport à semaine précédente
       <hr> -->
-      <div id="graphe2">
-        <p style="font-size:20px;">
-          évolution de la croissance des apex
-          {{
-            this.$store.getters.yearNumberList[
-              this.$store.state.selectedYearIdx
-            ]
-          }}
-          <apex-growth-line-chart class="item"></apex-growth-line-chart>
-        </p>
+      <div id="graphe21">
+        évolution de la croissance des apex
+        {{
+          this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
+        }}
+        <apex-growth-line-chart
+          class="item"
+          id="graphe2"
+        ></apex-growth-line-chart>
       </div>
       <hr />
-      <div id="graphe3">
+      <div>
         évolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
         }}
         <apex-hydric-constraint-line-chart
           class="item"
+          id="graphe3"
         ></apex-hydric-constraint-line-chart>
       </div>
-      
     </div>
 
     <div class="export" style="margin-top:10px">
       <hr />
-      <button
-        id="expdf"
-        @click="
-          exportPDF(
-            $store.getters.getSelectedWeekMetric.nbObsFullGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsSlowGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsStoppedGrowth
-          )
-        "
-        class="btn btn-danger btn-sm"
-      >
+      <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
         Export en PDF
       </button>
-      <button
-        id="excsv"
-        @click="
-          ExportCSV(
-            $store.getters.getSelectedWeekMetric.nbObsFullGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsSlowGrowth,
-            $store.getters.getSelectedWeekMetric.nbObsStoppedGrowth
-          )
-        "
-        class="btn btn-success btn-sm"
-      >
+      <button id="excsv" @click="exportCSV()" class="btn btn-success btn-sm">
         Export en CSV
       </button>
       <hr />
@@ -159,15 +137,6 @@
 </template>
 
 <script>
-import { latLng } from "leaflet";
-import { Icon } from "leaflet";
-delete Icon.Default.prototype._getIconUrl;
-Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-});
-import ApexMapServices from "../services/ApexMapServices";
 
 // import subcomponents librairies and
 import ApexGrowthPieChart from "./apexMapComponents/ApexGrowthPieChart";
@@ -181,13 +150,14 @@ import * as jsPDF from "jspdf";
 import "jspdf-autotable";
 
 export default {
-  name: "App",
+
+  name: "Export",
   components: {
     ApexGrowthPieChart,
     ApexGrowthLineChart,
     ApexHydricConstraintLineChart,
   },
-  props: { userId: String },
+  
 
   data() {
     return {
@@ -198,6 +168,10 @@ export default {
       selectedYearIdx: 0,
       selectedWeekIdx: 0,
       parceld: "",
+      hydricConstraint: 3,
+      prctSlowGrowth: 0,
+      prctFullGrowth: 0,
+      avgGrowth: 0,
     };
   },
 
@@ -205,7 +179,6 @@ export default {
     if (!this.$store.state.loggedUserEmail) {
       this.$router.push("/");
     }
-
     this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     this.selectedYearIdx = this.$store.state.selectedYearIdx;
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
@@ -215,225 +188,187 @@ export default {
     if (!this.$store.state.loggedUserEmail) {
       this.$router.push("/");
     }
-    
+
     this.$nextTick(() => {
-      
       this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
       this.selectedYearIdx = this.$store.state.selectedYearIdx;
       this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
 
       this.$store.commit("incrementForceComponentUpdateCounter");
-
     });
-
   },
-  
+
   methods: {
-    zoomUpdate(zoom) {
-      this.currentZoom = zoom;
-    },
 
-    centerUpdate(center) {
-      this.currentCenter = center;
-    },
+    getDataFrame(){
 
-    innerClick() {
-      alert("Click!");
-    },
+      let columns = [
+        "Parcelle",
+        "Campagne",
+        "Semaine",
 
-    getLatLng(coord) {
-      return latLng(coord.lat, coord.lng);
-    },
+        "Nb Obs.",
+        "Nb Pleine croiss.",
+        "Nb Croiss. ralentie",
+        "Nb Croiss. arrêtée",
 
-    parcelMarkerClick(pIdx) {
-      console.log("parcelMarkerClick pIdx: " + pIdx);
+        "% Pleine croiss.",
+        "% Croiss. ralentie",
+        "% Croiss. arrêtée",
+        "ic-Apex",
 
-      if (pIdx !== this.selectedParcelIdx) {
-        this.selectedParcelIdx = parseInt(pIdx);
-      }
+        "Contrainte hydrique",
+      ];
 
-      let lat = this.$store.state.userDataObj.parcels[pIdx].parcelCoord.lat;
-      let lng = this.$store.state.userDataObj.parcels[pIdx].parcelCoord.lng;
+      let rows = [];
 
-      this.currentCenter = latLng(lat, lng);
-
-      console.log("this.$refs.parcelInfoMap");
-
-      console.log(this.$refs.parcelInfoMap);
-    },
-
-    showPrevYear(show) {
-      if (show) {
-        if (this.selectedYearIdx === 0) {
-          this.msgPrevYear =
-            "pas d'observations avant " +
-            this.$store.getters.yearNumberList[this.selectedYearIdx];
-        } else {
-          this.selectedYearIdx = this.selectedYearIdx - 1;
-          this.prevYearIsShowned = show;
-        }
-      } else {
-        if (this.prevYearIsShowned) {
-          this.selectedYearIdx = this.selectedYearIdx + 1;
-          this.prevYearIsShowned = show;
-        }
-        this.msgPrevYear = null;
-      }
-    },
-
-    createIcon(pIdx) {
-      let avgGrowth = -1;
-      let nbTotalObs = this.$store.getters.getTotalNbObs(
-        pIdx,
-        this.selectedYearIdx,
-        this.selectedWeekIdx
-      );
-      if (nbTotalObs > 0) {
-        avgGrowth = this.$store.getters.getAvgGrowth(
-          pIdx,
+      let selectedParcelYearWeekLabelList = this.$store.getters.weekLabelList;
+      let nbWeeks = selectedParcelYearWeekLabelList.length;
+      for (let wIdx = 0; wIdx < nbWeeks; wIdx++) {
+        let week_metric = this.$store.getters.getWeekMetric(
+          this.selectedParcelIdx,
           this.selectedYearIdx,
-          this.selectedWeekIdx
+          wIdx
         );
+
+        let nbObsFullGrowth = parseInt(week_metric.nbObsFullGrowth);
+        let nbObsSlowGrowth = parseInt(week_metric.nbObsSlowGrowth);
+        let nbObsStoppedGrowth = parseInt(week_metric.nbObsStoppedGrowth);
+
+        let nbTotalObs = nbObsFullGrowth + nbObsSlowGrowth + nbObsStoppedGrowth;
+
+        let prctFullGrowth = 0;
+        let prctSlowGrowth = 0;
+        let prctStoppedGrowth = 0
+        let avgGrowth = 0;
+
+
+        if (nbTotalObs > 0) {
+          prctFullGrowth = Math.round((nbObsFullGrowth / nbTotalObs) * 100);
+          prctSlowGrowth = Math.round((nbObsSlowGrowth / nbTotalObs) * 100);
+          prctStoppedGrowth = Math.round((nbObsStoppedGrowth / nbTotalObs) * 100)
+
+          avgGrowth = (prctSlowGrowth * 0.5 + prctFullGrowth) / 100.0;
+        }
+
+        let hydricConstraint = 3;
+        if (avgGrowth >= 0.75) {
+          hydricConstraint = 0;
+        } else {
+          if (prctSlowGrowth >= 5) {
+            hydricConstraint = 1;
+          } else {
+            if (prctSlowGrowth <= 90) {
+              hydricConstraint = 2;
+            }
+          }
+        }
+        if (nbTotalObs <= 0) {
+          hydricConstraint = 0;
+        }
+
+        let row = [];
+        
+        row.push(this.$store.getters.parcelNameList[this.selectedParcelIdx]);
+        row.push(this.$store.getters.yearNumberList[this.selectedYearIdx]);
+        row.push(this.$store.getters.weekLabelList[wIdx]);
+
+        row.push(nbTotalObs);
+        row.push(nbObsFullGrowth);
+        row.push(nbObsSlowGrowth);
+        row.push(nbObsStoppedGrowth);
+
+        row.push(prctFullGrowth)
+        row.push(prctSlowGrowth)
+        row.push(prctStoppedGrowth)
+
+        row.push(avgGrowth)
+        row.push(hydricConstraint)
+
+        rows.push(row);
+        
       }
 
-      console.log("pIdx: " + pIdx + " avgGrowth: " + avgGrowth);
-
-      let color = ApexMapServices.avgGrowthToGreenColor(avgGrowth);
-
-      if (this.prevYearIsShowned === true) {
-        console.log(" color pin border : ");
-        color = color + "_bordered";
+      let result = {
+        columns : columns,
+        rows: rows
       }
+      console.log("DataFrame")
+      console.log(result)
 
-      return new Icon({
-        iconUrl: "images/my_" + color + "_pin.png",
-        iconSize: [22, 35],
-        iconAnchor: [0, 0],
-        popupAnchor: [0, 0],
+      return result;
+    },
+
+    exportPDF() {
+      
+      var pdf = new jsPDF("landscape");
+
+      var graphe1 = document.getElementById("pie-chart");
+      var graphe2 = document.getElementById("line-chart");
+      var graphe3 = document.getElementById("graphe3").children[1];
+
+      var graphe1Img = graphe1.toDataURL();
+      var graphe2Img = graphe2.toDataURL();
+      var graphe3Img = graphe3.toDataURL();
+
+
+      pdf.text(90, 20, 
+        " Parcelle "+ this.$store.getters.parcelNameList[this.selectedParcelIdx]
+        +" Observateur "+ this.$store.getters.getDisplayedUserNameIfNeeded(
+                this.$store.state.userDataObj.parcels[this.selectedParcelIdx].dataOwnerEMail,
+                this.$store.state.userDataObj.parcels[this.selectedParcelIdx].dataOwnerName
+              )
+      );
+      pdf.text(60, 40, " Indicateurs d'évolution de croissance des Apex pour la campagne "+ this.$store.getters.yearNumberList[this.selectedYearIdx]);
+
+      //                    colonne ligne  largueur hauteur
+      pdf.addImage(graphe1Img, "NPG", 10, 60, 60, 60);
+      pdf.addImage(graphe2Img, "NPG", 90, 60, 90, 60);
+      pdf.addImage(graphe3Img, "NPG", 210, 60, 60, 60);
+
+      pdf.text(10, 130, "semaine du "+this.$store.getters.weekLabelList[this.selectedWeekIdx]);
+      pdf.text(90, 130, "évolution de la croissance ");
+      pdf.text(200, 130, "évolution de la contrainte hydrique");
+      
+      
+
+      pdf.addPage("a4", "l");
+      pdf.text(60, 10, "Table des indicateurs de croissance calculés pour la campagne "
+      + this.$store.getters.yearNumberList[this.selectedYearIdx]);
+
+      let dataFrame = this.getDataFrame();
+      
+      pdf.autoTable(dataFrame.columns, dataFrame.rows, {
+        margin: { top: 20, halign: "center" },
+        rowStyles: { 0: { halign: "center" } },
       });
-    },
 
-    async sendToModif(nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth) {
-      var week_metric = {
-        transaction: "alter_modifiedweekmetrics",
-        dataUserEMail: this.$store.state.userDataObj.userEMail,
-        dataOwnerEMail: this.$store.state.userDataObj.userEMail,
-        parcelName: this.$store.state.userDataObj.parcels[
-          this.$store.state.selectedParcelIdx
-        ].parcelName,
-        yearNumber: this.$store.state.userDataObj.parcels[
-          this.$store.state.selectedParcelIdx
-        ].parcelYears[this.$store.state.selectedYearIdx].yearNumber,
-        weekNumber: this.$store.state.userDataObj.parcels[
-          this.$store.state.selectedParcelIdx
-        ].parcelYears[this.$store.state.selectedYearIdx].yearWeeks[
-          this.$store.state.selectedWeekIdx
-        ].weekNumber,
-        nbObsFullGrowth: parseInt(nbObsFullGrowth),
-        nbObsSlowGrowth: parseInt(nbObsSlowGrowth),
-        nbObsStoppedGrowth: parseInt(nbObsStoppedGrowth),
-        dateTimeInMs: new Date(),
-      };
-
-      await this.$store.commit("saveSelectedWeekMetric", week_metric);
-    },
-
-    async sendToDelete() {},
-
-    exportPDF(nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth) {
-      var parcelName = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelName;
-      var yearNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearNumber;
-      var weekNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearWeeks[
-        this.$store.state.selectedWeekIdx
-      ].weekNumber;
-      var columns = [
-        "parcelle",
-        "compagne",
-        "semaine",
-        "Croissance arrêtée",
-        "Croissance ralentie",
-        "Pleine croissance",
-      ];
-      var rows = [
-        [
-          parcelName,
-          yearNumber,
-          weekNumber,
-          nbObsStoppedGrowth,
-          nbObsSlowGrowth,
-          nbObsFullGrowth,
-        ],
-      ];
-      var pdf = new jsPDF("p", "pt");
-
-      pdf.autoTable(columns, rows);
       pdf.save("table.pdf");
     },
 
-    ExportCSV(nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth) {
-      var NomParcel = "Nom de parcelle";
-      var Compagne = "Compagne";
-      var Semaine = "Semaine";
-      var croissanceaccelere = "croissance accelere";
-      var croissancerelentie = "croissance ralentie ";
-      var croissancestoppe = "croissance stopper";
-      var parcelName = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelName;
-      var yearNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearNumber;
-      var weekNumber = this.$store.state.userDataObj.parcels[
-        this.$store.state.selectedParcelIdx
-      ].parcelYears[this.$store.state.selectedYearIdx].yearWeeks[
-        this.$store.state.selectedWeekIdx
-      ].weekNumber;
-      var arrObject = [
-        {
-          NomParcel,
-          Compagne,
-          Semaine,
-          croissanceaccelere,
-          croissancerelentie,
-          croissancestoppe,
-        },
-      ];
-      var arrData = [
-        {
-          parcelName,
-          yearNumber,
-          weekNumber,
-          nbObsFullGrowth,
-          nbObsSlowGrowth,
-          nbObsStoppedGrowth,
-        },
-      ];
+    exportCSV() {
 
-      let csvContent = "data:text/csv;charset=utf-8,";
-      csvContent += [
-        Object.keys(arrObject[0]).join(";"),
-        arrData.map((item) => Object.values(item).join(";")),
-      ]
-        .join("\n")
-        .replace(/(^\[)|(\]$)/gm, "");
+
+      let dataFrame = this.getDataFrame();
+
+      let csvContent = "data:text/csv;charset=utf-8,\n";
+      dataFrame.columns.forEach(
+        (cName,index,array)=> csvContent=  csvContent + '"'+cName+'"'+ ((index<array.length-1)?",":"\n")
+      );
+      dataFrame.rows.forEach( 
+        row=> row.forEach( 
+          (val,index,array) => csvContent= csvContent +val+ ((index<array.length-1)?",":"\n") 
+        )
+      );
+
+      console.log("csvContent")
+      console.log(csvContent)
 
       const data = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", data);
       link.setAttribute("download", "export.csv");
       link.click();
-    },
-  },
-
-  computed: {
-    depletedProducts() {
-      return this.$store.getters.getSelectedWeekMetric;
     },
   },
 
@@ -447,10 +382,6 @@ export default {
     },
     selectedWeekIdx: function(val) {
       this.$store.commit("updateSelectedWeekIdx", val);
-    },
-
-    currentCenter: function(val) {
-      this.$refs.parcelInfoMap.setCenter(val);
     },
   },
 };
@@ -481,12 +412,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.export {
-  grid-area: ex;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .graphe {
   grid-area: gr;
   height: 100%;

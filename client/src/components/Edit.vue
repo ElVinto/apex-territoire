@@ -269,27 +269,41 @@ export default {
     formIsValid: function () {
 
       let isValid = true;
-
       
       if(isNaN(parseInt(this.selectedWeekMetric.nbObsFullGrowth))) {
         this.errors.push("# Pleine croissance : '"+this.selectedWeekMetric.nbObsFullGrowth+"' n'est pas un entier ");
         isValid=false;
       }else{
-        this.selectedWeekMetric.nbObsFullGrowth =parseInt(this.selectedWeekMetric.nbObsFullGrowth)
+        if(parseInt(this.selectedWeekMetric.nbObsFullGrowth)>=0){
+          this.selectedWeekMetric.nbObsFullGrowth =parseInt(this.selectedWeekMetric.nbObsFullGrowth)
+        }else{
+          this.errors.push("# Pleine croissance : '"+this.selectedWeekMetric.nbObsFullGrowth+"' n'est pas un entier positif ");
+          isValid=false;
+        }
       }
       
       if (isNaN(parseInt(this.selectedWeekMetric.nbObsSlowGrowth))) {
         this.errors.push("# Croissance ralentie : '"+this.selectedWeekMetric.nbObsSlowGrowth+"' n'est pas un entier");
         isValid=false
       }else{
-        this.selectedWeekMetric.nbObsSlowGrowth =parseInt(this.selectedWeekMetric.nbObsSlowGrowth);
+        if(parseInt(this.selectedWeekMetric.nbObsSlowGrowth)>=0){
+          this.selectedWeekMetric.nbObsSlowGrowth =parseInt(this.selectedWeekMetric.nbObsSlowGrowth);
+        }else{
+          this.errors.push("# Croissance ralentie  : '"+this.selectedWeekMetric.nbObsSlowGrowth+"' n'est pas un entier positif ");
+          isValid=false;
+        }
       }
 
       if (isNaN(parseInt(this.selectedWeekMetric.nbObsStoppedGrowth))) {
         this.errors.push("# Croissance arretée : '"+this.selectedWeekMetric.nbObsStoppedGrowth+"' n' est pas un entier ");
         isValid=false;
       }else{
-        this.selectedWeekMetric.nbObsStoppedGrowth =parseInt(this.selectedWeekMetric.nbObsStoppedGrowth);
+        if(parseInt(this.selectedWeekMetric.nbObsStoppedGrowth)>=0){
+          this.selectedWeekMetric.nbObsStoppedGrowth =parseInt(this.selectedWeekMetric.nbObsStoppedGrowth);
+         }else{
+          this.errors.push("# Croissance arretée : '"+this.selectedWeekMetric.nbObsStoppedGrowth+"' n'est pas un entier positif ");
+          isValid=false;
+        }
       }
 
       this.msg="Les données de la semaine n'ont pas été modifiées";
@@ -300,6 +314,7 @@ export default {
     updateSelectedWeekMetric(){
       this.msg="";
       this.errors=[];
+
 
       console.log("START updateSelectedWeekMetric")
 
@@ -320,7 +335,12 @@ export default {
 
       
           this.errors = []
-          this.msg = "Les données de la semaine ont bien été modifiées"
+          this.msg = "Les données de la semaine ont bien été modifiées, "
+          if(this.$store.state.demoUserEmail){
+             this.msg += " pour l'"
+              +this.$store.getters.getDisplayedUserName
+              +" ces modifications sont effectives que le temps de la session"
+          }
         
           
         
@@ -350,6 +370,11 @@ export default {
 
         this.errors = []
         this.msg = "Les données de la semaine ont été réinitialisées aux valeurs collectées dans ApeX Vignes"
+         if(this.$store.state.demoUserEmail){
+             this.msg += " pour l'"
+              +this.$store.getters.getDisplayedUserName
+              +" ces modifications sont effectives que le temps de la session"
+          }
 
       })
       
