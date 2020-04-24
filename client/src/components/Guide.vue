@@ -13,9 +13,9 @@
 
         <p>
           Dans la suite nous détaillons les objectifs et le guide d'utilisation d'Apex Territoire.
-          Vous pouvez directement commencez et cliquer sur l'onglet <a href="#/map">Carte</a> puis
+          Vous pouvez directement commencer et cliquer sur l'onglet <a href="#/map">Carte</a> puis
           revenir sur le guide d'utilisation pour avoir plus d'informations sur les fonctionalités implémentées.
-          Apex Territoire est aussi disponible sur mobile et tablette.
+          Apex Territoire est aussi accessible sur mobile et tablette.
         </p>
 
           <h5>Objectifs</h5>
@@ -24,11 +24,11 @@
           L'objectif premier d'Apex Territoire est de proposer aux utilisateurs une
           <b> visualisation et une analyse spatio-temporelle de la croissance des apex telle qu'elle a été observée dans les parcelles de vignes.</b>
           Autour de cet objectif, nous avons implémentés de nouvelles fonctionnalités permettant 
-          aux utilisateurs d'ajouter, de mettre à jour et de partager leurs observations.
+          aux utilisateurs d'<b>ajouter</b>, de <b>mettre à jour</b> de <b>partager</b> et d' <b>exporter</b> les résumés de leurs observations.
           Ainsi, en plus de proposer une visualisation géolocalisées des indicateurs de croissance des apex,
           Apex Territoire est aussi une plate forme qui permet la mise-à-jour et le partage de résumés d'observations. 
           Ces dernières fonctionnalités permettent de comparer et de mieux comprendre la croissance des apex des vignes à travers différentes campagne et différentes parcelles.
-          Pour satifaire ces objectifs plusieurs fonctionalités ont été implémentés:
+          Pour satifaire ces objectifs plusieurs fonctionalités ont été implémentées :
         </p>
 
         
@@ -60,7 +60,7 @@
           les résumés d'observations reçu d'autres utilisateurs.
           Les mise-à-jours effectuées par un utilisateur sur les résumés d'observations collectés ou reçus restent locale à l'utilisateur.
           Ces mise-à-jours ne sont visibles que par l'utilisateur et ne modifient ni les observations collectées par l'utilisateur ni les observations partagées par un autre utilisateur.
-          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d'effacer ses mise-à-jours afin de retrouver les observations initialement collectées.
+          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d'effacer ses mise-à-jours afin de retrouver les résumés observations initialement collectées.
         </p>
         <router-link  to="/partage" class="nav-link">Patager</router-link>
 
@@ -81,17 +81,18 @@
         </p>
 
         <router-link  to="/profil" class="nav-link">Authentification</router-link>
-          Cette fonctionalité va de paire avec le partage des données et permet aux utilisateurs de protéger l'accès à leurs espaces par un mot de passe.
+          Cette fonctionalité accompagne le partage des résumés des observations collectées par les utilisateurs.
+          Elle permet aux utilisateurs qui le souhaitent de protéger l'accès à leurs espaces par un mot de passe.
 
         <h5>Contributeurs</h5>
 
         <p>
           L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet).
-          <b>Poute information contactez leo.pichon@gmail.com </b>.
+          <b>Poute information contactez leo.pichon@gmail.com</b>.
           Cette aplication a bénéficié du développement de la cellule d'appui en informatique
           de l'institut de convergence #Digitag. 
           L'application a été développée par Vincent Armant et Amine Ouail avec la participation de Guilhem Brunel et Léo Pichon.
-          Apex Territoire reprend les éléments graphiques et les indicateurs de croissance développés dans l’application ApeX Vigne.
+          Apex Territoire reprend les éléments graphiques et les indicateurs de croissance développés dans l’application ApeX Vignes.
         </p>
       </div>
 
