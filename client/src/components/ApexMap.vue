@@ -222,7 +222,7 @@
          </p>
       </div>
       <hr />
-      <router-link to="/informations" class="nav-link" >éditer</router-link>
+      <router-link to="/edit" class="nav-link" >éditer</router-link>
     </div>
   </div>
 
@@ -476,11 +476,11 @@ export default {
 .bodymap{grid-area: bdm;}
 
 @media (max-width: 900px) {
-.map{ grid-area: map; height: 600px ; width: 100%;} 
-#campagne{grid-area: ca ;}
-#semaine{grid-area: se;margin-top: 10px;margin-bottom: 10px;}
-#parcelle{grid-area: pa;margin-bottom: 10px;}
-#campagnepr{grid-area: cap;margin-top: 10px;position: relative;}
+.map{ grid-area: map; height: 400px ; width: 80%;padding: 10px;text-align: center;margin-left: auto;margin-right: auto;} 
+#campagne{grid-area: ca ;text-align: center;margin-left: auto;margin-right: auto;}
+#semaine{grid-area: se;margin-top: 10px;margin-bottom: 10px;text-align: center;margin-left: auto;margin-right: auto;}
+#parcelle{grid-area: pa;margin-bottom: 10px;text-align: center;margin-left: auto;margin-right: auto;}
+#campagnepr{grid-area: cap;margin-top: 10px;position: relative;text-align: center;margin-left: auto;margin-right: auto;}
 .global {display: grid;
         grid-template-columns: auto 1fr;
          grid-template-columns: repeat(1,1fr);

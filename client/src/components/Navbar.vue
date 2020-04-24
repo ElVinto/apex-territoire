@@ -28,6 +28,7 @@
             <b-nav-item href="#/partage">Partager</b-nav-item>
             <b-nav-item href="#/export">Exporter</b-nav-item>
             <b-nav-item href="#/profil">Authentification</b-nav-item>
+            <b-nav-item href="#/guide">Guide</b-nav-item>
             <b-nav-item href @click="logout">Deconnexion</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
