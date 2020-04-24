@@ -82,9 +82,10 @@
 
         <h5>Contributeurs</h5>
 
-        L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet) et reprend les éléments de la charte graphique et les indicateurs de croissance  développés par Guilhem Brunel et Léo Pichon dans l’application ApeX Vigne.
-        L'application Apex Territoire a été développé par la cellule d'appui en informatique de #Digitag (Vincent Armant responsable du développement et Amine Ouail développeur). 
-
+        <p>
+          L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet) et reprend les éléments de la charte graphique et les indicateurs de croissance  développés par Guilhem Brunel et Léo Pichon dans l’application ApeX Vigne.
+          L'application Apex Territoire a été développé par la cellule d'appui en informatique de #Digitag (Vincent Armant responsable du développement et Amine Ouail développeur). 
+        </p>
       </div>
 
     <!-- User Demo Guide-->
