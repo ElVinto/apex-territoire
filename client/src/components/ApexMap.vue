@@ -153,7 +153,7 @@
                         <br />
                       </template>
                       <template v-else> (pas d'observations)<br /> </template>
-                      <router-link to="/edit" class="nav-link" style="text-align:right">éditer</router-link>
+                      <router-link to="/edit" class="nav-link" style="text-align:left">éditer</router-link>
                     </p>
                   </div>
                 </l-popup>
