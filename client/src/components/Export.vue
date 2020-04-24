@@ -51,7 +51,7 @@
           class="custom-select"
           style="width:260px;"
         >
-          <option
+          <option id="op"
             v-for="(pName, index) in $store.getters.parcelNameList"
             v-bind:key="index"
             v-bind:value="index"

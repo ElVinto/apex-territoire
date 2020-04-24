@@ -589,8 +589,7 @@ h4 {
       "ca"
       "se"
       "pa"
-      "cap";
-  }
+      "cap";}
   
   table,
   thead,
