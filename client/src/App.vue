@@ -1,21 +1,18 @@
 <template>
   <div id="app">
-    
-    
-    <div class="header ">
+    <div id="header ">
       <my-header />
     </div>
 
-    <div class="navbar" v-if= "$router.currentRoute.path !== '/' ">
+    <div id="navbar" v-if="$router.currentRoute.path !== '/'">
       <navbar />
     </div>
-    
+
     <router-view />
 
-    <div class="footer ">
+    <div id="footer ">
       <my-footer />
     </div>
-
   </div>
 </template>
 
@@ -23,7 +20,6 @@
 import footer from "./components/Footer";
 import header from "./components/Header";
 import navbar from "./components/Navbar";
-
 
 export default {
   name: "App",
@@ -37,11 +33,24 @@ export default {
 
 <style>
 #app {
+  padding: 1px;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 1px;
+}
+#header {
+  margin: 0px;
+}
+#footer {
+  margin: 0px;
+}
+#navbar {
+  margin: 0px;
 }
 </style>

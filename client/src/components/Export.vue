@@ -8,61 +8,57 @@
     </div>
 
     <div class="menu">
-      <div class="divmenu">
-        <label id="label"><b>Campagne</b></label>
-        <select
-          id="select"
-          v-model="selectedYearIdx"
-          class="custom-select"
-          style="width:260px;"
-        >
-          <option
-            v-for="(elmt, index) in $store.getters.yearNumberList"
-            v-bind:key="index"
-            v-bind:value="index"
-            >{{ elmt }}
-          </option>
-        </select>
-      </div>
-
-      <div class="divmenu">
-        <label id="label">Semaine</label>
-        <select
-          id="select"
-          v-model="selectedWeekIdx"
-          class="custom-select"
-          style="width:260px;"
-        >
-          <option
-            v-for="(elmt, index) in $store.getters.weekLabelList"
-            v-bind:key="index"
-            v-bind:value="index"
+        <div id="compagne">
+          <b>Compagne :</b>
+          <select
+            v-model="selectedYearIdx"
+            class="custom-select"
+            style="width:auto;"
           >
-            {{ elmt }}
-          </option>
-        </select>
-      </div>
+            <option
+              v-for="(elmt, index) in $store.getters.yearNumberList"
+              v-bind:key="index"
+              v-bind:value="index"
+              >{{ elmt }}
+            </option>
+          </select>
+        </div>
 
-      <div class="divmenu">
-        <label id="label">Parcelle</label>
-        <select
-          id="select"
-          v-model="selectedParcelIdx"
-          class="custom-select"
-          style="width:260px;"
-        >
-          <option id="op"
-            v-for="(pName, index) in $store.getters.parcelNameList"
-            v-bind:key="index"
-            v-bind:value="index"
-            >{{ pName }} ({{
+        <div id="semaine">
+          <b>semaine :</b>
+          <select
+            v-model="selectedWeekIdx"
+            class="custom-select"
+            style="width:auto;"
+          >
+            <option
+              v-for="(elmt, index) in $store.getters.weekLabelList"
+              v-bind:key="index"
+              v-bind:value="index"
+              >{{ elmt }}
+            </option>
+          </select>
+        </div>
+        <div id="parcelle">
+          <b>parcelle :</b>
+          <select
+            v-model="selectedParcelIdx"
+            class="custom-select"
+            style="width:auto;"
+          >
+            <option
+              v-for="(pName, index) in $store.getters.parcelNameList"
+              v-bind:key="index"
+              v-bind:value="index"
+              >{{ pName }} 
+              ({{
               $store.getters.getDisplayedUserNameIfNeeded(
                 $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
               )
             }})
-          </option>
-        </select>
+            </option>
+          </select>
       </div>
     </div>
 
@@ -387,14 +383,29 @@ export default {
 };
 </script>
 <style scoped>
-.global{padding: 10px;}
-.divmenu {
-  margin-top: 20px;
+
+.menu {
+  padding: 5px;
+  grid-area: me;
+  height: 100%;
+  width: auto;
+ 
+
 }
-#label {
-  margin-right: 20px;
-  font-weight: bold;
+
+#compagne {
+  grid-area: co;
+  
 }
+#semaine {
+  grid-area: se;
+ 
+}
+#parcelle {
+  grid-area: pa;
+
+}
+
 .item {
   text-align: center;
   margin-left: auto;
@@ -405,13 +416,7 @@ export default {
   height: 150px;
   padding: 00px;
 }
-.menu {
-  grid-area: mn;
-  margin: 20px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 
 .graphe {
   grid-area: gr;
@@ -427,33 +432,44 @@ export default {
   grid-area: tl;
   padding: 0px;
 }
-.topnav {
-  grid-area: nv;
-}
+
 #expdf {
+  
   margin-right: 20px;
 }
 h4 {
   background: gray;
 }
 
-
+.export{grid-area: ex;}
 
 @media screen and (min-width: 1100px) {
+  .menu {
+ 
+  margin-top: 80px;
+
+}
   .global {
     display: grid;
+    grid-template-columns: auto 1fr;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(3, 1fr,1fr,5fr);
     grid-template-areas:
       "tl tl  tl gr"
-      "mn mn  mn gr "
-      "bd bd  bd gr "
+      "me me  me gr "
       "ex ex  ex gr";
   }
 
   .menu {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: "co se pr";
+    grid-template-columns: auto 1fr;
+    grid-template-columns: repeat(3, 1fr,1fr,2fr);
+     grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(1,1fr);
+    grid-template-areas: 
+    
+    "co se pa";
   }
 
   table {
@@ -481,6 +497,19 @@ h4 {
 
 
 @media screen and (max-width: 1100px) {
+#compagne {
+  margin-top: 10px;
+  
+}
+#semaine {
+ margin-top: 10px;
+ 
+}
+#parcelle {
+  margin-top: 10px;
+
+}
+
   .title {
     grid-area: tl;
     margin-top: 0px;
@@ -491,8 +520,7 @@ h4 {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       "tl"
-      "mn"
-      "bd"
+      "me"
       "gr"
       "ex";
   }
@@ -502,7 +530,7 @@ h4 {
     grid-template-areas:
       "co"
       "se"
-      "pr";
+      "pa";
   }
   table,
   thead,

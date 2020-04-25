@@ -1,6 +1,6 @@
 <template>
 
-   <div class="header" style="background-image:url(images/imagee.png) ; background-size: 2000px 800px;margin: 1px;">
+   <div class="header" style="background-image:url(images/imagee.png) ; background-size: 2000px 800px;">
      <h1>ApeX Territoire</h1>
    </div>
 
@@ -19,10 +19,10 @@ export default {
 <style scoped>
 
 .header {
-  margin: 10px;
- padding: 10px;
-  text-align: center;
-  color:rgb(88, 87, 87);
+ 
+padding: 20px;
+text-align: center;
+color:rgb(43, 42, 42);
   
 }
   

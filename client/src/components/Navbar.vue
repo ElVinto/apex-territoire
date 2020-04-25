@@ -7,11 +7,11 @@
       <router-link to="/export" class="nav-link">Exporter</router-link>
       <router-link to="/profil" class="nav-link">Authentification</router-link>
       <router-link to="/guide" class="nav-link">Guide</router-link>
-      <a id="exit" class="nav-link" href @click="logout">LogOut</a>
+      <a id="exit" class="nav-link" href @click="logout">Déconnexion</a>
     </div>
 
     <div v-else>
-      <b-navbar toggleable type="dark" variant="dark">
+      <b-navbar toggleable type="dark" variant="dark" style="width:100%">
         <b-navbar-brand href="#">Menu</b-navbar-brand>
 
         <b-navbar-toggle target="navbar-toggle-collapse">
@@ -21,7 +21,7 @@
           </template>
         </b-navbar-toggle>
 
-        <b-collapse id="navbar-toggle-collapse" is-nav>
+        <b-collapse id="navbar-toggle-collapse" is-nav >
           <b-navbar-nav class="ml-auto">
             <b-nav-item href="#/map">Carte</b-nav-item>
             <b-nav-item href="#/edit">Editer</b-nav-item>
@@ -29,7 +29,7 @@
             <b-nav-item href="#/export">Exporter</b-nav-item>
             <b-nav-item href="#/profil">Authentification</b-nav-item>
             <b-nav-item href="#/guide">Guide</b-nav-item>
-            <b-nav-item href @click="logout">Deconnexion</b-nav-item>
+            <b-nav-item href @click="logout">Déconnexion</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -74,26 +74,21 @@ if( window.innerWidth  < 900 ){
 </script>
 
 <style scoped>
-  .topnav {
-    overflow: hidden;
-    background-color: #333;
-    width: 100%;
-  }
-  .topnav a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  #exit {
-    float: right;
-  }
-  .topnav a:hover {
-    background-color: rgb(165, 161, 161);
-    color: black;
-  }
+ @media screen and (min-width: 900px) {
+.topnav {overflow: hidden;background-color: #333; width: 100%;}
+.topnav a {float: left;display: block;color: #f2f2f2;text-align: center;padding: 14px 16px;text-decoration: none;}
+#exit{float: right}
+.topnav a:hover {background-color:rgb(165, 161, 161);color: black;}}
+
+@media screen and (max-width: 900px) {
+.topnav a {float: none;width: 25%;}
+.topnav {overflow: hidden;background-color: #333; width: 100%;}
+.topnav a {float: left;display: block;color: #f2f2f2;text-align: center;padding: 5px 5px;text-decoration: none;}
+
+.topnav a:hover {background-color:rgb(165, 161, 161);color: black;}}
+
+
+
 
 
 </style>

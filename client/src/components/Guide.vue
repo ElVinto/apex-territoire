@@ -116,11 +116,14 @@ export default {
 };
 </script>
 <style scoped>
+.global{padding: 5px;width: auto;height: auto;}
  .title {
     grid-area: tl;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    
+    
   }
 
 p{
