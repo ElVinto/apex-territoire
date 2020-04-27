@@ -79,11 +79,14 @@
           Cette fonctionalité permet d'exporter au format pdf ou csv les résumés des observations collectés et recu par l'utilisateur
           Les résumés contiennet les indicateurs de croissances des apex et de contraintes hydriques d'une campagne sélectionnée.
         </p>
-
+         
         <router-link  to="/profil" class="nav-link">Authentification</router-link>
+        
+        <p>
           Cette fonctionalité accompagne le partage des résumés des observations collectées par les utilisateurs.
           Elle permet aux utilisateurs qui le souhaitent de protéger l'accès à leurs espaces par un mot de passe.
-
+        </p>
+        
         <h5>Contributeurs</h5>
 
         <p>

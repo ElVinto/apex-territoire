@@ -153,7 +153,7 @@
       <hr />
 
       <div id="graphe1">
-        <p style="font-size:20px">
+        <p style="font-size:15px">
           croissance des apex semaine du
           {{
             this.$store.getters.weekLabelList[this.$store.state.selectedWeekIdx]
@@ -171,7 +171,7 @@
       <!-- évolution par rapport à semaine précédente
       <hr> -->
       <div id="graphe2">
-        <p style="font-size:20px;">
+        <p style="font-size:15px">
           évolution de la croissance des apex
           {{
             this.$store.getters.yearNumberList[
@@ -183,13 +183,13 @@
       </div>
       <hr />
       <div id="graphe3">
-        évolution de la contrainte hydrique
+       <p style="font-size:15px"> évolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
         }}
         <apex-hydric-constraint-line-chart
           class="item"
-        ></apex-hydric-constraint-line-chart>
+        ></apex-hydric-constraint-line-chart></p>
       </div>
     </div>
   </div>
@@ -416,6 +416,12 @@ export default {
 </script>
 
 <style scoped>
+p{grid-area: p;font-weight: bold;
+  width: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;}
 .global{padding: 10px;}
 .btn {
   grid-area: btn;
@@ -473,10 +479,10 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0px;
-  margin-top: 10px;
+  margin-top: 0px;
   width: 300px;
-  height: 150px;
-  padding: 00px;
+  height: 200px;
+ 
 }
 
 .title {
@@ -495,11 +501,11 @@ h4 {
 @media screen and (min-width: 900px) {
   .global {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3fr, 1fr);
     grid-template-areas:
-      "meta meta meta gr "
-      "meta meta meta gr "
-      "btn btn btn gr ";
+      "meta meta  gr "
+      "meta meta  gr "
+      "btn btn  gr ";
   }
   .meta {
     display: grid;
