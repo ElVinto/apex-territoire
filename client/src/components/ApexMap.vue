@@ -2,7 +2,6 @@
   <div
     id="ApexMap"
     class="global"
-    style="position:relative; left: 20px; width: 100%; "
     v-if="$store.state.userDataObj !== null"
   >
     
@@ -62,9 +61,9 @@
           >
             <i class="far fa-eye"></i> campagne précédente
           </button>
-          <label v-if="msgPrevYear !== null">
+          <p><label v-if="msgPrevYear !== null">
             {{ msgPrevYear }}
-          </label>
+          </label></p>
         </div>
       </div>
 
@@ -453,7 +452,14 @@ export default {
 
 <style scoped>
 
-.menu{ grid-area: me ;height: 100%;width: 100%;padding: 5px;}
+
+p{grid-area: p;font-weight: bold;
+  width: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;}
+.menu{ grid-area: me ;height: 100%;width: 100%;margin-top: 10px;padding: 3px;}
 #campagne{grid-area: ca ;}
 #semaine{grid-area: se;}
 #parcelle{grid-area: pa;}
@@ -470,17 +476,18 @@ export default {
 #title{grid-area: ti;}
 
 
-.map{ grid-area: map;}
+.map{ grid-area: map;text-align : center; padding: 1px;}
 .headermap{grid-area:hdm;}
-.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 10px; width: 300px ;height: 150px; padding: 00px;}
+.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 10px; width: 300px ;height: 150px; padding: 5px;}
 .bodymap{grid-area: bdm;}
 
 @media (max-width: 900px) {
-.map{ grid-area: map; height: 400px ; width: 80%;padding: 10px;text-align: center;margin-left: auto;margin-right: auto;} 
-#campagne{grid-area: ca ;text-align: center;margin-left: auto;margin-right: auto;}
-#semaine{grid-area: se;margin-top: 10px;margin-bottom: 10px;text-align: center;margin-left: auto;margin-right: auto;}
-#parcelle{grid-area: pa;margin-bottom: 10px;text-align: center;margin-left: auto;margin-right: auto;}
-#campagnepr{grid-area: cap;margin-top: 10px;position: relative;text-align: center;margin-left: auto;margin-right: auto;}
+.map{ grid-area: map;} 
+.bodymap{grid-area: bdm;height: 400px ; width: 100%;text-align: center;margin-left: auto ;  margin-right: auto;padding: 10px;}
+#campagne{grid-area: ca ;position: relative;align-self: left ;}
+#semaine{grid-area: se;margin-top: 10px;position: relative;}
+#parcelle{grid-area: pa;margin-top: 10px;position: relative;}
+#campagnepr{grid-area: cap;margin-top: 10px;position: relative;}
 .global {display: grid;
         grid-template-columns: auto 1fr;
          grid-template-columns: repeat(1,1fr);
@@ -503,7 +510,9 @@ export default {
          grid-template-columns: auto 1fr; 
          grid-template-rows: auto 1fr;
          grid-template-columns: repeat(1,1fr);
-         grid-template-rows: repeat(1fr,1fr,2fr);
+         grid-gap: 10px;
+         grid-template-rows: repeat(1fr,1fr,1fr,2fr);
+         
          grid-template-areas: 
           "ca" 
           "se"
@@ -540,9 +549,10 @@ export default {
          grid-template-columns: auto 1fr; 
          grid-template-rows: auto 1fr;
          grid-template-columns: repeat(1fr, 1fr,2fr, 2fr);
-         grid-template-rows: repeat(2fr);
+         grid-template-rows: repeat(2,1fr,1fr);
          grid-template-areas: 
           "ca se pa cap " 
+          "ca se pa p" 
           }   
   
     }

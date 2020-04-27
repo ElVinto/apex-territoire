@@ -14,12 +14,12 @@
         </b>
       </h5>
 
-      <label id="menulabel1"><b>Parcelle</b></label>
+     <div id="menuselect">
+      <label ><b>Parcelle</b></label>
       <select
-        id="menuselect"
         v-model="parcelp"
         class="custom-select"
-        style="width:260px;margin-left : 10px"
+        style="width:auto;"
       >
         <option
           v-for="(pName, index) in parcelNameListObservedByLoggedUser"
@@ -29,22 +29,23 @@
           {{ pName }}
         </option>
       </select>
-
-      <label id="menulabel2" for="mail" style="margin-left : 10px"
+      </div>
+      <div id="menuinput">
+      <label  for="mail" style="margin-left : 10px"
         ><b>Mail Destinataire </b></label
       >
-      <input
-        id="menuinput"
+      <input 
         v-model="mailp"
         type="text"
         name="mailp"
-        style="width: 200px; margin-left : 10px"
-      />
+     
+      /></div>
+      <div id="btn">
       <button
         id="buttonverif"
         class="btn btn-info btn-sm"
         @click="checkEMailAndParcel()"
-        style="margin-left : 10px"
+       
       >
         Vérifier
       </button>
@@ -52,12 +53,13 @@
         id="buttoninsert"
         class="btn btn-success btn-sm"
         @click="insertParcelDataSharedToSomn()"
-        style="weight: 360px; margin-left : 10px"
+        style="weight:auto;"
       >
         Ajouter
       </button>
-     
+     </div>
     </div>
+    
 <p>{{ message }}</p>
     <hr />
     <div class="body">
@@ -334,16 +336,52 @@ export default {
 };
 </script>
 <style scoped>
+label{margin-right: 10px;}
+  .menu {
+    grid-area: me;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .body {
+    grid-area: bd;
+    margin-top: 20px;
+    
+  }
+  
+  #menutitle {
+    grid-area: mntl;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #menuselect {
+    grid-area: mnsl;
+    position: relative;
+  
+  }
+  
+  #menuinput {
+    grid-area: mnip;
+   
+    
+  }
+  
+  #buttonverif {
+    grid-area: btnvr;
+    margin-right: 20px;
+   margin-left: 20px;
+  }
+  #buttoninsert {
+    grid-area: btnva;
 
-.global{padding: 10px;}
+  }
+
 .title {
   grid-area: tl;
   margin-top: 0px;
 }
-.menu {
-  grid-area: mn;
-  margin: 20px;
-}
+
 .body {
   grid-area: bd;
   margin-top: 20px;
@@ -360,6 +398,7 @@ p {
   margin-right: auto;
   margin-top: 10px;
 }
+#btn{grid-area: btn;}
 
 /*Phone*/
 @media screen and (min-width: 900px) {
@@ -368,10 +407,19 @@ p {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       "tl"
-      "mn"
+      "me"
       "p"
       "bd";
   }
+
+  .menu{display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-columns: repeat(3, 1fr,1fr,1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(2, 1fr,1fr);
+    grid-template-areas:
+      "mntl mntl mntl "
+      "mnsl mnip btn";}
 
   table {
     text-align: center;
@@ -398,19 +446,6 @@ p {
 
 
 @media screen and (max-width: 900px) {
-  .title {
-    grid-area: tl;
-    margin-top: 0px;
-    
-  }
-  .menu {
-    grid-area: mn;
-    margin: 20px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-  }
   .body {
     grid-area: bd;
     margin-top: 20px;
@@ -418,67 +453,50 @@ p {
     margin-left: auto;
     margin-right: auto;
   }
-  #menulabel1 {
-    grid-area: mnlb1;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #menutitle {
-    grid-area: mntl;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
+  
   #menuselect {
-    grid-area: mnsl;
-    position: relative;
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
+    margin-left: auto;
+     margin-right: auto;
+  
   }
+  
   #menuinput {
-    grid-area: mnip;
-    position: relative;
-    margin-top: 20px;
     text-align: center;
+    margin-left: auto;
+     margin-right: auto;
+    margin-top: 10px;
+   margin-bottom: 10px;
   }
-  #menulabel2 {
-    grid-area: mnlb2;
-    position: relative;
-    margin-top: 20px;
+
+  #btn{margin-top: 20px;
     text-align: center;
-  }
-  #buttonverif {
-    grid-area: btnvr;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
-  }
-  #buttoninsert {
-    grid-area: btnva;
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
+    margin-left: auto;
+     margin-right: auto;
   }
   .global {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       "tl"
-      "mn"
+      "me"
       "p"
       "bd";
   }
 
   .menu {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: auto 1fr;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto, 1fr;
+    grid-template-rows: repeat(3, 1fr,1fr,1fr);
     grid-template-areas:
-      "mntl mntl"
-      "mnlb1 mnsl "
-      "mnlb2 mnip"
-      "mnlb2 mnip"
-      "btnvr btnva"
+     "mntl"
+     "mnsl"
+    "mnip "
+      "btn"
+      
       ;
   }
 

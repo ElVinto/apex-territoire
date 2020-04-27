@@ -8,7 +8,7 @@
       </div>
 
       <div class="menu">
-        <div id="campagne">
+        <div id="compagne">
           <b>Compagne :</b>
           <select
             v-model="selectedYearIdx"
@@ -433,28 +433,20 @@ export default {
   grid-area: me;
   height: 50%;
   width: auto;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
-#campagne {
-  grid-area: ca;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+#compagne {
+  grid-area: co;
+  
 }
 #semaine {
   grid-area: se;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+ 
 }
 #parcelle {
   grid-area: pa;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .graphe {
@@ -521,9 +513,9 @@ h4 {
   }
   .menu {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(1, 1fr);
-    grid-template-areas: "ca se pa ";
+    grid-template-areas: "co se pa pa";
   }
 
   table {
@@ -586,7 +578,7 @@ h4 {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
-      "ca"
+      "co"
       "se"
       "pa"
       "cap";}

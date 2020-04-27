@@ -1,7 +1,7 @@
 <template>
   <div
     class="login"
-    style="background-image:url(images/imagee.png) ;background-size: 2000px 1000px;padding:100px;margin: 1px;"
+    style="background-image:url(images/imagee.png) ;background-size: 2000px 1000px;padding:30px;margin: 1px;"
   >
     <div class="col-md-12">
       <div class="card card-container">
@@ -361,6 +361,8 @@ export default {
 </script>
 
 <style scoped>
+
+.login{text-align: center;margin-left: auto;margin-right: auto;padding: 5px;}
 button {
   margin-top: 15px;
   margin-bottom: 15px;
