@@ -26,76 +26,78 @@
           Autour de cet objectif, nous avons implémentés de nouvelles fonctionnalités permettant 
           aux utilisateurs d'<b>ajouter</b>, de <b>mettre à jour</b> de <b>partager</b> et d' <b>exporter</b> les résumés de leurs observations.
           Ainsi, en plus de proposer une visualisation géolocalisées des indicateurs de croissance des apex,
-          Apex Territoire est aussi une plate forme qui permet la mise-à-jour et le partage de résumés d'observations. 
-          Ces dernières fonctionnalités permettent de comparer et de mieux comprendre la croissance des apex des vignes à travers différentes campagne et différentes parcelles.
-          Pour satifaire ces objectifs plusieurs fonctionalités ont été implémentées :
+          Apex Territoire est aussi une plate forme qui permet la mise à jour et le partage de résumés d'observations. 
+          Ces dernières fonctionnalités permettent de comparer et de mieux comprendre la croissance des apex des vignes à travers différentes campagnes et différentes parcelles.
+          Pour satifaire ces objectifs les fonctionalités suivantes ont été implémentées :
         </p>
 
         
           
-        
-
         <router-link to="/map" class="nav-link">Carte</router-link>
         <p>
           La carte permet de localiser par des icones à la fois : a) les parcelles observées par l'utilisateur 
-          et aussi  b) les parcelles pour lesquelles l'utilisateur est destinataire du partage d'observations.
-          Utiliser les menus de controles situé en haut de pages pour  recentrer la carte sur une campagne, une semaine et une parcelle d'intéret. 
-          Cliquer sur une icone de parcelle pour accéder aux informations résumés sur la croissance des Apex de la parcelle.
-
-          Chaque icone localisée sur la carte prend une couleur : du vert pale au vert foncé en fonction
-          de son indice de croissance, ou grise si il n y a pas d observations. 
+          et b) les parcelles pour lesquelles l'utilisateur est destinataire d'un partage d'observations.<br/>
+          <b> * Sélectionner une campagne, une semaine et une parcelle d'intéret </b> à l'aide des menus de controles situé en haut de pages pour  recentrer la carte sur . <br/>
           
-          Passer le curseur sur le bouton campagne précédente pour comparer la croissance des Apex de la campagne précédente. 
+          <b> * Accéder aux informations résumés sur la croissance des Apex </b>  en cliquant sur l'icone représentant la parcelle.
+          Chaque icone localisée sur la carte prend une couleur du vert pale au vert foncé en fonction
+          de son indice de croissance, ou grise si il n y a pas d observations.<br/>
           
-          Les indicateurs de croissance pour la semaine et la campagne, sont instantannément recalculé en fonction
-          chaque de la campagne, de la semaine et de la parcelle sélectionnée.
-          Ces indicateurs d'évolution de croissance proviennent de l'application Apex Vignes.
+          
+          <b> * Comparer la croissance des Apex de la campagne précédente</b> en passant le curseur sur le bouton campagne précédente. <br/>
+          
+          <b> * Visualiser les indicateurs de croissance de la parcelle </b> pour la semaine et la campagne séletionnées, dans le panneau de droite.
+          Ces indicateurs de croissance  proviennent de l'application Apex Vignes et sont instantannément recalculés en fonction des nouvelles données mises-à-jour par l'utilisateur.
         </p>
 
         <router-link  to="/edit" class="nav-link">Editer</router-link>
 
         <p>
-          Cette fonctionnalité permet d'ajouter ou de mettre à jour le résumé des observations collectées concernant l'état des Apex.
-          Les informations mises à jour peuvent  concerner à la fois les résumés d'observations collectées par l'utilisateur ou encore
-          les résumés d'observations reçu d'autres utilisateurs.
-          Les mise-à-jours effectuées par un utilisateur sur les résumés d'observations collectés ou reçus restent locale à l'utilisateur.
-          Ces mise-à-jours ne sont visibles que par l'utilisateur et ne modifient ni les observations collectées par l'utilisateur ni les observations partagées par un autre utilisateur.
-          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d'effacer ses mise-à-jours afin de retrouver les résumés observations initialement collectées.
+          Cette fonctionnalité permet d'ajouter ou de <b> mettre à jour le résumé des observations  sur l'état des Apex </b>  collectées dans les parcelles.
+          Les informations mises à jour peuvent concerner à la fois, les résumés d'observations collectées par l'utilisateur, ou encore
+          les résumés d'observations reçus d'autres utilisateurs.
+          Les mises à jour effectuées par un utilisateur sur les résumés d'observations collectés ou reçus restent locales à l'utilisateur.
+          Ces mises à jour ne sont visibles que par l'utilisateur et ne suppriment, ni les observations collectées par l'utilisateur, ni les observations partagées par un autre utilisateur.
+          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d' <b> effacer ses mises à jour afin de retrouver les résumés observations initialement collectées </b>.
         </p>
-        <router-link  to="/partage" class="nav-link">Patager</router-link>
+        <router-link  to="/partage" class="nav-link">Partager</router-link>
 
         <p> 
-          La fonctionnalité de partage permet de partager les observations collectées par un utilisateur sur une parcelle  avec un autre utilisateur.
-          Les observations partagées ne concernent que le résumé des observations collectées sur le terrain par l'utilisateur.
-          Le partage ne concerne pas les modifications de résumés qui eux restent locales à la session d'un utilisateur.
+          La fonctionnalité de partage permet de <b>  partager les observations collectées par un utilisateur sur une parcelle  avec un autre utilisateur </b> .
+          Les observations partagées ne concernent que le résumé des observations collectées sur le terrain par l'utilisateur avec l'application Apex Vignes.
+          Le partage ne concerne pas les mises à jour de résumés qui eux restent locales à la session d'un utilisateur.
           Afin de controler le partage d'observations entre utilisateurs, un utilisateur ne peut partager que les résumés des observations qu'il a lui meme collecté.
-          Un utilisateur ne peut pas re-partager les résumés d'observations qu'il a lui meme recu en partage.
+          Un utilisateur ne peut pas re-partager les résumés d'observations qu'il a reçu d'un autre utilisateur.
+          Un utilisateur peut décider d'<b>arrêter le partage des informations sur une parcelle avec un autre utilisateur </b> en cliquant sur supprimer.
           
         </p>
 
         <router-link  to="/partage" class="nav-link">Exporter</router-link>
         
         <p>
-          Cette fonctionalité permet d'exporter au format pdf ou csv les résumés des observations collectés et recu par l'utilisateur
-          Les résumés contiennet les indicateurs de croissances des apex et de contraintes hydriques d'une campagne sélectionnée.
+          Cette fonctionalité permet d'exporter au format pdf ou csv les résumés d'observations collectés et reçus par l'utilisateur.
+          <b>Les résumés d'observations se composent les indicateurs de croissances des apex et de contraintes hydriques d'une campagne sélectionnée </b>.
+          L'export de données présente en plus dans un tableau récapitulatif contenant la valeur de tous les indicateurs calculés pour chaque semain de la campagne.
         </p>
          
         <router-link  to="/profil" class="nav-link">Authentification</router-link>
+
         
         <p>
-          Cette fonctionalité accompagne le partage des résumés des observations collectées par les utilisateurs.
-          Elle permet aux utilisateurs qui le souhaitent de protéger l'accès à leurs espaces par un mot de passe.
+          Cette fonctionalité accompagne le partage des résumés d'observations collectées par les utilisateurs.
+          Elle permet aux utilisateurs qui le souhaitent de <b>protéger l'accès à leurs données </b> par un mot de passe.
         </p>
         
+
         <h5>Contributeurs</h5>
 
         <p>
           L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet).
-          <b>Poute information contactez leo.pichon@gmail.com</b>.
+          <b>Poute information contactez leo.pichon@supagro.fr</b>.
           Cette aplication a bénéficié du développement de la cellule d'appui en informatique
           de l'institut de convergence #Digitag. 
-          L'application a été développée par Vincent Armant et Amine Ouail avec la participation de Guilhem Brunel et Léo Pichon.
-          Apex Territoire reprend les éléments graphiques et les indicateurs de croissance développés dans l’application ApeX Vignes.
+          L'application a été développée par Vincent Armant et Amine Ouail à la demande et avec la participation de Léo Pichon et Guilhem Brunel.
+          l'application reprend les éléments graphiques et les indicateurs de croissance développés dans ApeX Vignes.
         </p>
       </div>
 
