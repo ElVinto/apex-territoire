@@ -1,8 +1,9 @@
 <template>
 <div class="footer">
       <div class="zoom">
-        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/inrae.png class="icone" target="_blank"></i></a>
+        <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/supagro.png class="iconeSupAgro" ></i></a>
         <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/Digitag.png class="icone" ></i></a>
+        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/inrae.png class="icone" target="_blank"></i></a>
         <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo_MUSE.png class="icone"  ></i></a>
       </div>
       <div class="copyright " >
@@ -42,6 +43,7 @@ img {
 	max-width: 10%;
 	height: auto;
 }
+
 
 .zoom{background: gray;padding: 15px}
 .copyright{background: black; padding: 15px;

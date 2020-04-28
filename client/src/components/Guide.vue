@@ -91,8 +91,8 @@
           <b>Poute information contactez leo.pichon@supagro.fr</b>.
           Cette aplication a bénéficié du développement de la cellule d'appui en informatique
           de l'institut de convergence #Digitag. 
-          L'application a été développée par Vincent Armant et Amine Ouail à la demande et avec la participation de Léo Pichon et Guilhem Brunel.
-          l'application reprend les éléments graphiques et les indicateurs de croissance développés dans ApeX Vignes.
+          L'application a été développée par Vincent Armant et Amine Ouail à la demande de Léo Pichon et Guilhem Brunel.
+          L'application reprend les éléments graphiques et les indicateurs de croissance développés dans ApeX Vignes.
         </p>
       </div>
 
