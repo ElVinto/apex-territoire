@@ -79,10 +79,15 @@
           <b>Les résumés d'observations se composent les indicateurs de croissances des apex et de contraintes hydriques d'une campagne sélectionnée </b>.
           L'export de données présente en plus dans un tableau récapitulatif contenant la valeur de tous les indicateurs calculés pour chaque semain de la campagne.
         </p>
-
+         
         <router-link  to="/profil" class="nav-link">Authentification</router-link>
+
+        
+        <p>
           Cette fonctionalité accompagne le partage des résumés d'observations collectées par les utilisateurs.
           Elle permet aux utilisateurs qui le souhaitent de <b>protéger l'accès à leurs données </b> par un mot de passe.
+        </p>
+        
 
         <h5>Contributeurs</h5>
 

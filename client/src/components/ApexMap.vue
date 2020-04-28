@@ -109,7 +109,7 @@
               >
                 <l-popup>
                   <div>
-                    <p class="text">
+                    <p class="text" style="text-align:left">
                       <b> parcelle</b> : {{ parcel.parcelName }} <br />
                       <b>observateur</b> : {{ parcel.dataOwnerName }} <br />
 
@@ -117,7 +117,7 @@
                       {{ $store.getters.weekLabelList[selectedWeekIdx] }}
                       {{ $store.getters.yearNumberList[selectedYearIdx] }}<br />
 
-                      <template
+                      <template 
                         class="text"
                         v-if="
                           $store.getters.getSelectedWeekMetricTotalNbObs > 0
@@ -152,7 +152,7 @@
                         <br />
                       </template>
                       <template v-else> (pas d'observations)<br /> </template>
-                      <router-link to="/edit" class="nav-link" style="text-align:left">éditer</router-link>
+                      <a href="#/edit" style="text-align:center">éditer</a>
                     </p>
                   </div>
                 </l-popup>
@@ -191,7 +191,7 @@
             ]
           }}
         </p>
-        <apex-growth-pie-chart class="item"></apex-growth-pie-chart>
+        <apex-growth-pie-chart class="item" ></apex-growth-pie-chart>
       </div>
       <hr />
 
@@ -478,7 +478,7 @@ p{grid-area: p;font-weight: bold;
 
 .map{ grid-area: map;text-align : center; padding: 1px;}
 .headermap{grid-area:hdm;}
-.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 10px; width: 300px ;height: 150px; padding: 5px;}
+.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 0px; width: 300px ;height: 200px; padding: 0px;}
 .bodymap{grid-area: bdm;}
 
 @media (max-width: 900px) {

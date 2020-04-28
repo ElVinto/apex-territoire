@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div class="graphe" id="graphe">
+     <div class="graphe">
       <div id="title">
         <p style="font-size:20px">
           parcelle:
@@ -72,11 +72,13 @@
             ]
           }}
         </p>
+        
       </div>
 
-      <hr />
-      <div>
-        <p style="font-size:20px">
+      <hr /> 
+
+      <div id="graphe1">
+        <p style="font-size:15px">
           croissance des apex semaine du
           {{
             this.$store.getters.weekLabelList[this.$store.state.selectedWeekIdx]
@@ -87,36 +89,37 @@
             ]
           }}
         </p>
-        <apex-growth-pie-chart
-          class="item"
-          id="graphe1"
-        ></apex-growth-pie-chart>
+        <apex-growth-pie-chart class="item" ></apex-growth-pie-chart>
       </div>
       <hr />
 
       <!-- évolution par rapport à semaine précédente
       <hr> -->
-      <div id="graphe21">
-        évolution de la croissance des apex
-        {{
-          this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
-        }}
-        <apex-growth-line-chart
-          class="item"
-          id="graphe2"
-        ></apex-growth-line-chart>
+      <div id="graphe2">
+        <p style="font-size:15px;">
+          évolution de la croissance des apex
+          {{
+            this.$store.getters.yearNumberList[
+              this.$store.state.selectedYearIdx
+            ]
+          }}
+          <apex-growth-line-chart class="item"></apex-growth-line-chart>
+        </p>
       </div>
       <hr />
-      <div>
+      <div id="graphe3">
+        <p style="font-size:15px;">
         évolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
         }}
         <apex-hydric-constraint-line-chart
-          class="item"
-          id="graphe3"
+          class="item" id="graphe33"
         ></apex-hydric-constraint-line-chart>
+         </p>
       </div>
+      <hr />
+      
     </div>
 
     <div class="export" style="margin-top:10px">
@@ -301,7 +304,7 @@ export default {
 
       var graphe1 = document.getElementById("pie-chart");
       var graphe2 = document.getElementById("line-chart");
-      var graphe3 = document.getElementById("graphe3").children[1];
+      var graphe3 = document.getElementById("graphe33").children[1];
 
       var graphe1Img = graphe1.toDataURL();
       var graphe2Img = graphe2.toDataURL();
@@ -384,6 +387,13 @@ export default {
 </script>
 <style scoped>
 
+p{grid-area: p;font-weight: bold;
+  width: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 00px;}
+
 .menu {
   padding: 5px;
   grid-area: me;
@@ -411,21 +421,16 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0px;
-  margin-top: 10px;
+  margin-top: 0px;
   width: 300px;
-  height: 150px;
+  height: 200px;
   padding: 00px;
 }
 
 
-.graphe {
-  grid-area: gr;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10px;
+.graphe{grid-area: gr;
+  margin: 20px;
+  margin-right: 10px;
 }
 
 .title {
@@ -444,21 +449,17 @@ h4 {
 .export{grid-area: ex;}
 
 @media screen and (min-width: 1100px) {
-  .menu {
- 
-  margin-top: 80px;
+  .menu {margin-top: 80px;
 
 }
-  .global {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-columns: repeat(4, 1fr);
+ .global {display: grid;
+         grid-template-columns: repeat(3fr, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-rows: repeat(3, 1fr,1fr,5fr);
     grid-template-areas:
-      "tl tl  tl gr"
-      "me me  me gr "
-      "ex ex  ex gr";
+      "tl tl gr"
+      "me me gr "
+      "ex ex ex";
   }
 
   .menu {
