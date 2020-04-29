@@ -3,8 +3,8 @@ cd apex-territoire
 sudo npm install -g npm
 npm i express cors body-parser mariadb dotenv
 npm i -D nodemon
-npm install --save leaflet leaflet.markercluster
-npm install sass-loader
+
+
 
 # SERVER
 
@@ -32,8 +32,6 @@ cd ..
 
 # run server
 npm run dev
-
-
 
 
 

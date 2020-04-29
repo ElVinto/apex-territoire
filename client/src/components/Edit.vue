@@ -337,7 +337,7 @@ export default {
           this.errors = []
           this.msg = "Les données de la semaine ont bien été modifiées, "
           if(this.$store.state.demoUserEmail){
-             this.msg += " pour l'"
+             this.msg += " pour le "
               +this.$store.getters.getDisplayedUserName
               +" ces modifications sont effectives que le temps de la session"
           }
