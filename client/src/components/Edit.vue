@@ -9,7 +9,7 @@
 
       <div class="menu">
         <div id="compagne">
-          <b>Compagne :</b>
+          <b>Campagne :</b>
           <select
             v-model="selectedYearIdx"
             class="custom-select"
@@ -25,7 +25,7 @@
         </div>
 
         <div id="semaine">
-          <b>semaine :</b>
+          <b>Semaine :</b>
           <select
             v-model="selectedWeekIdx"
             class="custom-select"
@@ -40,7 +40,7 @@
           </select>
         </div>
         <div id="parcelle">
-          <b>parcelle :</b>
+          <b>Parcelle :</b>
           <select
             v-model="selectedParcelIdx"
             class="custom-select"
@@ -141,7 +141,7 @@
     <div class="graphe">
       <div id="titlegraphe">
         <p style="font-size:20px">
-          parcelle:
+          Parcelle:
           {{
             this.$store.getters.parcelNameList[
               this.$store.state.selectedParcelIdx
@@ -154,7 +154,7 @@
 
       <div id="graphe1">
         <p style="font-size:15px">
-          croissance des apex semaine du
+          Croissance des apex semaine du
           {{
             this.$store.getters.weekLabelList[this.$store.state.selectedWeekIdx]
           }}
@@ -172,7 +172,7 @@
       <hr> -->
       <div id="graphe2">
         <p style="font-size:15px">
-          évolution de la croissance des apex
+          Evolution de la croissance des apex
           {{
             this.$store.getters.yearNumberList[
               this.$store.state.selectedYearIdx
@@ -183,7 +183,7 @@
       </div>
       <hr />
       <div id="graphe3">
-       <p style="font-size:15px"> évolution de la contrainte hydrique
+       <p style="font-size:15px"> Evolution de la contrainte hydrique
         {{
           this.$store.getters.yearNumberList[this.$store.state.selectedYearIdx]
         }}

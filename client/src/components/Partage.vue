@@ -31,10 +31,10 @@
       </select>
       </div>
       <div id="menuinput">
-      <label  for="mail" style="margin-left : 10px"
+      <label id="labelinput" for="mail" style="margin-left : 10px"
         ><b>Mail Destinataire </b></label
       >
-      <input 
+      <input id="input"
         v-model="mailp"
         type="text"
         name="mailp"
@@ -362,10 +362,10 @@ label{margin-right: 10px;}
   }
   
   #menuinput {
-    grid-area: mnip;
-   
-    
+    grid-area: mnip; 
   }
+  #labelinput{grid-area: lbin; }
+  #input{grid-area: in; }
   
   #buttonverif {
     grid-area: btnvr;
@@ -458,16 +458,21 @@ p {
     margin-top: 10px;
     text-align: center;
     margin-left: auto;
-     margin-right: auto;
+    margin-right: auto;
   
   }
   
   #menuinput {
     text-align: center;
     margin-left: auto;
-     margin-right: auto;
+    margin-right: auto;
     margin-top: 10px;
    margin-bottom: 10px;
+   display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "lbin in in"
+      ;
   }
 
   #btn{margin-top: 20px;
@@ -495,9 +500,7 @@ p {
      "mntl"
      "mnsl"
     "mnip "
-      "btn"
-      
-      ;
+    "btn";
   }
 
   table,
@@ -534,16 +537,14 @@ p {
     content: "Emetteur";
   }
   td:nth-of-type(2):before {
-    content: "distinataire";
+    content: "Distinataire";
   }
   td:nth-of-type(3):before {
     content: "Parcelles";
   }
   td:nth-of-type(4):before {
-    content: "Date ";
-  }
-  td:nth-of-type(5):before {
     content: "Operation ";
   }
+  
 }
 </style>

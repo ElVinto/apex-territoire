@@ -37,14 +37,14 @@ img {
 .icones p {text-align:center;}
 .icones img {max-width: 6%;margin-left: 100px;}
 .icones img:hover {max-width: 12%;height: 70px;}
-.icone{height: 50px;}}
+.icone{height: 40px;}}
 .icone:hover{height: 60px;}
 
 @media screen and (max-width: 900px) {
 .icones{background: gray;padding: 5px; height: 70px;}
 .icones p {text-align:center;}
-.icones img {max-width: 10%;margin-left: 10px;}
-.icone{height: 40px;}
+.icones img {max-width: 9%;margin-left: 5px;}
+.icone{height: 25px;}
 .icones img:hover {max-width: 18%;height: 50px;margin-left: 5px;}
 .icone :hover{height: 60px;}
 }

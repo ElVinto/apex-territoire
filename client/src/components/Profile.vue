@@ -7,7 +7,7 @@
         Bonjour {{ $store.getters.getDisplayedUserName }}
       </h4>
       <hr />
-      <p>email: {{ $store.getters.getDisplayedUserEMail }}</p>
+      <p>Email: {{ $store.getters.getDisplayedUserEMail }}</p>
       <div v-if="!$store.state.demoUserEmail">
         <router-link
           to="/addpsw"
