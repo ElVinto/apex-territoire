@@ -25,6 +25,7 @@
 
 .copyright{background: black; padding: 5px;
   text-align: center;
+  font-size: 11px;
   color: white;
   height: 30px;}
 img {
@@ -42,9 +43,9 @@ img {
 @media screen and (max-width: 900px) {
 .icones{background: gray;padding: 5px; height: 70px;}
 .icones p {text-align:center;}
-.icones img {max-width: 12%;margin-left: 10px;}
+.icones img {max-width: 10%;margin-left: 10px;}
 .icone{height: 40px;}
-.icones img:hover {max-width: 18%;height: 50px;margin-left: 2px;}
+.icones img:hover {max-width: 18%;height: 50px;margin-left: 5px;}
 .icone :hover{height: 60px;}
 }
 
