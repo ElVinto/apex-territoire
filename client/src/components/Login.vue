@@ -1,8 +1,9 @@
 <template>
   <div
     class="login"
-    style="background-image:url(images/imagee.png) ;background-size: 2000px 1000px;padding:30px;margin: 1px;"
+    style="background-image:url(images/c.jpg) ;background-size: 1800px 800px;padding:30px;margin: 1px;"
   >
+  <div><h1>ApeX Territoire</h1></div>
     <div class="col-md-12">
       <div class="card card-container">
         <img
@@ -10,7 +11,7 @@
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           class="profile-img-card"
         />
-        <h1>Login</h1>
+        <h2>Login</h2>
 
         <div class="form-group">
           
@@ -361,6 +362,8 @@ export default {
 </script>
 
 <style scoped>
+
+h1{color:white;}
 
 .login{text-align: center;margin-left: auto;margin-right: auto;padding: 5px;}
 button {

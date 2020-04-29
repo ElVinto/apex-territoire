@@ -1,6 +1,7 @@
 <template>
 
-   <div class="header" style="background-image:url(images/imagee.png) ; background-size: 2000px 800px;">
+   <div class="header" style="background-image:url(images/tuscany-vigne.jpg) ; background-size: 2000px 180px;">
+          <!-- https://pixabay.com/fr/photos/tuscany-culture-de-la-vigne-vignes-428041/ --->
      <h1>ApeX Territoire</h1>
    </div>
 
@@ -22,7 +23,7 @@ export default {
  
 padding: 20px;
 text-align: center;
-color:rgb(43, 42, 42);
+color:white;
   
 }
   
