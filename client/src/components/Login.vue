@@ -71,7 +71,7 @@
               $store.state.activedNavbar === ''
           "
         >
-          <p>chargement ...</p>
+          <p>chargement <b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner></p>
         </div>
       </div>
     </div>
