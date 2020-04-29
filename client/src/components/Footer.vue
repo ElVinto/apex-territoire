@@ -44,7 +44,7 @@ img {
 .icones p {text-align:center;}
 .icones img {max-width: 12%;margin-left: 10px;}
 .icone{height: 40px;}
-.icones img:hover {max-width: 18%;height: 50px;margin-left: 5px;}
+.icones img:hover {max-width: 18%;height: 50px;margin-left: 2px;}
 .icone :hover{height: 60px;}
 }
 

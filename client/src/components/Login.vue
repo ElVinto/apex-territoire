@@ -1,7 +1,7 @@
 <template>
   <div
     class="login"
-    style="background-image:url(images/c.jpg) ;background-size: 1800px 800px;padding:30px;margin: 1px;"
+    style="background-image:url(images/tuscany-vigne.jpg) ;background-size: 1800px 800px;padding:30px;margin: 1px;"
   >
   <div><h1>ApeX Territoire</h1></div>
     <div class="col-md-12">
