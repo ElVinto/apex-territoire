@@ -1,7 +1,7 @@
 <template>
   <div
     class="login"
-    style="background-image:url(images/tuscany-vigne.jpg) ;background-size: 1800px 800px;padding:30px;margin: 1px;"
+    style="background-image:url(images/tuscany-vigne.jpg) ;background-size: 2200px 800px;padding:30px;margin: 1px;"
   >
   <div><h1>ApeX Territoire</h1></div>
     <div class="col-md-12">
@@ -72,7 +72,7 @@
               $store.state.activedNavbar === ''
           "
         >
-          <p>chargement <b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner></p>
+          <p> <b>Chargement</b> <b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner><b-spinner small label="Small Spinner" type="grow"></b-spinner></p>
         </div>
       </div>
     </div>

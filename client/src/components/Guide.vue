@@ -20,7 +20,7 @@
 
           <h5>Objectifs</h5>
         <p>
-          Apex territoire fait suite, et est complémentaire à l'application Apex Vignes.
+          Apex territoire fait suite, et  complémentaire à l'application Apex Vignes.
           L'objectif premier d'Apex Territoire est de proposer aux utilisateurs une
           <b> visualisation et une analyse spatio-temporelle de la croissance des apex telle qu'elle a été observée dans les parcelles de vignes.</b>
           Autour de cet objectif, nous avons implémentés de nouvelles fonctionnalités permettant 
@@ -93,9 +93,9 @@
 
         <p>
           L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet).
-          <b>Poute information contactez leo.pichon@supagro.fr</b>.
+          <b>Pour tout information contactez leo.pichon@supagro.fr</b>.
           Cette aplication a bénéficié du développement de la cellule d'appui en informatique
-          de l'institut de convergence #Digitag. 
+          de l'institut de convergence <a href="https://www.hdigitag.fr/fr/"> #Digitag</a>. 
           L'application a été développée par Vincent Armant et Amine Ouail à la demande de Léo Pichon et Guilhem Brunel.
           L'application reprend les éléments graphiques et les indicateurs de croissance développés dans ApeX Vignes.
         </p>
