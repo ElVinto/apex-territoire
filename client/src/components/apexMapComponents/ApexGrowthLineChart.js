@@ -11,7 +11,6 @@ export default {
     data(){
         return{
 
-
             chartData: {
                 labels: [],
                 datasets: [{
@@ -185,7 +184,6 @@ export default {
                 let selectedParcelYearWeekLabelList = this.$store.getters.weekLabelList ;
 
                 
-                
                 let nbWeeks = selectedParcelYearWeekLabelList.length;
 
                 for (let wIdx = 0; wIdx < nbWeeks; wIdx++) {
@@ -201,10 +199,10 @@ export default {
                     let nbObsSlowGrowth = parseInt(week_metric.nbObsSlowGrowth);
                     let nbObsStoppedGrowth = parseInt(week_metric.nbObsStoppedGrowth);
 
-                    let prctFullGrowth = 0
-                    let prctSlowGrowth = 0
-                    let prctStoppedGrowth = 0
-                    let avgGrowth = 0
+                    let prctFullGrowth = null
+                    let prctSlowGrowth = null
+                    let prctStoppedGrowth = null
+                    let avgGrowth = null
 
                     let nbTotalObs = nbObsFullGrowth + nbObsSlowGrowth + nbObsStoppedGrowth;
 

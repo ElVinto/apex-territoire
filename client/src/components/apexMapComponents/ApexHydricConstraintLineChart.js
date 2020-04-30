@@ -149,6 +149,7 @@ export default {
                     }
                     if (nbTotalObs <= 0){
                         hydricConstraint = 0;
+                        hydricConstraint = null;
                     }
 
                     hydricConstraints.push(hydricConstraint);

@@ -52,11 +52,11 @@
               v-bind:value="index"
               >{{ pName }} 
               ({{
-              $store.getters.getDisplayedUserNameIfNeeded(
+                $store.getters.getDisplayedUserNameIfNeeded(
                 $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
               )
-            }})
+              }})
             </option>
           </select>
         </div>

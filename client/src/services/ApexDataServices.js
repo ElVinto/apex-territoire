@@ -10,8 +10,6 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
 
 class ApexDataServices {
 
-
-
     //ajouter et modifier un mot de passe
     static async pwsadd(req_body) {
         // console.log(req_body)

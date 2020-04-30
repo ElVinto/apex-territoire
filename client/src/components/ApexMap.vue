@@ -45,8 +45,12 @@
               v-bind:key="index"
               v-bind:value="index"
             >
-              {{ pName }} ({{
+              {{ pName }} 
+              ({{
+                $store.getters.getDisplayedUserNameIfNeeded(
+                $store.state.userDataObj.parcels[index].dataOwnerEMail,
                 $store.state.userDataObj.parcels[index].dataOwnerName
+              )
               }})
             </option>
           </select>
@@ -111,7 +115,13 @@
                   <div>
                     <p class="text" style="text-align:left">
                       <b> parcelle</b> : {{ parcel.parcelName }} <br />
-                      <b>observateur</b> : {{ parcel.dataOwnerName }} <br />
+                      <b>observateur</b> : 
+                      ({{
+                        $store.getters.getDisplayedUserNameIfNeeded(
+                        $store.state.userDataObj.parcels[index].dataOwnerEMail,
+                        $store.state.userDataObj.parcels[index].dataOwnerName
+                      )}})
+                       <br />
 
                       <b>semaine du </b>:
                       {{ $store.getters.weekLabelList[selectedWeekIdx] }}
@@ -336,23 +346,23 @@ export default {
 
   watch: {
     selectedParcelIdx: function(val) {
-      console.log(" watch update selectedParcelIdx val");
-      console.log(val);
+      // console.log(" watch update selectedParcelIdx val");
+      // console.log(val);
 
       this.$store.commit("updateSelectedParcelIdx", val);
       this.parcelMarkerClick(val);
     },
 
     selectedYearIdx: function(val) {
-      console.log(" watch update selectedYearIdx val");
-      console.log(val);
+      // console.log(" watch update selectedYearIdx val");
+      // console.log(val);
 
       this.$store.commit("updateSelectedYearIdx", val);
     },
 
     selectedWeekIdx: function(val) {
-      console.log(" watch update selectedWeekIdx val");
-      console.log(val);
+      // console.log(" watch update selectedWeekIdx val");
+      // console.log(val);
 
       this.$store.commit("updateSelectedWeekIdx", val);
     },
@@ -430,7 +440,7 @@ export default {
         avgGrowth = Math.round(avgGrowth *100)/100.0
       }
 
-      console.log("createIcon pIdx: " + pIdx + " avgGrowth: " + avgGrowth);
+      // console.log("createIcon pIdx: " + pIdx + " avgGrowth: " + avgGrowth);
 
       let color = ApexMapServices.avgGrowthToGreenColor(avgGrowth);
 
