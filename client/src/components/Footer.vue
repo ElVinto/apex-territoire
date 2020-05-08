@@ -1,7 +1,9 @@
 <template>
 <div class="footer">
       <div class="icones">
-        <a href= "https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en" target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/apexvignes.png class="icone" ></i></a>
+        <!--
+          <a href= "https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en" target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/apexvignes.png class="icone" ></i></a>
+        -->
         <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/supagro.png  ></i></a>
         <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/Digitag.png ></i></a>
         <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/inrae.png  target="_blank"></i></a>

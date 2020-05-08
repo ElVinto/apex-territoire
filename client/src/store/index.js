@@ -120,7 +120,7 @@ export default new Vuex.Store({
 
       getDisplayedUserName: (state) => {
          if (state.demoUserEmail) {
-            return "Visiteur Démo"
+            return "Visiteur"
          } else {
             if(state.userDataObj)
                return state.userDataObj.userName
@@ -132,7 +132,7 @@ export default new Vuex.Store({
       getDisplayedUserNameIfNeeded: (state) => (email,name)=>{
          if (state.demoUserEmail) {
             if(email===state.demoUserEmail){
-               return "Utilisateur Démo"
+               return "Visiteur"
             } 
          } 
          return name;
