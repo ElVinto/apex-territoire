@@ -95,7 +95,7 @@
           L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet).
           <b>Pour tout information contactez leo.pichon@supagro.fr</b>.
           Cette aplication a bénéficié du développement de la cellule d'appui en informatique
-          de l'institut de convergence <a href="https://www.hdigitag.fr/fr/"> #Digitag</a>. 
+          de l'institut de convergence <a href="https://www.hdigitag.fr/fr/" target="_blank"> #Digitag</a>. 
           L'application a été développée par Vincent Armant et Amine Ouail à la demande de Léo Pichon et Guilhem Brunel.
           L'application reprend les éléments graphiques et les indicateurs de croissance développés dans ApeX Vignes.
         </p>
