@@ -6,14 +6,14 @@
           <h4>Ajouter un mot de passe</h4>
           <label for="mail"><b>Mail</b></label>
           <p>{{ $store.state.userDataObj.userEMail }}</p>
-          <label for="password"><b>Passeword</b></label
+          <label for="password"><b>Password</b></label
           ><input
             type="password"
             class="form-control"
             placeholder="Password"
             v-model="password"
           />
-          <label for="password-r"><b>Passeword repeat</b></label
+          <label for="password-r"><b>Password repeat</b></label
           ><input
             type="password"
             class="form-control"

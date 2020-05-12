@@ -29,7 +29,7 @@
           </p>
           <button
             id="div1"
-            @click="checkEMail()"
+            @click="continueToNextStep()"
             class="btn btn-primary btn-block"
             style="display:block"
           >
@@ -94,47 +94,77 @@ export default {
   },
 
   methods: {
-    async checkEMail() {
+    
+    async loadUserData(loggedUserEmail){
+
+      this.$store.commit("initLoggedUserEmail", loggedUserEmail);
+      
+      let userInfo = await ApexDataServices.getUserInfo(loggedUserEmail);
+
+        console.log('userInfo')
+        console.log(userInfo)
+
+        let tmpUserDataObj = new ApexDataServices.MonitoredUser(
+          userInfo.userEMail,
+          userInfo.userId,
+          userInfo.userName
+        );
+
+        console.log('tmpUserDataObj after userInfo')
+        console.log(tmpUserDataObj)
+
+        await ApexDataServices.addParcelObservations(tmpUserDataObj);
+
+
+        console.log('tmpUserDataObj after addParcelObservations')
+        console.log(tmpUserDataObj)
+
+        await ApexDataServices.addSharedParcelObservations(tmpUserDataObj);
+
+        console.log('tmpUserDataObj after addSharedParcelObservations')
+        console.log(tmpUserDataObj)
+
+
+        await ApexDataServices.addInitializedWeekMetrics(tmpUserDataObj);
+
+        console.log('tmpUserDataObj after addInitializedWeekMetrics')
+        console.log(tmpUserDataObj)
+
+
+
+        ApexDataServices.addWeeksToUserDataObj(tmpUserDataObj);
+        ApexDataServices.enforceConsistencyOfUserDataObj(tmpUserDataObj);
+        ApexDataServices.sortUserDataObjByYearByWeek(tmpUserDataObj);
+
+        this.$store.commit("initUserDataObj", tmpUserDataObj);
+
+        console.log("updated $store.state.userDataObj: ");
+        console.log(this.$store.state.userDataObj);
+
+        await this.$store.dispatch("initUserModifiedWeekMetrics")
+        
+        
+        this.$store.commit("initActivedNavbar", "true");
+
+    },
+
+    async continueToNextStep() {
       if (this.EMail === "") {
 
-        let loggedUserEmail = "Toto@tu.ti"; // baptiste.oger@supagro.fr
-
-        this.$store.commit("initLoggedUserEmail", loggedUserEmail);
+        let loggedUserEmail = "visiteur.demo@apex-territoire.fr"; // baptiste.oger@supagro.fr visiteur.demo@apex-territoire.fr
         this.$store.commit("initDemoUserEmail", loggedUserEmail);
-        
 
-        ApexDataServices.getObservations(loggedUserEmail).then((userDBRows) => {
-          let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
-          console.log(userDataObj);
-          ApexDataServices.addSharedParcelObservations(userDataObj).then(() => {
-            ApexDataServices.addWeeksToUserDataObj(userDataObj);
-            ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
-            ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
+        await this.loadUserData(loggedUserEmail);
 
-            this.$store.commit("initUserDataObj", userDataObj);
-
-            console.log("updated $store.state.userDataObj: ");
-            console.log(this.$store.state.userDataObj);
-
-            this.$store.dispatch("initUserModifiedWeekMetrics").then(() => {
-              let activedNavbar = "true";
-              this.$store.commit("initActivedNavbar", activedNavbar);
-
-              console.log("Routing to ApexMap");
-
-              this.$router.push("/guide");
-            });
-          });
-        });
-
-
+        console.log("Routing to guide");
+        this.$router.push("/map");
+      
       } else {
         let loggedUserEmail = this.EMail;
 
         ApexDataServices.checkEMail(loggedUserEmail).then((emailIsvalid) => {
           if (emailIsvalid === true) {
             this.$store.commit("initLoggedUserEmail", loggedUserEmail);
-
             ApexDataServices.checkEMailAuth(loggedUserEmail).then(
               (emailAuthIsvalid) => {
                 if (emailAuthIsvalid === true) {
@@ -149,94 +179,33 @@ export default {
                           PasswordRequire
                         );
                       } else {
-                        ApexDataServices.getObservations(loggedUserEmail).then(
-                          (userDBRows) => {
-                            let userDataObj = ApexDataServices.extractUserDataObjFrom(
-                              userDBRows
-                            );
-                            console.log(userDataObj);
-                            ApexDataServices.addSharedParcelObservations(
-                              userDataObj
-                            ).then(() => {
-                              ApexDataServices.addWeeksToUserDataObj(
-                                userDataObj
-                              );
-                              ApexDataServices.enforceConsistencyOfUserDataObj(
-                                userDataObj
-                              );
-                              ApexDataServices.sortUserDataObjByYearByWeek(
-                                userDataObj
-                              );
-                              this.$store.commit(
-                                "initUserDataObj",
-                                userDataObj
-                              );
 
-                              console.log("updated $store.state.userDataObj: ");
-                              console.log(this.$store.state.userDataObj);
+                        this.loadUserData(loggedUserEmail).then(() =>{
+                          console.log("Routing to ApexMap");
+                          this.$router.push("/map");
+                        })
+                        
 
-                              this.$store
-                                .dispatch("initUserModifiedWeekMetrics")
-                                .then(() => {
-                                  let activedNavbar = "true";
-                                  this.$store.commit(
-                                    "initActivedNavbar",
-                                    activedNavbar
-                                  );
-                                  console.log("Routing to ApexMap");
-
-                                  this.$router.push("/map");
-                                });
-                            });
-                          }
-                        );
                       }
                     }
                   );
                 } else {
-                  ApexDataServices.getObservations(loggedUserEmail).then(
-                    (userDBRows) => {
-                      let userDataObj = ApexDataServices.extractUserDataObjFrom(
-                        userDBRows
-                      );
-                      console.log(userDataObj);
-                      ApexDataServices.addSharedParcelObservations(
-                        userDataObj
-                      ).then(() => {
-                        ApexDataServices.addWeeksToUserDataObj(userDataObj);
-                        ApexDataServices.enforceConsistencyOfUserDataObj(
-                          userDataObj
-                        );
-                        ApexDataServices.sortUserDataObjByYearByWeek(
-                          userDataObj
-                        );
-                        this.$store.commit("initUserDataObj", userDataObj);
 
-                        console.log("updated $store.state.userDataObj: ");
-                        console.log(this.$store.state.userDataObj);
+                  this.loadUserData(loggedUserEmail).then( () =>{
 
-                        this.$store.dispatch("initUserModifiedWeekMetrics").then(() => {
-                            let activedNavbar = "true";
-                            this.$store.commit(
-                              "initActivedNavbar",
-                              activedNavbar
-                            );
+                    document.getElementById("div1").style.display ="none";
+                    document.getElementById("p").style.display = "none";
+                    let mailpresent = "true";
+                    this.$store.commit("initmailpresent", mailpresent);
+                    ApexDataServices.mailAddToAuth(loggedUserEmail).then((mailad) => {
+                    if (mailad === true) {
+                      console.log("mail ajouté à l'authentification");
+                    } else {
+                      ("mail non ajouté à l'authentification");
+                      }
+                    });
+                  });
 
-                            document.getElementById("div1").style.display ="none";
-                            document.getElementById("p").style.display = "none";
-                            let mailpresent = "true";
-                            this.$store.commit("initmailpresent", mailpresent);
-                            ApexDataServices.mailAddToAuth(loggedUserEmail).then((mailad) => {
-                              if (mailad === true) {
-                                console.log("mail ajouté à l'authentification");
-                              } else {
-                                ("mail non ajouté à l'authentification");
-                              }
-                            });
-                          });
-                      });
-                    }
-                  );
                 }
               }
             );
@@ -249,37 +218,22 @@ export default {
 
     async Non() {
       let loggedUserEmail = this.EMail;
-
-      ApexDataServices.getObservations(loggedUserEmail).then((userDBRows) => {
-        let activedNavbar = true;
-        this.$store.commit("initActivedNavbar", activedNavbar);
-        let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
-        console.log(userDataObj);
-        ApexDataServices.addSharedParcelObservations(userDataObj).then(() => {
-          ApexDataServices.addWeeksToUserDataObj(userDataObj);
-          ApexDataServices.enforceConsistencyOfUserDataObj(userDataObj);
-          ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
-          this.$store.commit("initUserDataObj", userDataObj);
-          console.log("updated $store.state.userDataObj: ");
-          console.log(this.$store.state.userDataObj);
-          this.$store.dispatch("initUserModifiedWeekMetrics").then(() => {
-            let activedNavbar = "true";
-            this.$store.commit("initActivedNavbar", activedNavbar);
-
-            console.log("Routing to ApexMap");
-            this.$router.push("/map");
-          });
-        });
-      });
+      let activedNavbar = true;
+      this.$store.commit("initActivedNavbar", activedNavbar);
+      this.loadUserData(loggedUserEmail).then( () =>{
+        console.log("Routing to ApexMap");
+        this.$router.push("/map");
+      })
     },
 
     async Oui() {
       let loggedUserEmail = this.EMail;
       this.$store.commit("initLoggedUserEmail", loggedUserEmail);
 
-      console.log("Routing to addpsw");
-
-      this.$router.push("/addpsw");
+      this.loadUserData(loggedUserEmail).then( () =>{
+        console.log("Routing to addpsw");
+        this.$router.push("/addpsw");
+      })
 
       // ApexDataServices.getObservations(loggedUserEmail).then((userDBRows) => {
       //   let userDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
@@ -317,36 +271,10 @@ export default {
             if (passwordIsvalid === true) {
               let activedNavbar = "true";
               this.$store.commit("initActivedNavbar", activedNavbar);
-              ApexDataServices.getObservations(loggedUserEmail).then(
-                (userDBRows) => {
-                  let userDataObj = ApexDataServices.extractUserDataObjFrom(
-                    userDBRows
-                  );
-                  console.log(userDataObj);
-                  ApexDataServices.addSharedParcelObservations(
-                    userDataObj
-                  ).then(() => {
-                    ApexDataServices.addWeeksToUserDataObj(userDataObj);
-                    ApexDataServices.enforceConsistencyOfUserDataObj(
-                      userDataObj
-                    );
-                    ApexDataServices.sortUserDataObjByYearByWeek(userDataObj);
-                    this.$store.commit("initUserDataObj", userDataObj);
-                    console.log("updated $store.state.userDataObj: ");
-                    console.log(this.$store.state.userDataObj);
-                    this.$store
-                      .dispatch("initUserModifiedWeekMetrics")
-                      .then(() => {
-                        let activedNavbar = "true";
-                        this.$store.commit("initActivedNavbar", activedNavbar);
-
-                        console.log("Routing to ApexMap");
-
-                        this.$router.push("/map");
-                      });
-                  });
-                }
-              );
+              this.loadUserData(loggedUserEmail).then( () =>{
+                console.log("Routing to ApexMap");
+                this.$router.push("/map");
+              })
             } else {
               console.log("mot de passe non valide");
               this.message = "mot de passe non valide";

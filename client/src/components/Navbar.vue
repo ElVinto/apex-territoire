@@ -65,7 +65,7 @@ if( window.innerWidth  < 900 ){
       this.$store.commit("initPasswordRequire", PasswordRequire);
       let activedNavbar = "";
       this.$store.commit("initActivedNavbar", activedNavbar);
-       let navbarModel = 0;
+      let navbarModel = 0;
       this.$store.commit("initNavbarModel", navbarModel);
       this.$router.push("/");
     },

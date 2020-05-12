@@ -289,7 +289,8 @@ export default {
           parcelName: this.parcelp,
         });
 
-        console.log("res insert_parceldatasharing " + resInsert);
+        console.log("res insert_parceldatasharing ")
+        console.log(resInsert);
 
         this.parcelRowsSharedToSomeone = await ApexDataServices.sendToParcelDataSharing(
           {

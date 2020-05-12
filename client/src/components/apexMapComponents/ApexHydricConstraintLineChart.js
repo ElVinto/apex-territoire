@@ -46,8 +46,9 @@ export default {
                 },
                 scales: {
                     xAxes: [{
+
                         ticks: {
-                            suggestedMax: 10
+                            suggestedMax: 14
                         }
                     }],
                     yAxes: [{

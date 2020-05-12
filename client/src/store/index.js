@@ -281,7 +281,7 @@ export default new Vuex.Store({
          if (totalNbObs == 0) {
             return 0;
          } else {
-            return (nbObsFullGrowth + nbObsSlowGrowth * 0.5) / totalNbObs;
+            return Math.round((nbObsFullGrowth + nbObsSlowGrowth * 0.5) * 100 / totalNbObs)/100.0;
          }
 
       },
@@ -296,8 +296,6 @@ export default new Vuex.Store({
          let nbObsFullGrowth = parseInt(week_metric.nbObsFullGrowth);
          let nbObsSlowGrowth = parseInt(week_metric.nbObsSlowGrowth);
          let nbObsStoppedGrowth = parseInt(week_metric.nbObsStoppedGrowth);
-
-         
 
          let nbTotalObs = nbObsFullGrowth + nbObsSlowGrowth + nbObsStoppedGrowth;
          let prctFullGrowth = 0
@@ -409,44 +407,40 @@ export default new Vuex.Store({
       },
 
       async initUserModifiedWeekMetrics({state}){
-         console.log('START DISPATCH initUserModifiedWeekMetrics')
+         // console.log('START DISPATCH initUserModifiedWeekMetrics')
 
-         await ApexDataServices.sendToModifiedWeekMetrics(
+         let modifiedWeekMetricsDBrows = await ApexDataServices.sendToModifiedWeekMetrics(
             {
                transaction: "select_modifiedweekmetrics",
-               userEMail: state.userDataObj.userEMail
+               dataUserEMail: state.userDataObj.userEMail
             }
-         ).then(modifiedWeekMetricsDBrows => {
+         )
 
-            console.log("modifiedWeekMetricsDBrows");
-            console.log(modifiedWeekMetricsDBrows)
+         // console.log("modifiedWeekMetricsDBrows");
+         // console.log(modifiedWeekMetricsDBrows)
 
-            for (let row of modifiedWeekMetricsDBrows) {
+         for (let row of modifiedWeekMetricsDBrows) {
 
-               // let pIdx <=> getters.getParcelIdx(row.parcelName, row.dataOwnerEMail); unfortunately  getters are not accessible
-               let pIdx = state.userDataObj.parcels.findIndex(p => (p.parcelName === row.parcelName && p.dataOwnerEMail === row.dataOwnerEMail))
+            // let pIdx <=> getters.getParcelIdx(row.parcelName, row.dataOwnerEMail); unfortunately  getters are not accessible
+            let pIdx = state.userDataObj.parcels.findIndex(p => (p.parcelName === row.parcelName && p.dataOwnerEMail === row.dataOwnerEMail))
 
-               // let yIdx <=> getters.getYearIdx(row.yearNumber) unfortunately  getters are not accessible
-               let yIdx = state.userDataObj.parcels[0].parcelYears.findIndex(y => y.yearNumber === row.yearNumber);
+            // let yIdx <=> getters.getYearIdx(row.yearNumber) unfortunately  getters are not accessible
+            let yIdx = state.userDataObj.parcels[0].parcelYears.findIndex(y => y.yearNumber === row.yearNumber);
 
-               // let wIdx = getters.getWeekIdx(row.weekNumber) unfortunately  getters are not accessible
-               let wIdx = state.userDataObj.parcels[0].parcelYears[0].yearWeeks.findIndex(w => w.weekNumber === row.weekNumber);
+            // let wIdx = getters.getWeekIdx(row.weekNumber) unfortunately  getters are not accessible
+            let wIdx = state.userDataObj.parcels[0].parcelYears[0].yearWeeks.findIndex(w => w.weekNumber === row.weekNumber);
 
-               // WARNING TO DO NOT DEFINE OBJECT EQUALITY each key in modifiedWeekMetrics map is a composed String
-               row.modified = true;
+            // WARNING TO DO NOT DEFINE OBJECT EQUALITY each key in modifiedWeekMetrics map is a composed String
+            row.modified = true;
 
-               state.userModifiedWeekMetrics.set(`pIdx:${pIdx} yIdx:${yIdx} wIdx:${wIdx}`, row)
-               //
+            state.userModifiedWeekMetrics.set(`pIdx:${pIdx} yIdx:${yIdx} wIdx:${wIdx}`, row)
+            //
 
-            }
+         }
 
-            console.log("state.userModifiedWeekMetrics")
-            console.log(state.userModifiedWeekMetrics)
-
-            
-         });
-
-         console.log('END DISPATCH initUserModifiedWeekMetrics' )
+         console.log("state.userModifiedWeekMetrics")
+         console.log(state.userModifiedWeekMetrics)
+         // console.log('END DISPATCH initUserModifiedWeekMetrics' )
       },
 
       async saveSelectedWeekMetric({state}, week_metric) {
@@ -534,7 +528,7 @@ userDataObj is MonitoredUser Ojject
 userDataObj.parcels[pIdx].parcelYears[yIdx].yearWeeks[wIdx].weekSessions[sIdx].sessionObservations[oIdx]
 
 MonitoredUser(uEMail,uId, uName) {
-        this.dataUserEMail = uEMail;
+        this.userEMail = uEMail;
         this.userId = uId;
         this.userName = uName;
         parcels= [];

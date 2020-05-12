@@ -117,7 +117,9 @@ export default {
                 scales: {
                     xAxes: [{
                         ticks: {
-                            suggestedMax: 12
+                            autoSkip: false,
+                            fullWidth: true,
+                            suggestedMax: 14
                         }
                     }],
                     yAxes: [{

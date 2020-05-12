@@ -96,6 +96,8 @@
             style=" height: 100%; "
             @update:center="centerUpdate"
             @update:zoom="zoomUpdate"
+            @click="showCoord"
+
           >
             <l-tile-layer :url="url" :attribution="attribution" />
 
@@ -319,6 +321,8 @@ export default {
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
 
     
+
+    
   },
 
   mounted() {
@@ -330,6 +334,10 @@ export default {
     this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     this.selectedYearIdx = this.$store.state.selectedYearIdx;
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
+
+    this.parcelMarkerClick(this.selectedParcelIdx);
+
+
 
     this.$store.commit("incrementForceComponentUpdateCounter");
     
@@ -373,6 +381,12 @@ export default {
   },
 
   methods: {
+
+    showCoord(event){
+      console.log("click on coord")
+      console.log(event.latlng)
+    },
+
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
@@ -452,8 +466,8 @@ export default {
       return new Icon({
         iconUrl: "images/my_" + color + "_pin.png",
         iconSize: [22, 35],
-        iconAnchor: [0, 0],
-        popupAnchor: [0, 0],
+        iconAnchor: [11, 34],
+        popupAnchor: [0, -34],
       });
     },
   },
@@ -533,6 +547,8 @@ p{grid-area: p;font-weight: bold;
     }
 
 @media (min-width: 900px) {
+
+#campagnepr{margin-left: 30px;position: relative;}
 
 .global {display: grid;
          grid-template-columns: repeat(3fr, 1fr);

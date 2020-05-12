@@ -1,0 +1,104 @@
+
+
+week: 17, 
+"chenin" lat:43.6177  lng:3.85556
+"Syrah" lat:43.6174  lng:3.85606
+"Mourvedre" lat:43.6172 lng:3.85617
+
+visiteur.demo@apex-territoire.fr
+pwdApeXTerritoire
+
+utilisateur1.demo@apex-territoire.fr
+pwdApeXTerritoire
+
+utilisateur2.demo@apex-territoire.fr
+pwdApeXTerritoire
+
+
+insert into authentification values (
+	'visiteur.demo@apex-territoire.fr',
+	0,
+	null,
+	'visiteur'
+);
+
+
+insert into authentification values (
+	'utilisateur1.demo@apex-territoire.fr',
+	0,
+	null,
+	'utilisateur1'
+);
+
+insert into authentification values (
+	'utilisateur2.demo@apex-territoire.fr',
+	0,
+	null,
+	'utilisateur2'
+);
+
+
+insert into initializedweekmetrics values (
+	'visiteur.demo@apex-territoire.fr',
+	'Chenin',
+	43.617692918937735,
+	3.855676353495806,
+	2019,
+	17,
+	90,
+	3,
+	2,
+	2147483647);
+	
+insert into initializedweekmetrics values (
+	'utilisateur1.demo@apex-territoire.fr',
+	'Parcelle 1',
+	43.61745601777129,
+	3.8558749121229456,
+	2019,
+	17,
+	90,
+	3,
+	2,
+	2147483647);
+	
+
+insert into initializedweekmetrics values (
+	'visiteur.demo@apex-territoire.fr',
+	'Syrah',
+	43.617273486727726,
+	3.8560948660943817,
+	2019,
+	17,
+	80,
+	10,
+	10,
+	2147483647);
+
+
+insert into initializedweekmetrics values (
+	'visiteur.demo@apex-territoire.fr',
+	'Mourvedre',
+	43.61710260609968,
+	3.856320237645803,
+	2019,
+	17,
+	70,
+	15,
+	15,
+	2147483647);
+
+
+insert into initializedweekmetrics values (
+	'utilisateur2.demo@apex-territoire.fr',
+	'Parcelle 2',
+	43.616947259652775,
+	3.8564864282807774,
+	2019,
+	17,
+	90,
+	3,
+	2,
+	2147483647);
+
+

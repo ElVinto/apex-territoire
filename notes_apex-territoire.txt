@@ -140,7 +140,6 @@ mariadb-dump   agrotic_apex -u varmant -pvarmant > agrotic_apex_dump.sql
 mariadb -u beaf79b190e593 -pf6d54791 -h us-cdbr-iron-east-01.cleardb.net heroku_e9dbac6a44f4159  < agrotic_apex_dump.sql
 
 
-
 # UPDATE DEPLOYMENT ON HEROKU
 
 cd client
@@ -185,16 +184,57 @@ git push origin master
 CREATE TABLE  modifiedweekmetrics ( 
   , dataUserEMail varchar(50)
   , dataOwnerEMail varchar(50)
-  , parcelName varchar(50) 
+  , parcelName varchar(50)
   , yearNumber int(11)
   , weekNumber int(11)
-  , weekLabel varchar(50)
   , nbObsFullGrowth int(11)
   , nbObsSlowGrowth int(11)
   , nbObsStoppedGrowth int(11)
   , dateTimeInMs int(11)
   , PRIMARY KEY (dataUserEMail, dataOwnerEMail, parcelName, yearNumber, weekNumber) 
 );
+
+#  create table  initializedweekmetrics
+CREATE TABLE  initializedweekmetrics (
+  dataOwnerEMail varchar(50)
+  , parcelName varchar(50)
+  , parcelLat float
+  , parcelLng float
+  , yearNumber int(11)
+  , weekNumber int(11)
+  , nbObsFullGrowth int(11)
+  , nbObsSlowGrowth int(11)
+  , nbObsStoppedGrowth int(11)
+  , dateTimeInMs int(11)
+  , PRIMARY KEY (dataUserEMail, dataOwnerEMail, parcelName, yearNumber, weekNumber) 
+);
+
+insert into initializedweekmetrics values (
+  , 'visiteur@apex-territoire.fr'
+  , Mouvedre varchar(50)
+  , parcelLat float
+  , parcelLng float
+  , yearNumber int(11)
+  , weekNumber int(11)
+  , weekLabel varchar(50)
+  , 100
+  , 0
+  , 0
+  , dateTimeInMs int(11)
+);
+
+insert into initializedweekmetrics values (
+	'visiteur.apex-territoire.fr',
+	'chenin',
+	43.6177,
+	3.85556,
+	2019,
+	17,
+	95,
+	3,
+	2,
+	2147483647);
+
 
 
 
@@ -221,4 +261,5 @@ CREATE TABLE authentification (
 );
 
 alter table authentification modify password varchar(255) ;
+ALTER TABLE authentification ADD userName varchar(255) after password;
 
