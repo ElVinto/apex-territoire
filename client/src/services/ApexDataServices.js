@@ -75,7 +75,7 @@ class ApexDataServices {
         return new Promise((resolve, reject) => {
             try {
                 axios.post(url + "/checkAuth", body).then(res => {
-                    if (res !== undefined) {
+                    if (res !== undefined) {                  
                         if (res.data[0].passwordRequire === 1) {
                             console.log('passwordRequire exists')
                             resolve(true);
@@ -110,15 +110,17 @@ class ApexDataServices {
         })
     }
 
-    static async mailAddToAuth(loggedUserEmail) {
-        let body = { transaction: "insert_userEmail", userEMail: loggedUserEmail, password: null, passwordRequire: 0 }
+    static async mailAddToAuth(loggedUserEmail,usrName) {
+        let body = { transaction: "insert_userEmail", userEMail: loggedUserEmail, password: null, passwordRequire: 0, userName: usrName}
         return axios.post(url + "/checkAuth", body).then(res => {
             console.log("mailAddToAuth result from DB")
             console.log(res)
             if (res && res.data.affectedRows > 0) {
                 console.log('mail a été ajouté')
+                return true;
             }else { 
                 console.log('non ajouté')
+                return false;
             }
         })
     }

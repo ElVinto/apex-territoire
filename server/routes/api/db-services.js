@@ -31,13 +31,15 @@ const dbConnectionConfig = () => {
     }
 }
 
-async function execQuery(queryTxt,params=[] ) {
+async function old_execQuery(queryTxt,params=[] ) {
     
     let pool;
     let conn;
     let rows;
     
     try {
+
+        
         pool = mariadb.createPool(dbConnectionConfig());
         conn = await pool.getConnection();
         rows = await conn.query(queryTxt,params);
@@ -48,12 +50,71 @@ async function execQuery(queryTxt,params=[] ) {
             console.log("Number of returned rows "+rows.length);
         }
     } catch (err) {
-        throw err;
+        console.log(err)
+        if (pool){
+            pool.end();
+        }
+        setTimeout(()=>{console.log("waiting before reconnection")},1000);
+        try {
+            pool = mariadb.createPool(dbConnectionConfig());
+            conn = await pool.getConnection();
+            rows = await conn.query(queryTxt,params);
+    
+            if(rows.affectedRows){
+                console.log(rows);
+            }else{
+                console.log("Number of returned rows "+rows.length);
+            }
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
+        
     } finally {
+        
         if (pool){
             pool.end();
             return rows;
         }
+    }
+}
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+async function execQuery(queryTxt,params=[] ) {
+    
+    try {
+        
+        // console.log(dbConnectionConfig())
+        let conn = await mariadb.createConnection(dbConnectionConfig())
+        let rows = await conn.query(queryTxt, params);
+
+        // console.log(rows);
+        if(rows.affectedRows){
+            console.log(rows);
+        }else{
+            console.log("Number of returned rows "+rows.length);
+        }
+        conn.end();
+        return rows;
+              
+    } catch (err) {
+        console.log(err)
+
+        await delay(500); // wait 0.5 second to execute the code again
+
+        let conn = await mariadb.createConnection(dbConnectionConfig())
+        let rows = await conn.query(queryTxt, params);
+
+        // console.log(rows);
+        if(rows.affectedRows){
+            console.log(rows);
+        }else{
+            console.log("Number of returned rows "+rows.length);
+        }
+        conn.end();
+        return rows;
+
     }
 }
 
@@ -91,11 +152,15 @@ router.post('/password', function(req, res, next) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             if (err) {return res.status(500).send({msg: err});} 
             else {
-             let hashedPassword = hash   
-            let queryTxt = 'UPDATE authentification  SET  password = "'+ hashedPassword+'" ,passwordRequire= "'+escape(req.body.passwordRequire)+'" ';
-        queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
-        console.log(queryTxt);
-        execQuery(queryTxt).then(rows => res.json(rows));}            
+                let hashedPassword = hash   
+                let pwd = req.body.password === ''?null:'"'+hashedPassword+'"'
+                let pwdRequire = req.body.password === ""?0:req.body.passwordRequire
+
+                let queryTxt = 'UPDATE authentification  SET  password = '+ pwd+' ,passwordRequire= "'+pwdRequire+'" ';
+                queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
+                console.log(queryTxt);
+                execQuery(queryTxt).then(rows => res.json(rows));
+            }            
     });
 }})
 
@@ -117,8 +182,10 @@ router.post('/checkAuth', function(req, res, next) {
     //ajout mail a auth
         if (req.body.transaction === "insert_userEmail") {
             console.log(req.body);
-            let queryTxt = `INSERT INTO authentification (userEMail, passwordRequire, password) `;
-            queryTxt += " VALUES ('"+req.body.userEMail+"', '" +req.body.passwordRequire+"',  '" + req.body.password+"')";
+            pwd = req.body.password===null? null:"'" + req.body.password+"'";
+            let queryTxt = `INSERT INTO authentification (userEMail, passwordRequire, password, userName) `;
+
+            queryTxt += " VALUES ('"+req.body.userEMail+"', '" +req.body.passwordRequire+"',  " + pwd+",  '" + req.body.userName+"')";
             console.log(queryTxt);
             execQuery(queryTxt).then(rows => res.json(rows));}
             
@@ -129,7 +196,6 @@ router.post('/checkAuth', function(req, res, next) {
             const queryTxt = 'SELECT passwordRequire FROM authentification WHERE userEMail = "'+useremail+'"';
             console.log(queryTxt);
             execQuery(queryTxt).then(rows => {
-                console.log(rows)
                 return res.json(rows)
                 });
             }
@@ -387,7 +453,7 @@ router.post('/', function(req, res, next) {
                 }
             */
             queryTxt = " SELECT m.dataUserEMail, m.dataOwnerEMail,"
-                +" parcelName, parcelLat, parcelLng,"
+                +" parcelName,"
                 +" yearNumber, weekNumber,"
                 +" nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth,"
                 +" m.dateTimeInMs, a.userName as dataOwnerName"
