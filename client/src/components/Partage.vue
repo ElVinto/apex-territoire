@@ -299,7 +299,7 @@ export default {
           }
         );
 
-        this.message = "La parcelle et le mail destinataire ont été ajouté";
+        this.message = "La parcelle et le mail destinataire ont été ajoutés";
       }
 
       console.log("END insertParcelDataSharedToSomn");

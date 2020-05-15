@@ -61,6 +61,20 @@ insert into initializedweekmetrics values (
 	3,
 	2,
 	2147483647);
+
+insert into initializedweekmetrics values (
+	'utilisateur1.demo@apex-territoire.fr',
+	'Parcelle X',
+	43.61775072961382,
+	3.856093177908751,
+	2019,
+	17,
+	0,
+	0,
+	0,
+	2147483647);
+	
+	
 	
 
 insert into initializedweekmetrics values (
@@ -100,5 +114,33 @@ insert into initializedweekmetrics values (
 	3,
 	2,
 	2147483647);
+	
+insert into initializedweekmetrics values (
+	'utilisateur2.demo@apex-territoire.fr',
+	'Parcelle Y',
+	43.617160050915516,
+	3.8567528509113345,
+	2019,
+	17,
+	30,
+	40,
+	30,
+	2147483647);
+	
+
+insert into initializedweekmetrics values (
+	'utilisateur2.demo@apex-territoire.fr',
+	'Parcelle Z',
+	43.617431703473535,
+	3.856490899659924,
+	2019,
+	17,
+	90,
+	10,
+	0,
+	2147483647);
+	
+	
+	
 
 
