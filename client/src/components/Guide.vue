@@ -8,7 +8,7 @@
       <hr />
       
       <!-- User Demo Guide-->
-      <div v-if="$store.state.demoUserEmail">
+      <div v-if="$store.state.loggedUserEmail">
         <h5>Bienvenue sur l'application Apex Territoire</h5>
 
         <p>
@@ -88,17 +88,6 @@
           Elle permet aux utilisateurs qui le souhaitent de <b>protéger l'accès à leurs données </b> par un mot de passe.
         </p>
         
-
-        <h5>Contributeurs</h5>
-
-        <p>
-          L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du projet).
-          <b>Pour toute information contactez leo.pichon@supagro.fr</b>.
-          Cette aplication a bénéficié du développement de la cellule d'appui en informatique
-          de l'institut de convergence <a href="https://www.hdigitag.fr/fr/"> #Digitag</a>. 
-          L'application a été développée par Vincent Armant et Amine Ouail à la demande de Léo Pichon et Guilhem Brunel.
-          L'application reprend les éléments graphiques et les indicateurs de croissance développés dans <a href="https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en">ApeX Vignes</a>.
-        </p>
       </div> 
 
  

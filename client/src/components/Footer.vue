@@ -4,13 +4,13 @@
         <!--
           <a href= "https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en" target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/apexvignes.png class="icone" ></i></a>
         -->
-        <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/supagro.png  ></i></a>
-        <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/Digitag.png ></i></a>
-        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/inrae.png  target="_blank"></i></a>
+        <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/logoLInstitutAgro-MontpellierSupAgro.png  ></i></a>
+        <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/logoDigitAg-reserve.png ></i></a>
+        <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo-INRAE_Transparent.png  target="_blank"></i></a>
         <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo_MUSE.png></i></a>
       </div>
       <div class="copyright " >
-         &copy; 2020 Copyright: <a href="https://www.inrae.fr/centres/occitanie-montpellier" target="_blank">  INRAE OCCITANIE MONTPELLIER</a>
+          Copyright &copy; 2020: <a href="www.hdigitag.fr" target="_blank">  www.inrae.fr | www.hdigitag.fr</a>
       </div>
 </div>
 </template>
@@ -31,7 +31,7 @@
   color: white;
   height: 30px;}
 img {
-  border-radius: 18%;
+  border-radius: 5%;
 }
 @media screen and (min-width: 900px) {  
 

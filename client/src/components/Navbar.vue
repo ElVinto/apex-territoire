@@ -7,6 +7,7 @@
       <router-link to="/export" class="nav-link">Exporter</router-link>
       <router-link to="/profil" class="nav-link">Authentification</router-link>
       <router-link to="/guide" class="nav-link">Guide</router-link>
+      <router-link to="/legalMentions" class="nav-link">Mentions Légales</router-link>
       <a id="exit" class="nav-link" href @click="logout">Déconnexion</a>
     </div>
 
@@ -28,6 +29,7 @@
             <b-nav-item href="#/partage">Partager</b-nav-item>
             <b-nav-item href="#/export">Exporter</b-nav-item>
             <b-nav-item href="#/profil">Authentification</b-nav-item>
+            <b-nav-item href="#/legalMentions">Mentions Légales</b-nav-item>
             <b-nav-item href="#/guide">Guide</b-nav-item>
             <b-nav-item href @click="logout">Déconnexion</b-nav-item>
           </b-navbar-nav>
