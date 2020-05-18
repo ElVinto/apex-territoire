@@ -7,6 +7,7 @@ import Partage from '../components/Partage';
 import Export from '../components/Export';
 import Profil from '../components/Profile.vue';
 import Guide from '../components/Guide.vue';
+import LegalMentions from '../components/LegalMentions.vue';
 
 import Login from '../components/Login.vue';
 import Addpsw from '../components/Addpsw';
@@ -52,6 +53,12 @@ export default new Router({
       path: '/guide',
       name: 'guide',
       component: Guide
+    },
+
+    {
+      path: '/legalMentions',
+      name: 'LegalMentions',
+      component: LegalMentions
     },
     
     {

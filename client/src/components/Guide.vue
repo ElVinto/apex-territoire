@@ -8,7 +8,7 @@
       <hr />
       
       <!-- User Demo Guide-->
-      <div v-if="$store.state.demoUserEmail">
+      <div v-if="$store.state.loggedUserEmail">
         <h5>Bienvenue sur l'application Apex Territoire</h5>
 
         <p>
@@ -58,7 +58,7 @@
           les résumés d'observations reçus d'autres utilisateurs.
           Les mises à jour effectuées par un utilisateur sur les résumés d'observations collectés ou reçus restent locales à l'utilisateur.
           Ces mises à jour ne sont visibles que par l'utilisateur et ne suppriment, ni les observations collectées par l'utilisateur, ni les observations partagées par un autre utilisateur.
-          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d' <b> effacer ses mises à jour afin de retrouver les résumés observations initialement collectées </b>.
+          En cliquant sur Réinitialiser, tout utilisateur a la posibilité d' <b> effacer ses mises à jour afin de retrouver les résumés d'observations initialement collectées </b>.
         </p>
         <router-link  to="/partage" class="nav-link">Partager</router-link>
 
@@ -89,6 +89,7 @@
         </p>
         
 
+
         <h5>Contributeurs</h5>
 
         <p>
@@ -99,6 +100,7 @@
           L'application a été développée par Vincent Armant et Amine Ouail à la demande de Léo Pichon et Guilhem Brunel.
           L'application reprend les éléments graphiques et les indicateurs de croissance développés dans <a href="https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en">ApeX Vignes</a>.
         </p>
+
       </div> 
 
  

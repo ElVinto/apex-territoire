@@ -5,15 +5,15 @@
         <form name="form">
           <h4>Ajouter un mot de passe</h4>
           <label for="mail"><b>Mail</b></label>
-          <p>{{ $store.state.userDataObj.userEMail }}</p>
-          <label for="password"><b>Passeword</b></label
+          <p>{{ $store.state.loggedUserEmail }}</p>
+          <label for="password"><b>Password</b></label
           ><input
             type="password"
             class="form-control"
             placeholder="Password"
             v-model="password"
           />
-          <label for="password-r"><b>Passeword repeat</b></label
+          <label for="password-r"><b>Password repeat</b></label
           ><input
             type="password"
             class="form-control"
@@ -41,8 +41,8 @@ export default {
   data() {
     return {
       mail: "",
-      password: null,
-      password_repeat: null,
+      password: "",
+      password_repeat: "",
       msg: "",
       UserEMail: "",
     };
@@ -54,29 +54,35 @@ export default {
   },
   methods: {
     async updatepws() {
-      var password = this.password;
-      var password_repeat = this.password_repeat;
-      var userEMail = this.$store.state.loggedUserEmail;
-      if (password !== null || password_repeat !== null) {
-        if (password === password_repeat) {
-          this.msg = "";
-          ApexDataServices.pwsadd({
-            transaction: "alter_password",
-            UserEMail: userEMail,
-            password: password,
-            passwordRequire: 1,
-          }).then( ()=>{
-            console.log("Routing to ApexMap");
-            this.$router.push("/map");
-          });
+      let password = this.password;
+      let password_repeat = this.password_repeat;
+      let userEMail = this.$store.state.loggedUserEmail;
+      
+      if (password === password_repeat) {
+        this.msg = "";
+        let pwdRequire =1;
+        if (password === "" && password_repeat === "") {
+          this.msg = "Le compte utilisateur sera accessible sans mot de passe";
+          pwdRequire=0;
+        }
+        ApexDataServices.pwsadd({
+          transaction: "alter_password",
+          UserEMail: userEMail,
+          password: password,
+          passwordRequire: pwdRequire,
+        }).then( ()=>{
+         
+          alert("L'authentification a bien été modifiée, retour à la carte")
+          
+          console.log("Routing to ApexMap");
+          this.$router.push("/map");
+        });
 
-        } else {
-          this.msg = "les mots de passe saisis ne sont pas identiques";
-        }
-        if (password === "" || password_repeat === "") {
-          this.msg = "il faut remplir toutes les cases";
-        }
+      } else {
+        this.msg = "les mots de passe saisis ne sont pas identiques";
       }
+      
+      
     },
   },
 };

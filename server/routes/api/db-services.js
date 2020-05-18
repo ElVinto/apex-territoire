@@ -31,29 +31,90 @@ const dbConnectionConfig = () => {
     }
 }
 
-async function execQuery(queryTxt,params=[] ) {
+async function old_execQuery(queryTxt,params=[] ) {
     
     let pool;
     let conn;
     let rows;
+    
     try {
+
+        
         pool = mariadb.createPool(dbConnectionConfig());
         conn = await pool.getConnection();
         rows = await conn.query(queryTxt,params);
 
-        if(rows.affectedRows !== undefined){
+        if(rows.affectedRows){
             console.log(rows);
         }else{
             console.log("Number of returned rows "+rows.length);
         }
-
     } catch (err) {
-        throw err;
+        console.log(err)
+        if (pool){
+            pool.end();
+        }
+        setTimeout(()=>{console.log("waiting before reconnection")},1000);
+        try {
+            pool = mariadb.createPool(dbConnectionConfig());
+            conn = await pool.getConnection();
+            rows = await conn.query(queryTxt,params);
+    
+            if(rows.affectedRows){
+                console.log(rows);
+            }else{
+                console.log("Number of returned rows "+rows.length);
+            }
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
+        
     } finally {
+        
         if (pool){
             pool.end();
             return rows;
         }
+    }
+}
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+async function execQuery(queryTxt,params=[] ) {
+    
+    try {
+        
+        // console.log(dbConnectionConfig())
+        let conn = await mariadb.createConnection(dbConnectionConfig())
+        let rows = await conn.query(queryTxt, params);
+
+        // console.log(rows);
+        if(rows.affectedRows){
+            console.log(rows);
+        }else{
+            console.log("Number of returned rows "+rows.length);
+        }
+        conn.end();
+        return rows;
+              
+    } catch (err) {
+        console.log(err)
+
+        await delay(500); // wait 0.5 second to execute the code again
+
+        let conn = await mariadb.createConnection(dbConnectionConfig())
+        let rows = await conn.query(queryTxt, params);
+
+        // console.log(rows);
+        if(rows.affectedRows){
+            console.log(rows);
+        }else{
+            console.log("Number of returned rows "+rows.length);
+        }
+        conn.end();
+        return rows;
+
     }
 }
 
@@ -91,11 +152,15 @@ router.post('/password', function(req, res, next) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             if (err) {return res.status(500).send({msg: err});} 
             else {
-             let hashedPassword = hash   
-            let queryTxt = 'UPDATE authentification  SET  password = "'+ hashedPassword+'" ,passwordRequire= "'+escape(req.body.passwordRequire)+'" ';
-        queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
-        console.log(queryTxt);
-        execQuery(queryTxt).then(rows => res.json(rows));}            
+                let hashedPassword = hash   
+                let pwd = req.body.password === ''?null:'"'+hashedPassword+'"'
+                let pwdRequire = req.body.password === ""?0:req.body.passwordRequire
+
+                let queryTxt = 'UPDATE authentification  SET  password = '+ pwd+' ,passwordRequire= "'+pwdRequire+'" ';
+                queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
+                console.log(queryTxt);
+                execQuery(queryTxt).then(rows => res.json(rows));
+            }            
     });
 }})
 
@@ -107,10 +172,9 @@ router.post('/checkAuth', function(req, res, next) {
             if (req.body.transaction === "select_useremailAuth"){
                 console.log(req.body)
             let useremail = req.body.userEMail.replace("'").replace('"');
-            const queryTxt = 'SELECT * FROM authentification WHERE userEMail = "'+useremail+'"';
+            const queryTxt = 'SELECT userEMail, passwordRequire, userName FROM authentification WHERE userEMail = "'+useremail+'"';
             console.log(queryTxt);
             execQuery(queryTxt).then(rows => {
-                console.log(rows)
                 return res.json(rows)
                 });
             }
@@ -118,8 +182,10 @@ router.post('/checkAuth', function(req, res, next) {
     //ajout mail a auth
         if (req.body.transaction === "insert_userEmail") {
             console.log(req.body);
-            let queryTxt = `INSERT INTO authentification (userEMail, passwordRequire, password) `;
-            queryTxt += " VALUES ('"+req.body.userEMail+"', '" +req.body.passwordRequire+"',  '" + req.body.password+"')";
+            pwd = req.body.password===null? null:"'" + req.body.password+"'";
+            let queryTxt = `INSERT INTO authentification (userEMail, passwordRequire, password, userName) `;
+
+            queryTxt += " VALUES ('"+req.body.userEMail+"', '" +req.body.passwordRequire+"',  " + pwd+",  '" + req.body.userName+"')";
             console.log(queryTxt);
             execQuery(queryTxt).then(rows => res.json(rows));}
             
@@ -130,7 +196,6 @@ router.post('/checkAuth', function(req, res, next) {
             const queryTxt = 'SELECT passwordRequire FROM authentification WHERE userEMail = "'+useremail+'"';
             console.log(queryTxt);
             execQuery(queryTxt).then(rows => {
-                console.log(rows)
                 return res.json(rows)
                 });
             }
@@ -249,27 +314,161 @@ router.post('/', function(req, res, next) {
 
     }
 
+    // INITIALIZED WEEK METRICS
+
+    if (req.body.transaction === "select_initializedweekmetrics"){
+        
+        console.log(req.body);
+
+        let queryTxt;
+        if(req.body.dataOwnerEMail && Object.keys(req.body).length==2 ){
+            /*
+            req.body = 
+            {
+                "transaction": "select_initializedweekmetrics",
+                "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            }
+            */
+
+            queryTxt = " SELECT * FROM initializedweekmetrics WHERE dataOwnerEMail = '"+req.body.dataOwnerEMail+"'";;
+
+        }
+
+        if(req.body.dataOwnerEMail && req.body.parcelName){
+            /*
+            req.body = 
+            {
+                transaction: "select_initializedweekmetrics",
+                , dataOwnerEMail: "baptiste.oger@supagro.fr"
+                , parcelName: " dummy parcel"
+            }
+            */
+
+           queryTxt = " SELECT dataOwnerEMail,"
+           +" parcelName, parcelLat, parcelLng,"
+           +" yearNumber, weekNumber,"
+           +" nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth,"
+           +" dateTimeInMs, userName as dataOwnerName"
+           +" FROM initializedweekmetrics,  authentification"
+           +" WHERE userEMail = dataOwnerEMail"
+           +" and dataOwnerEMail = '"+req.body.dataOwnerEMail+"' and parcelName = '"+req.body.parcelName+"'";;
+        }
+
+        if(queryTxt){
+            console.log(queryTxt);
+            execQuery(queryTxt).then(rows => res.json(rows));
+        }
+    }
+
+    if (req.body.transaction === "alter_initializedweekmetrics") {
+        /*
+        req.body = 
+        {
+            "transaction": "alter_modifiedweekmetrics"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+            , "yearNumber": 2019
+            , "weekNumber": 22
+            , "nbObsFullGrowth": 25
+            , "nbObsSlowGrowth": 15
+            , "nbObsStoppedGrowth": 10
+            , "dateTimeInMs": 1585269934625
+        }
+        */
+
+    //    console.log(req.body);
+
+        let queryTxt = "INSERT INTO initializedweekmetrics (dataUserEMail, dataOwnerEMail, parcelName, yearNumber, weekNumber, nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth, dateTimeInMs) ";
+        queryTxt += " VALUES ('"+req.body.dataUserEMail+"', '" +req.body.dataOwnerEMail+"',  '" + req.body.parcelName+"', " + req.body.yearNumber+", " + req.body.weekNumber+",  " + req.body.nbObsFullGrowth+", " + req.body.nbObsSlowGrowth+", " + req.body.nbObsStoppedGrowth+", " +  req.body.dateTimeInMs+")" 
+                +" ON DUPLICATE KEY UPDATE"
+                +" parcelLat = " +req.body.parcelLat
+                +" parcelLng = " +req.body.parcelLng
+                +" nbObsFullGrowth = " +req.body.nbObsFullGrowth
+                +" , nbObsSlowGrowth = "+req.body.nbObsSlowGrowth
+                +" , nbObsStoppedGrowth = "+req.body.nbObsStoppedGrowth
+                +", dateTimeInMs = "+req.body.dateTimeInMs+" ;";
+
+        console.log(queryTxt);
+
+        execQuery(queryTxt).then(rows => res.json(rows));
+            
+    }
+
+    if (req.body.transaction === "delete_initializedweekmetrics") {
+        /*
+        {
+            "transaction": "delete_initializedweekmetrics"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+            , "yearNumber": 2019
+            , "weekNumber": 22
+        }
+        */
+    //    console.log(req.body);
+    
+        const queryTxt ="DELETE FROM initializedweekmetrics WHERE" 
+            "  dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+            +" and yearNumber = " +req.body.yearNumber
+            +" and weekNumber = " +req.body.weekNumber ;
+    
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
+    
+    }
+
 
 
 
     // MODIFIED WEEK METRICS
 
     if (req.body.transaction === "select_modifiedweekmetrics"){
-        /*
+        
+
+       console.log(req.body);
+       let queryTxt = '';
+
+       if(req.body.dataUserEMail && Object.keys(req.body).length==2){
+           /*
         req.body = 
         {
 	        "transaction": "select_modifiedweekmetrics",
-	        "userEMail": "baptiste.oger@supagro.fr"
+	        "dataUserEMail": "baptiste.oger@supagro.fr"
         }
         */
+        queryTxt = " SELECT * FROM modifiedweekmetrics WHERE dataUserEMail = '"+req.body.dataUserEMail+"'";
+       }
 
-       console.log(req.body);
+       if(req.body.dataUserEMail 
+            &&  req.body.dataOwnerEMail 
+            && req.body.parcelName ){
+            /*
+                req.body = 
+                {
+                    "transaction": "select_modifiedweekmetrics",
+                    "dataUserEMail": "baptiste.oger@supagro.fr"
+                    "dataOwnerEMail": "baptiste.oger@supagro.fr"
+                    "parcelName": "baptiste.oger@supagro.fr"
+                }
+            */
+            queryTxt = " SELECT m.dataUserEMail, m.dataOwnerEMail,"
+                +" parcelName,"
+                +" yearNumber, weekNumber,"
+                +" nbObsFullGrowth, nbObsSlowGrowth, nbObsStoppedGrowth,"
+                +" m.dateTimeInMs, a.userName as dataOwnerName"
+                +" FROM modifiedweekmetrics m, authentification a "
+                + " WHERE  m.dataOwnerEMail = a.userEMail"
+                +" and dataUserEMail = '"+req.body.dataUserEMail+"' "
+                +" and dataOwnerEMail = '"+req.body.dataOwnerEMail+"' "
+                +" and parcelName = '"+req.body.parcelName+"'"
+                ;
+        }
 
-        const queryTxt = " SELECT * FROM modifiedweekmetrics WHERE dataUserEMail = '"+req.body.userEMail+"'";
-
-        console.log(queryTxt);
-
-        execQuery(queryTxt).then(rows => res.json(rows));
+        if(queryTxt){
+            console.log(queryTxt);
+            execQuery(queryTxt).then(rows => res.json(rows));
+        }
     }
 
     if (req.body.transaction === "alter_modifiedweekmetrics") {
@@ -305,6 +504,31 @@ router.post('/', function(req, res, next) {
             
     }
 
+    if (req.body.transaction === "delete_modifiedweekmetrics") {
+        /*
+        {
+            "transaction": "delete_modifiedweekmetrics"
+            , "dataUserEMail": "baptiste.oger@supagro.fr"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+            , "yearNumber": 2019
+            , "weekNumber": 22
+        }
+        */
+    //    console.log(req.body);
+    
+        const queryTxt ="DELETE FROM modifiedweekmetrics WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+            +" and yearNumber = " +req.body.yearNumber
+            +" and weekNumber = " +req.body.weekNumber ;
+    
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
+    
+    }
 
     
 
@@ -365,58 +589,28 @@ router.post('/', function(req, res, next) {
             
     }
 
+    if (req.body.transaction === "delete_parceldatasharing") {
+        /*
+        {
+            "transaction": "delete_parceldatasharing"
+            , "dataUserEMail": "Toto@tu.ti"
+            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+            , "parcelName": " dummy parcel"
+        }
+        */
+    //    console.log(req.body);
 
+        const queryTxt ="DELETE FROM parceldatasharing WHERE" 
+            +" dataUserEMail = '"+req.body.dataUserEMail+"'"
+            +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
+            +" and parcelName = '" +req.body.parcelName+"'"
+        ;
 
+        console.log(queryTxt);
+        
+        execQuery(queryTxt).then(rows => res.json(rows));
 
-if (req.body.transaction === "delete_parceldatasharing") {
-    /*
-    {
-        "transaction": "delete_parceldatasharing"
-        , "dataUserEMail": "Toto@tu.ti"
-        , "dataOwnerEMail": "baptiste.oger@supagro.fr"
-        , "parcelName": " dummy parcel"
     }
-    */
-//    console.log(req.body);
-
-    const queryTxt ="DELETE FROM parceldatasharing WHERE" 
-        +" dataUserEMail = '"+req.body.dataUserEMail+"'"
-        +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
-        +" and parcelName = '" +req.body.parcelName+"'"
-       ;
-
-    console.log(queryTxt);
-    
-    execQuery(queryTxt).then(rows => res.json(rows));
-
-}
-
-if (req.body.transaction === "delete_modifiedweekmetrics") {
-    /*
-    {
-        "transaction": "delete_modifiedweekmetrics"
-        , "dataUserEMail": "baptiste.oger@supagro.fr"
-        , "dataOwnerEMail": "baptiste.oger@supagro.fr"
-        , "parcelName": " dummy parcel"
-        , "yearNumber": 2019
-        , "weekNumber": 22
-    }
-    */
-//    console.log(req.body);
-
-    const queryTxt ="DELETE FROM modifiedweekmetrics WHERE" 
-        +" dataUserEMail = '"+req.body.dataUserEMail+"'"
-        +" and dataOwnerEMail =  '"+req.body.dataOwnerEMail+"'"
-        +" and parcelName = '" +req.body.parcelName+"'"
-        +" and yearNumber = " +req.body.yearNumber
-        +" and weekNumber = " +req.body.weekNumber ;
-
-    console.log(queryTxt);
-    
-    execQuery(queryTxt).then(rows => res.json(rows));
-
-}
-
 
 });
 

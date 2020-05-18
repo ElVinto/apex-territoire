@@ -93,11 +93,24 @@
             :zoom="currentZoom"
             :center="currentCenter"
             :options="mapOptions"
-            style=" height: 100%; "
+            style=" height: 90%; "
             @update:center="centerUpdate"
             @update:zoom="zoomUpdate"
+            @click="createMarker"
+
           >
+
+          
+
             <l-tile-layer :url="url" :attribution="attribution" />
+
+            <l-marker
+              v-if="currentMarker !== null"
+              :lat-lng="currentMarker"
+              :icon="createNewParcelIcon()"
+              @click="removeMarker()">
+            </l-marker>
+            
 
             <div
               class="parcels"
@@ -305,6 +318,9 @@ export default {
 
       prevYearIsShowned: false, // flag for previous year
       msgPrevYear: null,
+
+      currentMarker:null,
+
     };
   },
 
@@ -319,6 +335,8 @@ export default {
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
 
     
+
+    
   },
 
   mounted() {
@@ -330,6 +348,10 @@ export default {
     this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     this.selectedYearIdx = this.$store.state.selectedYearIdx;
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
+
+    this.parcelMarkerClick(this.selectedParcelIdx);
+
+
 
     this.$store.commit("incrementForceComponentUpdateCounter");
     
@@ -373,6 +395,30 @@ export default {
   },
 
   methods: {
+
+
+    createMarker(event){
+      console.log(event.latlng)
+      // this.currentMarker = event.latlng
+    },
+
+    createNewParcelIcon() {
+      let avgGrowth = -1;
+
+      let color = ApexMapServices.avgGrowthToGreenColor(avgGrowth);
+
+      return new Icon({
+        iconUrl: "images/my_" + color + "_pin.png",
+        iconSize: [22, 35],
+        iconAnchor: [11, 34],
+        popupAnchor: [0, -34],
+      });
+    },
+
+    removeMarker(){
+       this.currentMarker =null
+    },
+
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
@@ -381,9 +427,6 @@ export default {
       this.currentCenter = center;
     },
 
-    innerClick() {
-      alert("Click!");
-    },
 
     getLatLng(coord) {
       return latLng(coord.lat, coord.lng);
@@ -447,15 +490,24 @@ export default {
       if (this.prevYearIsShowned === true) {
         console.log(" color pin border : ");
         color = color + "_bordered";
+      }else{
+        if(pIdx === this.selectedParcelIdx){
+          color = color + "_spotted";
+        }
       }
 
       return new Icon({
         iconUrl: "images/my_" + color + "_pin.png",
         iconSize: [22, 35],
-        iconAnchor: [0, 0],
-        popupAnchor: [0, 0],
+        iconAnchor: [11, 34],
+        popupAnchor: [0, -34],
       });
     },
+
+
+
+
+
   },
 };
 </script>
@@ -488,7 +540,7 @@ p{grid-area: p;font-weight: bold;
 
 .map{ grid-area: map;text-align : center; padding: 1px;}
 .headermap{grid-area:hdm;}
-.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0PX; margin-top: 0px; width: 300px ;height: 200px; padding: 0px;}
+.item {text-align : center; margin-left: auto ;  margin-right: auto;margin-bottom: 0px; margin-top: 0px; width: 300px ;height: 200px; padding: 0px;}
 .bodymap{grid-area: bdm;}
 
 @media (max-width: 900px) {
@@ -533,6 +585,8 @@ p{grid-area: p;font-weight: bold;
     }
 
 @media (min-width: 900px) {
+
+#campagnepr{margin-left: 30px;position: relative;}
 
 .global {display: grid;
          grid-template-columns: repeat(3fr, 1fr);

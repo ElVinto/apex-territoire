@@ -20,23 +20,29 @@ class ApexDataServices {
                         axios.post(url + "/password", req_body).then(res => {
                             resolve(res.affectedRows);
                         })
-                    } else { reject(" ERROR  does not accet " + req_body); }
-                } else { reject(" ERROR  does not accet " + req_body); }
+                    } else { reject(" ERROR  does not accept " + req_body); }
+                } else { reject(" ERROR  does not accept " + req_body); }
             } catch (err) { reject(err); }
         })
     }
 
 
     static checkEMail(loggedUserEmail) {
-        console.log("Checking email of " + loggedUserEmail);
+        console.log("Checking email in Apex Vignes user Table :" + loggedUserEmail);
         let body = { transaction: "select_useremail", userEMail: loggedUserEmail }
+
         return new Promise((resolve, reject) => {
             try {
                 axios.post(url + "/login", body).then(res => {
                     if (res.data !== undefined && res.data.length > 0) {
+                        console.log("mail registered in table user")
                         resolve(true);
+                    }else { 
+                        console.log("mail not registered in table user")
+                        ApexDataServices.checkEMailAuth(loggedUserEmail).then( resp => 
+                            {resolve(resp);}
+                        )
                     }
-                    else { resolve(false); }
                 })
             } catch (err) {
                 reject(err);
@@ -45,16 +51,17 @@ class ApexDataServices {
     }
 
     static checkEMailAuth(loggedUserEmail) {
+        console.log("Checking email in Apex Territoire authentification table :" + loggedUserEmail);
         let body = { transaction: "select_useremailAuth", userEMail: loggedUserEmail };
         return new Promise((resolve, reject) => {
             try {
                 axios.post(url + "/checkAuth", body).then(res => {
                     if (res !== null && res.data.length > 0) {
-                        console.log('mail  enregistrer dans la table auth')
+                        console.log('mail registered in table auth')
                         resolve(true);
                     }
                     else {
-                        console.log("mail n'est pas enregistrer dans auth")
+                        console.log("mail not registered in table auth")
                         resolve(false);
                     }
                 })
@@ -63,17 +70,18 @@ class ApexDataServices {
     }
 
     static checkpasswordRequire(loggedUserEmail) {
+        console.log("checkpasswordRequire "+ loggedUserEmail)
         let body = { transaction: "select_passwordRequireAuth", userEMail: loggedUserEmail };
         return new Promise((resolve, reject) => {
             try {
                 axios.post(url + "/checkAuth", body).then(res => {
-                    if (res !== undefined) {
+                    if (res !== undefined) {                  
                         if (res.data[0].passwordRequire === 1) {
-                            console.log('passwordRequire existe')
+                            console.log('passwordRequire exists')
                             resolve(true);
                         }
                         else {
-                            console.log('passwordRequire non existe')
+                            console.log('passwordRequire does not exists')
                             resolve(false);
                         }
                     }
@@ -81,7 +89,6 @@ class ApexDataServices {
             } catch (err) { reject(err); }
         })
     }
-
 
     //verifier le mot passe login
     static checkPassword(password, loggedUserEmail) {
@@ -103,19 +110,95 @@ class ApexDataServices {
         })
     }
 
-    static async mailAddToAuth(loggedUserEmail) {
-        let body = { transaction: "insert_userEmail", userEMail: loggedUserEmail, password: null, passwordRequire: 0 }
+    static async mailAddToAuth(loggedUserEmail,usrName) {
+        let body = { transaction: "insert_userEmail", userEMail: loggedUserEmail, password: null, passwordRequire: 0, userName: usrName}
         return axios.post(url + "/checkAuth", body).then(res => {
             console.log("mailAddToAuth result from DB")
             console.log(res)
             if (res && res.data.affectedRows > 0) {
                 console.log('mail a été ajouté')
+                return true;
             }else { 
                 console.log('non ajouté')
+                return false;
             }
         })
     }
 
+    static async getUserInfo(loggedUserEmail) {
+        console.log("getUserInfo " + loggedUserEmail);
+        
+        let userInfo ={
+            userEMail:loggedUserEmail,
+            userName:loggedUserEmail,
+            userId: -1,
+            userExistsInUserTable :false,
+            userExistsInAuthTable: false,
+            userRequiredPassword:false,
+        };
+
+        // return new Promise((resolve, reject) => {
+            try {
+
+
+                // Check if user is present in user table
+                let req_select_useremailUser = { 
+                    transaction: "select_useremail",
+                    userEMail: loggedUserEmail 
+                }
+                console.log("select_useremail from user table "+loggedUserEmail);
+
+                let res_select_useremailUser = await axios.post(url + "/login", req_select_useremailUser)
+                if (res_select_useremailUser.data !== undefined && res_select_useremailUser.data.length > 0) {
+                    
+                    console.log("res_select_useremailUser.data")
+                    console.log(res_select_useremailUser.data)
+
+                    if(res_select_useremailUser.data.length>1){
+                        console.log("WARNING mail corresponds to more than one row in Apex Vignes, we keep the first row");
+                    }
+                    userInfo.userName =res_select_useremailUser.data[0].name;
+                    userInfo.userId =res_select_useremailUser.data[0].idUser;
+                    userInfo.userExistsInUserTable = true;
+                }
+
+
+                // Check if user is present in authentification table
+                let req_select_useremailAuth = { 
+                    transaction: "select_useremailAuth",
+                    userEMail: loggedUserEmail
+                };
+                console.log("select_useremail from authentification table "+loggedUserEmail);
+
+                let res_select_useremailAuth = await axios.post(url + "/checkAuth", req_select_useremailAuth)
+                if (res_select_useremailAuth !== null && res_select_useremailAuth.data.length > 0) {
+                    
+                    console.log('res_select_useremailAuth.data');
+                    console.log(res_select_useremailAuth.data);
+                    
+                    if(userInfo.userName === userInfo.userEMail){
+                        userInfo.userName =res_select_useremailAuth.data[0].userName;
+                    }
+                    
+                    userInfo.userExistsInAuthTable = true;
+                    userInfo.userRequiredPassword = res_select_useremailAuth.data[0].passwordRequire;
+                }
+
+                if(!userInfo.userName){
+                    userInfo.userName = userInfo.userEMail
+                }
+
+                return userInfo
+                // resolve(userInfo)
+
+            } catch (err) {
+                console.log(err);
+                return userInfo
+            }
+
+        // })
+
+    }
 
     static getObservations(loggedUserEmail) {
 
@@ -171,7 +254,7 @@ class ApexDataServices {
 
                 let body = {
                     transaction: "select_modifiedweekmetrics",
-                    useremail: loggedUserEmail
+                    dataUserEMail: loggedUserEmail
                 }
 
                 axios.post(url, body).then(res => {
@@ -199,15 +282,14 @@ class ApexDataServices {
                         /*
                         {
                             transaction: "select_modifiedweekmetrics",
-                            userEMail: "baptiste.oger@supagro.fr"
+                            dataUserEMail: "baptiste.oger@supagro.fr"
                         }
                         */
                         if (req_body.transaction === "select_modifiedweekmetrics") {
 
                             axios.post(url, req_body).then(res => {
                                 resolve(
-                                    res.data,
-                                    console.log('ok')
+                                    res.data
                                 );
                             })
                         }
@@ -264,8 +346,91 @@ class ApexDataServices {
         })
     }
 
-    static sendToParcelDataSharing(req_body) {
+    static sendToInitializedWeekMetrics(req_body) {
+        console.log(req_body)
 
+        return new Promise((resolve, reject) => {
+            try {
+
+                if (req_body !== null && req_body.transaction != null) {
+                    if (req_body.transaction === "select_initializedweekmetrics"
+                        || req_body.transaction === "alter_initializedweekmetrics"
+                        || req_body.transaction === "delete_initializedweekmetrics") {
+
+                        /*
+                        {
+                            transaction: "select_initializedweekmetrics",
+                            dataOwnerEMail: "baptiste.oger@supagro.fr"
+                        }
+                        or
+                        {
+                            transaction: "select_initializedweekmetrics",
+                            , dataOwnerEMail: "baptiste.oger@supagro.fr"
+                            , parcelName: " dummy parcel"
+                        }
+                        */
+                        if (req_body.transaction === "select_initializedweekmetrics") {
+
+                            axios.post(url, req_body).then(res => {
+                                resolve(
+                                    res.data
+                                );
+                            })
+                        }
+
+                        /*
+                        {
+                            transaction: "alter_initializedweekmetrics"
+                            , dataUserEMail: "baptiste.oger@supagro.fr"
+                            , dataOwnerEMail: "baptiste.oger@supagro.fr"
+                            , parcelName: " dummy parcel"
+                            , yearNumber: 2018
+                            , weekNumber: 22
+                            , nbObsFullGrowth: 20
+                            , nbObsSlowGrowth: 20
+                            , nbObsStoppedGrowth: 10
+                            , dateTimeInMs: 1585269934625
+                        }
+                        */
+                        if (req_body.transaction === "alter_initializedweekmetrics") {
+                            console.log(req_body)
+                            axios.post(url, req_body).then(res => {
+                                resolve(
+                                    res.affectedRows
+                                );
+                            })
+                        }
+
+                        /*
+                        {
+                            "transaction": "delete_initializedweekmetrics"
+                            , "dataOwnerEMail": "baptiste.oger@supagro.fr"
+                            , "dataUserEMail": "baptiste.oger@supagro.fr"
+                            , "parcelName": " dummy parcel"
+                            , "yearNumber": 2019
+                            , "weekNumber": 22
+                        }
+                        */
+                        if (req_body.transaction === "delete_initializedweekmetrics") {
+                            axios.post(url, req_body).then(res => {
+                                resolve(
+                                    res.affectedRows
+                                );
+                            })
+                        }
+                    } else {
+                        reject(" ERROR sendToInitializedWeekMetrics does not accept " + req_body);
+                    }
+                } else {
+                    reject(" ERROR sendToInitializedWeekMetrics does not accept " + req_body);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
+    static sendToParcelDataSharing(req_body) {
 
         return new Promise((resolve, reject) => {
             try {
@@ -351,7 +516,6 @@ class ApexDataServices {
             }
         })
     }
-
 
     static postQuery(route = this.url, body) {
         return new Promise((resolve, reject) => {
@@ -455,8 +619,6 @@ class ApexDataServices {
     WHERE s.userId = u.idUser and s.idSession = o.sessionId
     and o.latitude != 0 and o.longitude != 0 and s.globalLatitude !=0 and s.globalLongitude !=0
     and and u.email = req.query.useremail;
-    
-    
     */
 
 
@@ -480,7 +642,6 @@ class ApexDataServices {
                     , row.userId
                     , row.userName
                 );
-
 
                 // console.log("INIT USER INFO");
                 // console.log(userDataObj);
@@ -602,10 +763,33 @@ class ApexDataServices {
         return userDataObj
     }
 
+    static async addParcelObservations(userDataObj){
+       
+        // return new Promise( (resolve,reject) =>{
+            try{
+                let userDBRows = await ApexDataServices.getObservations(userDataObj.userEMail);
+                let tmpUserDataObj = ApexDataServices.extractUserDataObjFrom(userDBRows);
 
+                if(Object.keys(tmpUserDataObj).length>0){
+                    tmpUserDataObj.parcels.forEach( p => userDataObj.parcels.push(p))
+                }
+
+                // resolve(true)
+            }catch(error){
+                console.log(error)
+                // resolve(false)
+            }
+        // });
+    }
+
+    /**
+     * 
+     * @param {*} userDataObj none empty monitored user
+     */
     static async addSharedParcelObservations(userDataObj) {
 
-        console.log("getSharedParcelObservations");
+        console.log("addSharedParcelObservations");
+
 
         let sharedParcelDBRows = await ApexDataServices.sendToParcelDataSharing(
             {
@@ -613,10 +797,11 @@ class ApexDataServices {
                 , userEMail: userDataObj.userEMail
             });
 
-        // console.log("sharedParcelDBRows result");
-        // console.log(sharedParcelDBRows);
+        console.log("sharedParcelDBRows result");
+        console.log(sharedParcelDBRows);
 
         for (let row of sharedParcelDBRows) {
+
             // let dataUserEMail = row.dataUserEMail;
             let sharedParcelObsDBRows = await ApexDataServices.getSharedObservations(row.dataOwnerEMail, row.parcelName);
             if (sharedParcelObsDBRows.length > 0) {
@@ -628,11 +813,89 @@ class ApexDataServices {
                 userDataObj.parcels.push(sharedParcelDataObj.parcels[0]);
             }
 
+            let initializedWeekMetricsDBrows = await ApexDataServices.sendToInitializedWeekMetrics(
+                {
+                   transaction: "select_initializedweekmetrics",
+                   dataOwnerEMail: row.dataOwnerEMail,
+                   parcelName: row.parcelName
+                }
+             )
+             ApexDataServices.addWeekMetricsDBRows(userDataObj,initializedWeekMetricsDBrows)
+
+             let modifiedWeekMetricsDBrows = await ApexDataServices.sendToModifiedWeekMetrics(
+                {
+                   transaction: "select_modifiedweekmetrics",
+                   dataUserEMail: row.dataOwnerEMail,
+                   dataOwnerEMail: row.dataOwnerEMail,
+                   parcelName: row.parcelName
+                }
+             )
+             ApexDataServices.addWeekMetricsDBRows(userDataObj,modifiedWeekMetricsDBrows)
 
         }
         // return userDataObj;
     }
 
+    /**
+     * 
+     * @param {*} userDataObj  none empty MonitoredUser
+     */
+    static async addInitializedWeekMetrics(userDataObj) {
+        
+        console.log("addInitializedWeekMetrics");
+        // return userDataObj;
+
+        let initializedWeekMetricsDBrows = await ApexDataServices.sendToInitializedWeekMetrics(
+            {
+               transaction: "select_initializedweekmetrics",
+               dataOwnerEMail: userDataObj.userEMail
+            }
+         )
+
+         ApexDataServices.addWeekMetricsDBRows(userDataObj,initializedWeekMetricsDBrows)
+
+    }
+
+
+
+    static addWeekMetricsDBRows(userDataObj,weekMetricsDBrows){
+        console.log("addWeekMetricsDBRows"); 
+        console.log(weekMetricsDBrows)
+
+        for (let row of weekMetricsDBrows) {
+            //
+            
+            let parcel = userDataObj.parcels.find( p => (p.parcelName === row.parcelName && p.dataOwnerEMail === row.dataOwnerEMail ))
+            if(!parcel){
+                parcel = new ApexDataServices.MonitoredParcel(
+                    row.parcelName,
+                    row.dataOwnerEMail,
+                    (row.dataOwnerName)?row.dataOwnerName:userDataObj.userName,
+                    -1, 
+                    {lat: row.parcelLat ,lng: row.parcelLng }
+                )
+                userDataObj.parcels.push(parcel);
+            }
+
+
+            let year = parcel.parcelYears.find(y => y.yearNumber === row.yearNumber)
+            if(!year){
+                year = new ApexDataServices.MonitoredYear(row.yearNumber)
+                parcel.parcelYears.push(year)
+            }
+
+            let week = year.yearWeeks.find(w => w.weekNumber === row.weekNumber)
+            if(!week){
+                week = new ApexDataServices.MonitoredWeek(year.yearNumber,row.weekNumber)
+                week.weekNbObsFullGrowth = row.nbObsFullGrowth;
+                week.weekNbObsSlowGrowth = row.nbObsSlowGrowth;
+                week.weekNbObsStoppedGrowth = row.nbObsStoppedGrowth;
+                
+                year.yearWeeks.push(week)
+            }
+
+        }
+    } 
 
     // For each parcel of userDataObj add the required years and weeks from startWeekNum to endWeekNum 
     static addWeeksToUserDataObj(userDataObj, startYearNumber = 2019, endYearNumber = 2020, startWeekNumber = 20, endWeekNumber = 32) {
@@ -642,7 +905,7 @@ class ApexDataServices {
 
         console.log('addWeeksToUserDataObj ');
 
-        if (userDataObj.parcels === undefined) {
+        if (userDataObj.parcels === undefined || userDataObj.parcels.length ===0) {
             throw ' No parcels is currently monitored by the user';
         }
 
@@ -747,8 +1010,6 @@ class ApexDataServices {
 
     }
 
-
-
     static enforceConsistencyOfUserDataObj(userDataObj) {
 
         console.log('enforceConsistencyOfUserDataObj ');
@@ -782,11 +1043,11 @@ class ApexDataServices {
 
                             // console.log(' weekNumber '+week.weekNumber);
 
-                            if (week.weekSessions !== undefined && week.weekSessions.length > 0) {
+                            
 
                                 // first level inferred parameters
                                 let wNbObservations = 0;
-                                let wSumGrowth = 0.0;
+                                // let wSumGrowth = 0.0;
 
                                 let wNbObsFullGrowth = 0;
 
@@ -797,56 +1058,65 @@ class ApexDataServices {
                                 // second level inferred param
                                 this.weekICApex = 0;
 
-                                for (let sIdx = 0; sIdx < week.weekSessions.length; sIdx++) {
-                                    let session = week.weekSessions[sIdx];
+                                if (week.weekSessions !== undefined && week.weekSessions.length > 0) {
 
-                                    let sSumGrowth = 0;
-                                    let sNbObs = 0;
+                                    for (let sIdx = 0; sIdx < week.weekSessions.length; sIdx++) {
+                                        let session = week.weekSessions[sIdx];
 
-                                    if (session.sessionObservations !== undefined) {
-                                        for (let oIdx = 0; oIdx < session.sessionObservations.length; oIdx++) {
-                                            let obsv = session.sessionObservations[oIdx];
+                                        let sSumGrowth = 0;
+                                        let sNbObs = 0;
 
-                                            if (obsv.obsvLabel === 'P') {
-                                                wNbObsFullGrowth++;
+                                        if (session.sessionObservations !== undefined) {
+                                            for (let oIdx = 0; oIdx < session.sessionObservations.length; oIdx++) {
+                                                let obsv = session.sessionObservations[oIdx];
+
+                                                if (obsv.obsvLabel === 'P') {
+                                                    wNbObsFullGrowth++;
+                                                }
+
+                                                if (obsv.obsvLabel === 'R') {
+                                                    wNbObsSlowGrowth++;
+                                                }
+
+                                                if (obsv.obsvLabel === 'C') {
+                                                    wNbObsStoppedGrowth++;
+                                                }
+
+                                                sSumGrowth += obsv.obsvValue;
+                                                sNbObs++;
+
+                                                // wSumGrowth += obsv.obsvValue;
+                                                wNbObservations++;
+                                            }
+                                            if (sNbObs > 0) {
+                                                session.sessionAVGrowth = sSumGrowth / sNbObs;
                                             }
 
-                                            if (obsv.obsvLabel === 'R') {
-                                                wNbObsSlowGrowth++;
-                                            }
 
-                                            if (obsv.obsvLabel === 'C') {
-                                                wNbObsStoppedGrowth++;
-                                            }
-
-                                            sSumGrowth += obsv.obsvValue;
-                                            sNbObs++;
-
-                                            wSumGrowth += obsv.obsvValue;
-                                            wNbObservations++;
                                         }
-                                        if (sNbObs > 0) {
-                                            session.sessionAVGrowth = sSumGrowth / sNbObs;
-                                        }
-
-
                                     }
+
+                                }
+                                if(wNbObservations>0){
+                                    
+                                    week.weekNbObsFullGrowth = wNbObsFullGrowth;
+                                    week.weekNbObsSlowGrowth = wNbObsSlowGrowth;
+                                    week.weekNbObsStoppedGrowth = wNbObsStoppedGrowth;
                                 }
 
-                                week.weekNbObservations = wNbObservations;
-                                week.weekNbObsFullGrowth = wNbObsFullGrowth;
-                                week.weekNbObsSlowGrowth = wNbObsSlowGrowth;
-                                week.weekNbObsStoppedGrowth = wNbObsStoppedGrowth;
+                                week.weekNbObservations = week.weekNbObsFullGrowth +  week.weekNbObsSlowGrowth +  week.weekNbObsStoppedGrowth;
 
-                                week.weekAVGrowth = Math.round((wSumGrowth * 100.0) / wNbObservations) / 100;
+                                if(week.weekNbObservations>0){
 
-                                week.weekPrctFullGrowth = Math.round((wNbObsFullGrowth * 10000.0) / (wNbObservations)) / 100; // 10000/100 =100 => result in percentage 
-                                week.weekPrctSlowGrowth = Math.round((wNbObsSlowGrowth * 10000.0) / wNbObservations) / 100;
-                                week.weekPrctStoppedGrowth = Math.round((wNbObsStoppedGrowth * 10000.0) / wNbObservations) / 100;
+                                    week.weekAVGrowth = Math.round(((week.weekNbObsFullGrowth +  0.5* week.weekNbObsSlowGrowth) * 100.0) / week.weekNbObservations) / 100;
 
-                                week.weekICApex = week.reInitICApex();
+                                    week.weekPrctFullGrowth = Math.round((week.weekNbObsFullGrowth * 10000.0) / ( week.weekNbObservations)) / 100; // 10000/100 =100 => result in percentage 
+                                    week.weekPrctSlowGrowth = Math.round((week.weekNbObsSlowGrowth * 10000.0) /  week.weekNbObservations) / 100;
+                                    week.weekPrctStoppedGrowth = Math.round((week.weekNbObsStoppedGrowth * 10000.0) /  week.weekNbObservations) / 100;
 
-                            }
+                                    week.weekICApex = week.weekAVGrowth;
+                                }
+                            
                         }
                     }
                 }

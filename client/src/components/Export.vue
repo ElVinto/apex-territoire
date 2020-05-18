@@ -1,6 +1,7 @@
 <template>
   <div class="global" v-if="$store.state.userDataObj !== null">
     <br />
+
     <div class="title">
       <hr />
       <h4>Bonjour {{ $store.getters.getDisplayedUserName }}</h4>
@@ -62,7 +63,11 @@
       </div>
     </div>
 
+
      <div class="graphe">
+
+    <div class="graphe">
+
       <div id="grT">
         <p style="font-size:20px">
           Parcelle:
@@ -73,7 +78,12 @@
           }}
         </p>
         
+
     </div>
+
+      </div>
+
+
 
       <div id="graphe1">
         <p style="font-size:15px">
@@ -93,7 +103,8 @@
       <!-- évolution par rapport à semaine précédente
       <hr> -->
       <div id="graphe2">
-        <p style="font-size:15px;">
+        <p style="font-size:15px;"> 
+          
           Evolution de la croissance des apex
           {{
             this.$store.getters.yearNumberList[
@@ -116,10 +127,16 @@
         ></apex-hydric-constraint-line-chart>
          </p>
       </div>
-      <hr />
-      
+
     </div>
+
 <div class="export" style="margin-top:10px">
+
+
+    <hr />
+
+    <div class="export" style="margin-top:10px">
+
         <hr />
         <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
           Export en PDF
@@ -128,9 +145,15 @@
           Export en CSV
         </button>
         <hr />
+
     </div>
     
   </div>
+
+      </div>
+      
+    
+    
 </template>
 
 <script>
@@ -385,7 +408,8 @@ export default {
 </script>
 <style scoped>
 
-p{grid-area: p;font-weight: bold;
+p{grid-area: p;
+  font-weight: bold;
   width: auto;
   text-align: center;
   margin-left: auto;
@@ -550,8 +574,10 @@ h4 {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-columns: repeat(1, 1fr);
+
      grid-template-rows: auto 1fr;
     grid-template-rows: repeat(3, 1fr,1fr,1fr);
+
     grid-template-areas:
       "tl"
       "me"
@@ -569,6 +595,7 @@ h4 {
       "se"
       "pa";
   }
+
   table,
   thead,
   tbody,
@@ -577,14 +604,17 @@ h4 {
   tr {
     display: block;
   }
+
   thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
+
   tr {
     border: 1px solid #ccc;
   }
+
   td {
     border: none;
     border-bottom: 1px solid #eee;

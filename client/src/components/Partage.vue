@@ -289,7 +289,8 @@ export default {
           parcelName: this.parcelp,
         });
 
-        console.log("res insert_parceldatasharing " + resInsert);
+        console.log("res insert_parceldatasharing ")
+        console.log(resInsert);
 
         this.parcelRowsSharedToSomeone = await ApexDataServices.sendToParcelDataSharing(
           {
@@ -298,7 +299,7 @@ export default {
           }
         );
 
-        this.message = "La parcelle et le mail destinataire ont été ajouté";
+        this.message = "La parcelle et le mail destinataire ont été ajoutés";
       }
 
       console.log("END insertParcelDataSharedToSomn");
