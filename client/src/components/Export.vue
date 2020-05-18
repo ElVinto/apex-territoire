@@ -63,7 +63,7 @@
     </div>
 
      <div class="graphe">
-      <div id="title">
+      <div id="grT">
         <p style="font-size:20px">
           Parcelle:
           {{
@@ -73,9 +73,7 @@
           }}
         </p>
         
-      </div>
-
-      <hr /> 
+    </div>
 
       <div id="graphe1">
         <p style="font-size:15px">
@@ -91,8 +89,7 @@
         </p>
         <apex-growth-pie-chart class="item" ></apex-growth-pie-chart>
       </div>
-      <hr />
-
+      
       <!-- évolution par rapport à semaine précédente
       <hr> -->
       <div id="graphe2">
@@ -106,7 +103,8 @@
           <apex-growth-line-chart class="item"></apex-growth-line-chart>
         </p>
       </div>
-      <hr />
+      
+
       <div id="graphe3">
         <p style="font-size:15px;">
         Evolution de la contrainte hydrique
@@ -121,17 +119,17 @@
       <hr />
       
     </div>
-
-    <div class="export" style="margin-top:10px">
-      <hr />
-      <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
-        Export en PDF
-      </button>
-      <button id="excsv" @click="exportCSV()" class="btn btn-success btn-sm">
-        Export en CSV
-      </button>
-      <hr />
+<div class="export" style="margin-top:10px">
+        <hr />
+        <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
+          Export en PDF
+        </button>
+        <button id="excsv" @click="exportCSV()" class="btn btn-success btn-sm">
+          Export en CSV
+        </button>
+        <hr />
     </div>
+    
   </div>
 </template>
 
@@ -433,44 +431,76 @@ p{grid-area: p;font-weight: bold;
   margin-right: 10px;
 }
 
+#grT{grid-area: grT;
+  
+}
+#graphe1{grid-area: gr1;
+  
+}
+#graphe2{grid-area: gr2;
+  
+}
+#graphe3{grid-area: gr3;
+  
+}
+
+
+
 .title {
   grid-area: tl;
   padding: 0px;
 }
 
 #expdf {
-  
   margin-right: 20px;
 }
+
 h4 {
   background: gray;
 }
 
-.export{grid-area: ex;}
+.export{grid-area: ex; }
 
 @media screen and (min-width: 1100px) {
   .menu {margin-top: 80px;
 
 }
  .global {display: grid;
-         grid-template-columns: repeat(3fr, 1fr);
+    grid-template-columns: auto 1fr;
+    grid-template-columns: repeat(1,1fr);
+
     grid-template-rows: auto 1fr;
-    grid-template-rows: repeat(3, 1fr,1fr,5fr);
+    grid-template-rows: repeat(4, 1fr,1fr,1fr,1fr);
+
     grid-template-areas:
-      "tl tl gr"
-      "me me gr "
-      "ex ex ex";
+      "tl"
+      "me"
+      "gr"
+      "ex";
   }
 
   .menu {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-columns: repeat(3, 1fr,1fr,2fr);
-     grid-template-rows: auto 1fr;
+
+    grid-template-rows: auto 1fr;
     grid-template-rows: repeat(1,1fr);
     grid-template-areas: 
-    
     "co se pa";
+  }
+
+  .graphe{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    grid-template-columns: repeat(3, 1fr,1fr,1fr);
+
+    grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(2,1fr,1fr);
+    grid-template-areas: 
+    "grT grT grT"
+    "gr1 gr2 gr3";
+
   }
 
   table {
@@ -518,7 +548,10 @@ h4 {
   }
   .global {
     display: grid;
+    grid-template-columns: auto 1fr;
     grid-template-columns: repeat(1, 1fr);
+     grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(3, 1fr,1fr,1fr);
     grid-template-areas:
       "tl"
       "me"
@@ -527,7 +560,10 @@ h4 {
   }
   .menu {
     display: grid;
+    grid-template-columns: auto 1fr;
     grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-rows: repeat(3, 1fr,1fr,1fr);
     grid-template-areas:
       "co"
       "se"
