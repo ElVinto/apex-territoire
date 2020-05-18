@@ -20,7 +20,7 @@
 
           <h5>Objectifs</h5>
         <p>
-          Apex territoire fait suite, et  complémentaire à l'application Apex Vignes.
+          Apex territoire fait suite, et  complémentaire à l'application Apex Vigne.
           L'objectif premier d'Apex Territoire est de proposer aux utilisateurs une
           <b> visualisation et une analyse spatio-temporelle de la croissance des apex telle qu'elle a été observée dans les parcelles de vignes.</b>
           Autour de cet objectif, nous avons implémentés de nouvelles fonctionnalités permettant 
@@ -47,7 +47,7 @@
           <b> * Comparer la croissance des Apex de la campagne précédente</b> en passant le curseur sur le bouton campagne précédente. <br/>
           
           <b> * Visualiser les indicateurs de croissance de la parcelle </b> pour la semaine et la campagne séletionnées, dans le panneau de droite.
-          Ces indicateurs de croissance  proviennent de l'application Apex Vignes et sont instantannément recalculés en fonction des nouvelles données mises-à-jour par l'utilisateur.
+          Ces indicateurs de croissance  proviennent de l'application Apex Vigne et sont instantannément recalculés en fonction des nouvelles données mises-à-jour par l'utilisateur.
         </p>
 
         <router-link  to="/edit" class="nav-link">Editer</router-link>
@@ -64,7 +64,7 @@
 
         <p> 
           La fonctionnalité de partage permet de <b>  partager les observations collectées par un utilisateur sur une parcelle  avec un autre utilisateur </b> .
-          Les observations partagées ne concernent que le résumé des observations collectées sur le terrain par l'utilisateur avec l'application Apex Vignes.
+          Les observations partagées ne concernent que le résumé des observations collectées sur le terrain par l'utilisateur avec l'application Apex Vigne.
           Le partage ne concerne pas les mises à jour de résumés qui eux restent locales à la session d'un utilisateur.
           Afin de controler le partage d'observations entre utilisateurs, un utilisateur ne peut partager que les résumés des observations qu'il a lui meme collecté.
           Un utilisateur ne peut pas re-partager les résumés d'observations qu'il a reçu d'un autre utilisateur.

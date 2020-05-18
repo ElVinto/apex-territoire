@@ -20,7 +20,7 @@
 
     <p>
       Vincent Armant et Amine Ouail, #DigitAg | INRAE Occitanie-Montpellier | UMR MISTEA.
-      L'application reprend les éléments graphiques et les indicateurs de croissance développés pour l’application ApeX Vigne (Léo Pichon et Guilhem Brunel, L’institut Agro | Montpellier SupAgro).
+      L'application a été développée à la demande de Léo Pichon (porteur du projet) et Guilhem Brunel, Institut Agro | Montpellier SupAgro, et reprend les éléments graphiques et les indicateurs de croissance développés pour l’application ApeX Vigne.
     </p>
 
     <h5>Responsabilité INRAE</h5>
@@ -59,7 +59,6 @@
         </li> 
         <li>  la localisation des parcelles, la date, et l’heure des modifications des résumés d'obervations
         </li>
-        
       </ul>
 <p>
 Ces DCP font l’objet d’un traitement informatique mis en œuvre par le responsable du traitement concerné et le responsable de publication du site mentionné ci-dessus.
@@ -75,6 +74,16 @@ Ces DCP ont pour finalité la mise en œuvre du site internet. La base juridique
 <p>
 A l’issue des durées de conservation indiquées, les données seront détruites. 
 Les destinataires des DCP sont les personnels habilités des services du responsable de traitement, des partenaires/tutelles et des prestataires en charge de la gestion et du suivi des utilisateurs et en charge de la mise en œuvre du site internet et des services qui y sont proposés. 
+</p>
+
+<p>
+  <b> Les destinataires des DCP </b> sont les personnels habilités des services du responsable de traitement, des partenaires/tutelles et des prestataires en charge de la gestion et du suivi des utilisateurs et en charge de la mise en œuvre du site internet et des services qui y sont proposés.
+</p>
+<p>
+  Vous disposez d’un droit d’accès, de rectification, d’opposition pour motifs légitimes, de limitation et d’effacement relativement à l’ensemble des DCP vous concernant dans les conditions prévues par la loi Informatique et Libertés du 6 janvier 1978 modifiée, renforcée et complétée par le RGPD (règlement général sur la protection des données) entré en vigueur le 25 mai 2018. 
+  Vous pouvez exercer ces droits en vous adressant au responsable de publication mentionné en écrivant à l’adresse indiquée dans la rubrique « Mentions légales ».
+  En cas de doute sur l’identité de la personne exerçant ses droits, un document d’identité signé sera demandé. 
+  Le responsable de traitement a nommé un Délégué à la Protection des Données à caractère personnel (DCP). Vous pouvez le contacter par email à cil-dpo@inrae.fr ou par courrier à INRAE - 24, chemin de Borde Rouge –Auzeville – CS52627 – 31326 Castanet Tolosan cedex – France.
 </p>
       
 </div>
