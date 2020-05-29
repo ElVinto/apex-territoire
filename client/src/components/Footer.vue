@@ -4,13 +4,13 @@
         <!--
           <a href= "https://play.google.com/store/apps/details?id=ag.GB.apex&hl=en" target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/apexvignes.png class="icone" ></i></a>
         -->
-        <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/logoLInstitutAgro-MontpellierSupAgro.png  ></i></a>
+        <a href= "https://www.montpellier-supagro.fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img style="max-width: 12%" src=images/logoLInstitutAgro-MontpellierSupAgro.png></i></a>
         <a href= "https://www.hdigitag.fr/fr/ " target="_blank" class="btn-floating btn-sm btn-fb mx-1" ><i><img src=images/logoDigitAg-reserve.png ></i></a>
         <a href="http://www.inrae.fr" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo-INRAE_Transparent.png  target="_blank"></i></a>
         <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo_MUSE.png></i></a>
       </div>
-      <div class="copyright " >
-          Copyright &copy; 2020: <a href="www.hdigitag.fr" target="_blank">  www.inrae.fr | www.hdigitag.fr</a>
+      <div class="copyright ">
+        Copyright &copy; 2020: <a href="https://inrae.fr" target="_blank">  www.inrae.fr </a> | <a href="https://www.hdigitag.fr/fr/" target="_blank"> www.hdigitag.fr</a> <a style="margin-left:60px;" href="#/legalMentions" target="_blank"> && Mentions Legal | Politique de confidentialite</a>
       </div>
 </div>
 </template>

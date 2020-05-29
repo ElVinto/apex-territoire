@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+var mailer = require("nodemailer");
+var generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 const mariadb = require('mariadb');
 require('dotenv').config()
@@ -117,6 +118,72 @@ async function execQuery(queryTxt,params=[] ) {
 
     }
 }
+//Recuperation du mot de passe oublie
+router.post('/resetpassword', function(req, res, next) {
+
+    const queryTxt = 'SELECT userName FROM authentification WHERE userEMail = "'+req.body.UserEMail+'"';
+    execQuery(queryTxt).then(rows => { 
+       if (rows !== undefined) { 
+            var name = rows[0].userName
+            console.log(name);}
+            
+            else{
+                var name = ''
+                console.log('no name')}});
+            
+                var date = new Date();
+             
+    var password = generator.generate({
+        length: 10,
+        numbers: true
+    });
+
+
+   
+    bcrypt.hash(password, 10, (err, hash) => {
+        if (err) {return res.status(500).send({msg: err});} 
+        else {
+         let hashedPassword = hash   
+         let pwdRequire = 1
+         let queryTxt = 'UPDATE authentification  SET  password = "'+ hashedPassword+'",passwordRequire= "'+pwdRequire+'" ';
+
+    queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
+    console.log(queryTxt);
+    execQuery(queryTxt).then(rows => res.json(rows));}            
+});
+
+var smtpTransport = mailer.createTransport("smtps://apex.inrae%40gmail.com:"+encodeURIComponent('apex2020') + "@smtp.gmail.com:465"); 
+      var mail = {
+       
+        from: 'apex.inrae@gmail.com',
+        to: req.body.UserEMail,
+        subject: 'Mot de passe oublié',
+        // HTML body
+        html: `<p><b>Bonjour `+name+`  </b></p><br>
+        <p> Votre mot de passe a bien été réinitialisé le `+date+`</p>
+        <p> votre nouveau mot de passe est:<b>  `+password+`</b></p><br>
+        <p><b>IMPORTANT </b>: Ce mot de passe vous permet de vous connecter à l'application ApeX Territoire.
+        Nous vous invitons à le personnaliser lors de votre prochaine connexion.</p><br>
+        <p>Cordialement</p><br>
+        <p><b>Merci de ne pas répondre à ce message qui est généré automatiquement.</b></p>`,
+        
+       
+        
+      }
+      
+      smtpTransport.sendMail(mail, function(error, response){
+        if(error){
+          console.log("Erreur lors de l'envoie du mail!");
+          console.log(error);
+        }else{
+          console.log("Mail envoyé avec succès!")
+        }
+        smtpTransport.close();
+      });
+
+
+
+});
 
 // passeword login , ajout  et modiffication password
 router.post('/password', function(req, res, next) {

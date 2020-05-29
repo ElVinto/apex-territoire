@@ -96,15 +96,11 @@ export default {
   
 
   created() {
-    if (!this.$store.state.loggedUserEmail) {
-      this.$router.push("/");
-    }
+    
   },
 
   mounted() {
-    if (!this.$store.state.loggedUserEmail) {
-      this.$router.push("/");
-    }
+    
   },
 
   methods: {},

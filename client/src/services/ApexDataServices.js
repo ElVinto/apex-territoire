@@ -10,6 +10,26 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
 
 class ApexDataServices {
 
+
+    //Recuperation du mot de passe oublié
+    static async ResetPassword(loggedUserEmail){
+        console.log("Checking email " + loggedUserEmail);
+        let body = { UserEMail: loggedUserEmail }
+        return new Promise((resolve, reject) => {
+            try {
+                axios.post(url + "/resetpassword", body).then(res => {
+                    console.log(res.data.affectedRows)
+                    if (res.data.affectedRows === 1 ) {
+                        resolve(true);
+                    }
+                    else { resolve(false); }
+                })
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
     //ajouter et modifier un mot de passe
     static async pwsadd(req_body) {
         // console.log(req_body)

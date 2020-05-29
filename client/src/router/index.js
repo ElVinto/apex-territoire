@@ -12,6 +12,7 @@ import LegalMentions from '../components/LegalMentions.vue';
 import Login from '../components/Login.vue';
 import Addpsw from '../components/Addpsw';
 import ResetP from '../components/ResetPassword';
+import Welcome from '../components/Welcome';
 
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/map',
       name: 'map',
       component: ApexMap
+    },
+    {
+      path: '/',
+      name: 'welcome',
+      component: Welcome
     },
 
     {
@@ -62,7 +68,7 @@ export default new Router({
     },
     
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login
     },

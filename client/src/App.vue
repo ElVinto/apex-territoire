@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="header " v-if="$router.currentRoute.path !== '/'">
+    <div id="header " v-if="($router.currentRoute.path !== '/') && ($router.currentRoute.path !== '/login') ">
       <my-header />
     </div>
 

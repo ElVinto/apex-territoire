@@ -31,8 +31,7 @@
           <p id="p" 
             v-if="!$store.state.loggedUserEmail"
             style="display:block">
-            Visiteur en mode démo :
-            cliquer directement sur  
+             
           </p>
           <button
 
@@ -72,7 +71,7 @@
             <span>Se connecter</span>
           </button>
 
-          <!-- <p>Mot de passe oublie <a href="#/resetp">cliquer ici</a></p>-->
+          <p>Mot de passe oublie <a href="#/resetp">cliquer ici</a></p>
           <p>{{ message }}</p>
         </div>
 

@@ -1,14 +1,14 @@
 <template>
   <div class="topnav" v-if="$store.state.activedNavbar">
     <div v-if="$store.state.navbarModel === 0">
-      <router-link to="/map" class="nav-link">Carte</router-link>
-      <router-link to="/edit" class="nav-link">Editer</router-link>
-      <router-link to="/partage" class="nav-link">Partager</router-link>
-      <router-link to="/export" class="nav-link">Exporter</router-link>
-      <router-link to="/profil" class="nav-link">Authentification</router-link>
-      <router-link to="/guide" class="nav-link">Guide</router-link>
-      <router-link to="/legalMentions" class="nav-link">Mentions Légales</router-link>
-      <a id="exit" class="nav-link" href @click="logout">Déconnexion</a>
+      <router-link to="/map" class="nav-link"><b-icon-map></b-icon-map> Carte</router-link>
+      <router-link to="/edit" class="nav-link"><b-icon-pen></b-icon-pen> Editer</router-link>
+      <router-link to="/partage" class="nav-link"><b-icon-box-arrow-in-up></b-icon-box-arrow-in-up> Partager</router-link>
+      <router-link to="/export" class="nav-link"><b-icon-box-arrow-down></b-icon-box-arrow-down> Exporter</router-link>
+      <router-link to="/profil" class="nav-link"><b-icon-person></b-icon-person> Authentification</router-link>
+      <router-link to="/guide" class="nav-link"><b-icon-book></b-icon-book> Guide</router-link>
+      <router-link to="/legalMentions" class="nav-link"><b-icon-bookmark></b-icon-bookmark>Mentions Légales</router-link>
+       <a id="exit" class="nav-link" href @click="logout"><b-icon-x-circle></b-icon-x-circle> Déconnexion</a>
     </div>
 
     <div v-else>
@@ -24,14 +24,14 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav >
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#/map">Carte</b-nav-item>
-            <b-nav-item href="#/edit">Editer</b-nav-item>
-            <b-nav-item href="#/partage">Partager</b-nav-item>
-            <b-nav-item href="#/export">Exporter</b-nav-item>
-            <b-nav-item href="#/profil">Authentification</b-nav-item>
-            <b-nav-item href="#/legalMentions">Mentions Légales</b-nav-item>
-            <b-nav-item href="#/guide">Guide</b-nav-item>
-            <b-nav-item href @click="logout">Déconnexion</b-nav-item>
+          <b-nav-item href="#/map"><b-icon-map></b-icon-map> Carte</b-nav-item>
+            <b-nav-item href="#/edit"><b-icon-pen></b-icon-pen> Editer</b-nav-item>
+            <b-nav-item href="#/partage"><b-icon-box-arrow-in-up></b-icon-box-arrow-in-up> Partager</b-nav-item>
+            <b-nav-item href="#/export"><b-icon-box-arrow-down></b-icon-box-arrow-down> Exporter</b-nav-item>
+            <b-nav-item href="#/profil"><b-icon-person></b-icon-person>Authentification</b-nav-item>
+            <b-nav-item href="#/guide"><b-icon-book></b-icon-book> Guide</b-nav-item>
+            <b-nav-item href="#/legalMentions"><b-icon-bookmark></b-icon-bookmark>Mentions Légales</b-nav-item>
+            <b-nav-item href @click="logout"><b-icon-x-circle></b-icon-x-circle>Déconnexion</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -83,7 +83,7 @@ if( window.innerWidth  < 900 ){
 .topnav a:hover {background-color:rgb(165, 161, 161);color: black;}}
 
 @media screen and (max-width: 900px) {
-.topnav a {float: none;width: 25%;}
+.topnav a {float: none;width: 35%;}
 .topnav {overflow: hidden;background-color: #333; width: 100%;}
 .topnav a {float: left;display: block;color: #f2f2f2;text-align: center;padding: 5px 5px;text-decoration: none;}
 
