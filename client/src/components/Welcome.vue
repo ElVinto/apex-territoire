@@ -8,21 +8,21 @@
   
    
      <div id="btnVisiteur">
-          <button @click="continueToNextStep()" class="btn btn-secondary btn-block"><b-avatar  size="80px"><img src=images/1.png/></b-avatar>
-            <span>Visiteur</span>
+          <button @click="continueToNextStep()" class="btn btn-secondary btn-block"><b-avatar  size="80px"><img src=images/3.png/></b-avatar>
+            <span><b>Visiteurs</b></span>
           </button>
          
          
     </div>
     <div id="btnUtilisateur">
-    <router-link class="btn btn-secondary btn-block" to="/login" style="margin-top:15px"><b-avatar  size="80px"><img src=images/utilisateur.png/></b-avatar>Utilisateur</router-link>
+    <router-link class="btn btn-secondary btn-block" to="/login" style="margin-top:15px"><b-avatar  size="80px"><img src=images/utilisateur.png/></b-avatar><b>Utilisateur</b></router-link>
           <p>{{ msg }}</p>
     </div>
      
 
      <div id="btnGuide">
-     <b-button id="btnGuide" variant="dark" v-b-toggle.sidebar-footer><b-avatar  size="60px"><img src=images/guide.png/></b-avatar><br>
-     <span>Mode emploie</span></b-button>
+     <b-button id="btnGuide" variant="dark" v-b-toggle.sidebar-footer><b-icon-book></b-icon-book>
+        <span><b> Mode emploie</b></span></b-button>
      </div>
     <b-sidebar id="sidebar-footer" aria-label="Sidebar with custom footer" no-header shadow>
       <template v-slot:footer="{ hide }">
@@ -296,49 +296,14 @@ export default {
 
     
 
-    async Non() {
-      let loggedUserEmail = this.EMail;
-      this.authorizedToContinue =true
-      await this.loadUserData(loggedUserEmail)
-      console.log("Routing to ApexMap");
-      this.$router.push("/map");
-      
-    },
+    
 
-    async Oui() {
-      let loggedUserEmail = this.EMail;
-      this.authorizedToContinue =true
-      await this.loadUserData(loggedUserEmail)
-      console.log("Routing to addpsw");
-      this.$router.push("/addpsw");
-    },
-
-    async login() {
-      try {
-        let password = this.password;
-        let loggedUserEmail = this.EMail;
-        this.message =""
-        // console.log("password");
-        // console.log(password);
-
-        this.authorizedToContinue = await ApexDataServices.checkPassword(password, loggedUserEmail)
-        if (this.authorizedToContinue ) {
-           this.message = "mot de passe valide";
-          await this.loadUserData(loggedUserEmail)
-          console.log("Routing to ApexMap");
-          this.$router.push("/map");
-          
-        } else {
-          console.log("mot de passe non valide");
-          this.message = "mot de passe non valide";
-        }
+    
           
         
-      } catch (error) {
-        this.error = error.message;
-      }
+      
     },
-  },
+  
 };
 </script>
 

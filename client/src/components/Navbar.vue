@@ -1,14 +1,14 @@
 <template>
   <div class="topnav" v-if="$store.state.activedNavbar">
     <div v-if="$store.state.navbarModel === 0">
-      <router-link to="/map" class="nav-link"><b-icon-map></b-icon-map> Carte</router-link>
-      <router-link to="/edit" class="nav-link"><b-icon-pen></b-icon-pen> Editer</router-link>
-      <router-link to="/partage" class="nav-link"><b-icon-box-arrow-in-up></b-icon-box-arrow-in-up> Partager</router-link>
-      <router-link to="/export" class="nav-link"><b-icon-box-arrow-down></b-icon-box-arrow-down> Exporter</router-link>
-      <router-link to="/profil" class="nav-link"><b-icon-person></b-icon-person> Authentification</router-link>
-      <router-link to="/guide" class="nav-link"><b-icon-book></b-icon-book> Guide</router-link>
-      <router-link to="/legalMentions" class="nav-link"><b-icon-bookmark></b-icon-bookmark>Mentions Légales</router-link>
-       <a id="exit" class="nav-link" href @click="logout"><b-icon-x-circle></b-icon-x-circle> Déconnexion</a>
+      <router-link to="/map" class="nav-link"><img src=images/map.png/> Carte</router-link>
+      <router-link to="/edit" class="nav-link"><img src=images/pen1.png/> Editer</router-link>
+      <router-link to="/partage" class="nav-link"><img src=images/import.png/> Partager</router-link>
+      <router-link to="/export" class="nav-link"><img src=images/export.png/> Exporter</router-link>
+      <router-link to="/profil" class="nav-link"><img src=images/profil.png/> Authentification</router-link>
+      <router-link to="/guide" class="nav-link"><img src=images/guid.png/> Guide</router-link>
+      <router-link to="/legalMentions" class="nav-link"><img src=images/mention.png/>Mentions Légales</router-link>
+       <a id="exit" class="nav-link" href @click="logout"><img src=images/exit.png/> Déconnexion</a>
     </div>
 
     <div v-else>

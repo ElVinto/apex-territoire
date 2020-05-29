@@ -139,10 +139,10 @@
 
         <hr />
         <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
-          Export en PDF
+         <img src=images/pdf.png/> Export en PDF
         </button>
         <button id="excsv" @click="exportCSV()" class="btn btn-success btn-sm">
-          Export en CSV
+         <img src=images/excel.png/> Export en CSV
         </button>
         <hr />
 
