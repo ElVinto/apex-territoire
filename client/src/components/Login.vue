@@ -6,12 +6,20 @@
   <div><h1>ApeX Territoire</h1></div>
     <div class="col-md-12">
       <div class="card card-container">
+        <!--
         <img
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           class="profile-img-card"
         />
         <h2>Login</h2>
+        -->
+
+        <center>
+          <b-avatar  size="100px">
+            <img src=images/utilisateur.png/>
+          </b-avatar>
+        </center>
 
         <div class="form-group">
           

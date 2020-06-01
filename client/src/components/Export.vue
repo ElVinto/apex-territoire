@@ -64,26 +64,8 @@
     </div>
 
 
-     <div class="graphe">
 
     <div class="graphe">
-
-      <div id="grT">
-        <p style="font-size:20px">
-          Parcelle:
-          {{
-            this.$store.getters.parcelNameList[
-              this.$store.state.selectedParcelIdx
-            ]
-          }}
-        </p>
-        
-
-    </div>
-
-      </div>
-
-
 
       <div id="graphe1">
         <p style="font-size:15px">
@@ -139,10 +121,10 @@
 
         <hr />
         <button id="expdf" @click="exportPDF()" class="btn btn-danger btn-sm">
-         <img src=images/pdf.png/> Export en PDF
+         <img src="images/pdf.png"/> Export en PDF
         </button>
         <button id="excsv" @click="exportCSV()" class="btn btn-success btn-sm">
-         <img src=images/excel.png/> Export en CSV
+         <img src="images/excel.png"/> Export en CSV
         </button>
         <hr />
 
@@ -333,8 +315,8 @@ export default {
 
 
       pdf.text(90, 20, 
-        " Parcelle "+ this.$store.getters.parcelNameList[this.selectedParcelIdx]
-        +" Observateur "+ this.$store.getters.getDisplayedUserNameIfNeeded(
+        " Parcelle : "+ this.$store.getters.parcelNameList[this.selectedParcelIdx]
+        +", Observateur : "+ this.$store.getters.getDisplayedUserNameIfNeeded(
                 this.$store.state.userDataObj.parcels[this.selectedParcelIdx].dataOwnerEMail,
                 this.$store.state.userDataObj.parcels[this.selectedParcelIdx].dataOwnerName
               )
