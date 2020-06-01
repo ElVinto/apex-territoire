@@ -11,6 +11,7 @@
       <li> « Les contenus de nature publique sont utilisables conformément aux conditions de la licence ouverte  «<a href="https://opensource.org/licenses/MIT">MIT</a>»</li> 
       <li> Crédit photo: source (Pixabay), License libre d'usage commercial et sans attribution requise</li>
         <!-- https://pixabay.com/fr/photos/tuscany-culture-de-la-vigne-vignes-428041/ --->
+      <li> Crédit icones: source (https://icon-icons.com/), License libre d'usage commercial et sans attribution requise </li>
     </ul>
 
     <h5>Editeur du site </h5>

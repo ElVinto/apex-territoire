@@ -17,7 +17,7 @@
 
         <center>
           <b-avatar  size="100px">
-            <img src=images/utilisateur.png/>
+            <img src="images/utilisateur.png"/>
           </b-avatar>
         </center>
 
