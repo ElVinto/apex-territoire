@@ -926,7 +926,11 @@ class ApexDataServices {
         console.log('addWeeksToUserDataObj ');
 
         if (userDataObj.parcels === undefined || userDataObj.parcels.length ===0) {
+            
+            console.warn('No parcels is currently monitored by the user')
+            alert("Ce compte utilisateur n'a pas encore reçu ou collecté des observations d'Apex, vous allez être déconnecté")
             throw ' No parcels is currently monitored by the user';
+            
         }
 
         // init list of valid year numbers that should appear in userDataObj
@@ -1036,6 +1040,9 @@ class ApexDataServices {
 
 
         if (userDataObj.parcels === undefined) {
+            // throw ' No parcels is currently monitored by the user';
+            console.warn('No parcels is currently monitored by the user')
+            alert("Ce compte utilisateur n'a pas encore reçu ou collecté des observations d'Apex, vous allez être déconnecté")
             throw ' No parcels is currently monitored by the user';
         }
 
@@ -1151,7 +1158,11 @@ class ApexDataServices {
         // rearrange userDataObj by parcelName, years, weeks,
 
         if (userDataObj.parcels === undefined) {
+            
+            console.warn('No parcels is currently monitored by the user')
+            alert("Ce compte utilisateur n'a pas encore reçu ou collecté des observations d'Apex, vous allez être déconnecté")
             throw ' No parcels is currently monitored by the user';
+            
         }
 
         for (let pIdx = 0; pIdx < userDataObj.parcels.length; pIdx++) {

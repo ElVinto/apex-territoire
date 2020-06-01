@@ -71,7 +71,7 @@
             <span>Se connecter</span>
           </button>
 
-          <p>Mot de passe oublie <a href="#/resetp">cliquer ici</a></p>
+          <p>Mot de passe oublié <a href="#/resetp">cliquer ici</a></p>
           <p>{{ message }}</p>
         </div>
 
@@ -170,7 +170,9 @@ export default {
               console.log("WARNING mail NOT added to authentification");
             }
          }else{
-           this.msg = "mail inconnu, vérifier que le mail est enregistré dans ApeX Vignes";
+           this.msg = "mail inconnu, vérifier que le mail est enregistré dans ApeX Vigne";
+           alert("Mail inconnu, vérifier que le mail est enregistré dans ApeX Vigne, vous allez être déconnecté")
+           this.logout();
          }
         }
 
@@ -190,7 +192,7 @@ export default {
     },
 
     async loadUserData(loggedUserEmail){
-
+      try{
       console.log('loadUserData')
 
       await this.initLoggedUserIfNeeded(loggedUserEmail)
@@ -237,7 +239,9 @@ export default {
       await this.$store.dispatch("initUserModifiedWeekMetrics")
       
       this.$store.commit("initActivedNavbar", "true");
-
+      }catch(error){
+        this.logout()
+      }
     },
 
     
@@ -283,6 +287,19 @@ export default {
       } catch (error) {
         this.error = error.message;
       }
+    },
+
+    async logout() {
+      this.$store.dispatch("logout");
+      let mailpresent = "";
+      this.$store.commit("initmailpresent", mailpresent);
+      let PasswordRequire = "";
+      this.$store.commit("initPasswordRequire", PasswordRequire);
+      let activedNavbar = "";
+      this.$store.commit("initActivedNavbar", activedNavbar);
+      let navbarModel = 0;
+      this.$store.commit("initNavbarModel", navbarModel);
+      this.$router.push("/");
     },
   },
 };

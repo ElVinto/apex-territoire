@@ -8,9 +8,13 @@
             <form autocomplete="off" @submit.prevent="requestResetPassword" method="post">
               <div class="form-group">
                   <label for="email">E-mail</label>
-                  <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
+                  
               </div>
-              <button type="submit" class="btn btn-primary">Envoyer le mot de passe </button>
+              <label v-if="$store.state.loggedUserEmail"> 
+                {{$store.state.loggedUserEmail}}
+              </label>
+
+              <button type="submit" class="btn btn-primary">Réinitialiser le mot de passe </button>
             </form>
            
           </div>
@@ -34,32 +38,43 @@ export default {
 
       }
     },
-    methods: {
-           requestResetPassword() {
-     let loggedUserEmail = this.email
-       console.log(loggedUserEmail);
-       
-       ApexDataServices.checkEMail(loggedUserEmail).then(mailexist => {
 
-         if(mailexist===true){
-           ApexDataServices.ResetPassword(loggedUserEmail).then(resetPass => {
-            if(resetPass===true){
-              console.log('Mot de passe envoyer')
-              this.msg='Mot de passe envoyer'
-              this.message=''}
-            else{
-                this.message='Mot de passe non envoyer'
-                this.msg=''
-                console.log('mot de passe non envoye') }})
+    methods: {
+      requestResetPassword() {
+        console.log("START requestResetPassword");
+        let loggedUserEmail = this.$store.state.loggedUserEmail
             
-            }else{
-            console.log('mail existe pas')
-              this.message='Votre Mail est incorrect'
-              this.msg=''}
-          })
-    }
+        console.log(loggedUserEmail);
+              
+        ApexDataServices.ResetPassword(loggedUserEmail).then(resetPass => {
+          if(resetPass===true){
+            console.log('Mot de passe envoyé')
+            this.msg='Mot de passe envoyé'
+            this.message=''
+            alert("Mot de passe envoyé, Vous allez être réorienté vers la page d'accueil ")
+            this.logout();
+          }else{
+              this.message='Mot de passe non envoyé'
+              this.msg=''
+              console.log('mot de passe non envoyé') }
+        })
+                          
+      },
+      async logout() {
+        this.$store.dispatch("logout");
+        let mailpresent = "";
+        this.$store.commit("initmailpresent", mailpresent);
+        let PasswordRequire = "";
+        this.$store.commit("initPasswordRequire", PasswordRequire);
+        let activedNavbar = "";
+        this.$store.commit("initActivedNavbar", activedNavbar);
+        let navbarModel = 0;
+        this.$store.commit("initNavbarModel", navbarModel);
+        this.$router.push("/");
+      },
     },
-    }
+
+}
 </script>
 <style>
 #message{color:red}

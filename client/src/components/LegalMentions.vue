@@ -2,13 +2,15 @@
   <div class="global">
     <h4>Mentions légales | Crédits | Confidentialité</h4>
     <p>
-      Le site ApeX Territoire <a href="https://apex-territoire.herokuapp.com">https://apex-territoire.herokuapp.com</a> est une application web développée par  <a href="https://www.inrae.fr">INRAE</a> et l'<a href="www.supagro.fr"> Institut Agro | Montpellier Supagro</a>.
-      Sa publication et son développement sont financés par  <a href="www.hdigitag.fr">#DigitAg</a>, l’Institut Convergences Agriculture Numérique. A ce titre, il a bénéficié d’une aide de l’État gérée par l’Agence Nationale de la Recherche au titre du programme d’Investissements d’Avenir portant la référence ANR-16-CONV-0004.
+      Le site ApeX Territoire <a href="https://apex-territoire.herokuapp.com">https://apex-territoire.herokuapp.com</a> est une application web développée par  <a href="https://www.inrae.fr">INRAE</a> et l'<a href="https://www.montpellier-supagro.fr"> Institut Agro | Montpellier Supagro</a>.
+      Sa publication et son développement sont financés par  <a href="https://www.hdigitag.fr/">#DigitAg</a>, l’Institut Convergences Agriculture Numérique. A ce titre, il a bénéficié d’une aide de l’État gérée par l’Agence Nationale de la Recherche au titre du programme d’Investissements d’Avenir portant la référence ANR-16-CONV-0004.
     </p>
 
     <ul>
       <li> Les logos et autres contenus présents sur ce site font  l’objet de droits de propriété intellectuelle.  En conséquence, il vous est interdit de les réutiliser sans autorisation préalable</li>
       <li> « Les contenus de nature publique sont utilisables conformément aux conditions de la licence ouverte  «<a href="https://opensource.org/licenses/MIT">MIT</a>»</li> 
+      <li> Crédit photo: source (Pixabay), License libre d'usage commercial et sans attribution requise</li>
+        <!-- https://pixabay.com/fr/photos/tuscany-culture-de-la-vigne-vignes-428041/ --->
     </ul>
 
     <h5>Editeur du site </h5>

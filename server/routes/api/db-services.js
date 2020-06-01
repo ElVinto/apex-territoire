@@ -32,54 +32,6 @@ const dbConnectionConfig = () => {
     }
 }
 
-async function old_execQuery(queryTxt,params=[] ) {
-    
-    let pool;
-    let conn;
-    let rows;
-    
-    try {
-
-        
-        pool = mariadb.createPool(dbConnectionConfig());
-        conn = await pool.getConnection();
-        rows = await conn.query(queryTxt,params);
-
-        if(rows.affectedRows){
-            console.log(rows);
-        }else{
-            console.log("Number of returned rows "+rows.length);
-        }
-    } catch (err) {
-        console.log(err)
-        if (pool){
-            pool.end();
-        }
-        setTimeout(()=>{console.log("waiting before reconnection")},1000);
-        try {
-            pool = mariadb.createPool(dbConnectionConfig());
-            conn = await pool.getConnection();
-            rows = await conn.query(queryTxt,params);
-    
-            if(rows.affectedRows){
-                console.log(rows);
-            }else{
-                console.log("Number of returned rows "+rows.length);
-            }
-        } catch (err) {
-            console.log(err)
-            throw err
-        }
-        
-    } finally {
-        
-        if (pool){
-            pool.end();
-            return rows;
-        }
-    }
-}
-
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function execQuery(queryTxt,params=[] ) {
@@ -100,6 +52,7 @@ async function execQuery(queryTxt,params=[] ) {
         return rows;
               
     } catch (err) {
+        console.log(" RECONNECTION ")
         console.log(err)
 
         await delay(500); // wait 0.5 second to execute the code again
@@ -121,38 +74,44 @@ async function execQuery(queryTxt,params=[] ) {
 //Recuperation du mot de passe oublie
 router.post('/resetpassword', function(req, res, next) {
 
-    const queryTxt = 'SELECT userName FROM authentification WHERE userEMail = "'+req.body.UserEMail+'"';
-    execQuery(queryTxt).then(rows => { 
-       if (rows !== undefined) { 
-            var name = rows[0].userName
-            console.log(name);}
+    let name ="";
+
+    // const queryTxt = 'SELECT userName FROM authentification WHERE userEMail = "'+req.body.UserEMail+'"';
+    // execQuery(queryTxt).then(rows => { 
+    //    if (rows !== undefined) { 
+    //         name = rows[0].userName
+    //         console.log(name);}
             
-            else{
-                var name = ''
-                console.log('no name')}});
+    //         else{
+    //             var name = ''
+    //             console.log('no name')
+    //         }
+    // });
             
-                var date = new Date();
+    var date = new Date();
              
     var password = generator.generate({
         length: 10,
         numbers: true
     });
-
-
    
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) {return res.status(500).send({msg: err});} 
         else {
-         let hashedPassword = hash   
-         let pwdRequire = 1
-         let queryTxt = 'UPDATE authentification  SET  password = "'+ hashedPassword+'",passwordRequire= "'+pwdRequire+'" ';
+            let hashedPassword = hash  
+            
+            console.log("hashedPassword: "+hashedPassword);
 
-    queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
-    console.log(queryTxt);
-    execQuery(queryTxt).then(rows => res.json(rows));}            
-});
+            let pwdRequire = 1
+            let queryTxt = 'UPDATE authentification  SET  password = "'+ hashedPassword+'",passwordRequire= "'+pwdRequire+'" ';
 
-var smtpTransport = mailer.createTransport("smtps://apex.inrae%40gmail.com:"+encodeURIComponent('apex2020') + "@smtp.gmail.com:465"); 
+            queryTxt += 'WHERE userEMail = "'+escape(req.body.UserEMail)+'"';
+            console.log(queryTxt);
+            execQuery(queryTxt).then(rows => res.json(rows));
+        }            
+    });
+
+    var smtpTransport = mailer.createTransport("smtps://apex.inrae%40gmail.com:"+encodeURIComponent('apex2020') + "@smtp.gmail.com:465"); 
       var mail = {
        
         from: 'apex.inrae@gmail.com',
@@ -180,8 +139,6 @@ var smtpTransport = mailer.createTransport("smtps://apex.inrae%40gmail.com:"+enc
         }
         smtpTransport.close();
       });
-
-
 
 });
 

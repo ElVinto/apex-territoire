@@ -6,8 +6,10 @@
       <router-link to="/partage" class="nav-link"><img src=images/import.png/> Partager</router-link>
       <router-link to="/export" class="nav-link"><img src=images/export.png/> Exporter</router-link>
       <router-link to="/profil" class="nav-link"><img src=images/profil.png/> Authentification</router-link>
-      <router-link to="/guide" class="nav-link"><img src=images/guid.png/> Guide</router-link>
+      <router-link to="/guide" class="nav-link"><img src=images/guid.png/>Mode d'emploi</router-link>
+      <!--
       <router-link to="/legalMentions" class="nav-link"><img src=images/mention.png/>Mentions Légales</router-link>
+      -->
        <a id="exit" class="nav-link" href @click="logout"><img src=images/exit.png/> Déconnexion</a>
     </div>
 
@@ -30,7 +32,9 @@
             <b-nav-item href="#/export"><b-icon-box-arrow-down></b-icon-box-arrow-down> Exporter</b-nav-item>
             <b-nav-item href="#/profil"><b-icon-person></b-icon-person>Authentification</b-nav-item>
             <b-nav-item href="#/guide"><b-icon-book></b-icon-book> Guide</b-nav-item>
+            <!--
             <b-nav-item href="#/legalMentions"><b-icon-bookmark></b-icon-bookmark>Mentions Légales</b-nav-item>
+            -->
             <b-nav-item href @click="logout"><b-icon-x-circle></b-icon-x-circle>Déconnexion</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
