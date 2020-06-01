@@ -1,12 +1,12 @@
 <template>
   <div class="topnav" v-if="$store.state.activedNavbar">
     <div v-if="$store.state.navbarModel === 0">
-      <router-link to="/map" class="nav-link"><img src=images/map.png/> Carte</router-link>
-      <router-link to="/edit" class="nav-link"><img src=images/pen1.png/> Editer</router-link>
-      <router-link to="/partage" class="nav-link"><img src=images/import.png/> Partager</router-link>
-      <router-link to="/export" class="nav-link"><img src=images/export.png/> Exporter</router-link>
-      <router-link to="/profil" class="nav-link"><img src=images/profil.png/> Authentification</router-link>
-      <router-link to="/guide" class="nav-link"><img src=images/guid.png/>Mode d'emploi</router-link>
+      <router-link to="/map" class="nav-link"><img src="images/map.png"/> Carte</router-link>
+      <router-link to="/edit" class="nav-link"><img src="images/pen1.png"/> Editer</router-link>
+      <router-link to="/partage" class="nav-link"><img src="images/import.png"/> Partager</router-link>
+      <router-link to="/export" class="nav-link"><img src="images/export.png"/> Exporter</router-link>
+      <router-link to="/profil" class="nav-link"><img src="images/profil.png"/> Authentification</router-link>
+      <router-link to="/guide" class="nav-link"><img src="images/guid.png"/>Mode d'emploi</router-link>
       <!--
       <router-link to="/legalMentions" class="nav-link"><img src=images/mention.png/>Mentions Légales</router-link>
       -->
