@@ -10,7 +10,7 @@
       <!--
       <router-link to="/legalMentions" class="nav-link"><img src=images/mention.png/>Mentions Légales</router-link>
       -->
-       <a id="exit" class="nav-link" href @click="logout"><img src=images/exit.png/> Déconnexion</a>
+       <a id="exit" class="nav-link" href @click="logout"><img src="images/exit.png"/> Déconnexion</a>
     </div>
 
     <div v-else>
