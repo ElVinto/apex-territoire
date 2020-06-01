@@ -9,6 +9,7 @@
       
       <!-- User Demo Guide-->
       <div v-if="$store.state.loggedUserEmail">
+        
         <h5>Guide d'utilisation Apex Territoire</h5>
 
         

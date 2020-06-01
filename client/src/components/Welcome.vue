@@ -7,7 +7,7 @@
 
      <div id="btnVisiteur">
           <button @click="continueToNextStep()" class="btn btn-secondary btn-block"  style="width:120px;">
-              <b-avatar  size="100px"><img src=images/3.png/>
+              <b-avatar  size="100px"><img src="images/3.png"/>
               </b-avatar>
             <span><b>Visiteur</b></span>
           </button>
@@ -17,7 +17,7 @@
 
     <div id="btnUtilisateur">
     <router-link class="btn btn-secondary btn-block" to="/login" style="margin-top:15px; width:120px; ">
-      <b-avatar  size="100px" ><img src=images/utilisateur.png/>
+      <b-avatar  size="100px" ><img src="images/utilisateur.png"/>
       </b-avatar><b>Utilisateur</b></router-link>
           <p>{{ msg }}</p>
     </div>
