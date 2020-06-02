@@ -31,7 +31,7 @@
       <template v-slot:footer="{ hide }">
         <b-button size="sm" @click="hide">Fermer</b-button>
       </template>
-      <div class="px-3 py-2">
+      <div class="px-3 py-2" style="font-size:x-small;">
         
       
         
@@ -115,14 +115,17 @@
     <div id="objective" class="card bg-secondary text-white" style="opacity:90%">
       
       <div class="card-body" >
-
-        <b>ApeX Territoire : Comparer et mieux comprendre la croissance des apex des vignes à travers différentes campagnes et différentes parcelles de vigne</b>
-        ApeX Territoire fait suite et complète Apex Vigne, application mobile gratuite basée sur la méthode des apex pour suivre l’évolution de la croissance des vignes et estimer le niveau de contrainte hydrique.
-        La méthode des apex est une méthode simple pour caractériser la croissance végétative de la vigne. Basée sur l’observation de l’extrémité des rameaux, les apex, elle est couramment utilisée au vignoble par les techniciens, particulièrement en région méditerranéenne, où l’on essaye de relier l’arrêt précoce de la croissance à des niveaux de contrainte hydrique importants.
-        <br>
-        <b>ApeX Territoire propose aux utilisateurs une visualisation géolocalisée des indicateurs de croissance des apex et une analyse spatio-temporelle de leur croissance observée dans les parcelles de vignes. L’utilisateur peut ajouter, mettre à jour, partager et exporter les résumés de ses observations. L’application est conçue pour une utilisation sur ordinateur, mobile et tablette.</b>
-        Apex Territoire fait partie des démonstrateurs de la vitrine numérique #DigitAg .
-        <br/>
+        <p>
+          <b>ApeX Territoire : Comparer et mieux comprendre la croissance des apex des vignes à travers différentes campagnes et différentes parcelles de vigne</b>
+        </p>
+        <p>
+          ApeX Territoire fait suite et complète Apex Vigne, application mobile gratuite basée sur la méthode des apex pour suivre l’évolution de la croissance des vignes et estimer le niveau de contrainte hydrique.
+          La méthode des apex est une méthode simple pour caractériser la croissance végétative de la vigne. Basée sur l’observation de l’extrémité des rameaux, les apex, elle est couramment utilisée au vignoble par les techniciens, particulièrement en région méditerranéenne, où l’on essaye de relier l’arrêt précoce de la croissance à des niveaux de contrainte hydrique importants.
+        </p>
+        <p>
+          ApeX Territoire propose aux utilisateurs une visualisation géolocalisée des indicateurs de croissance des apex et une analyse spatio-temporelle de leur croissance observée dans les parcelles de vignes. L’utilisateur peut ajouter, mettre à jour, partager et exporter les résumés de ses observations. L’application est conçue pour une utilisation sur ordinateur, mobile et tablette.
+          Apex Territoire fait partie des démonstrateurs de la vitrine numérique #DigitAg .
+        </p>
         <b> contact: leo.pichon@supagro.fr </b>
       </div>
     </div>
@@ -332,7 +335,7 @@ label {
   width: 100%; 
   text-align: justify; 
   margin-top: 0px;
-  font-size: x-small;
+  font-size: small;
   }
 
 
@@ -371,7 +374,7 @@ label {
 }
 
 #objective{
-  grid-column: 3/8;
+  grid-column: 2/9;
   grid-row: 4/5;
 }
 
