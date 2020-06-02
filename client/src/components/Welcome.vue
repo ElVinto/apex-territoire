@@ -1,7 +1,7 @@
 <template>
   <div
     class="global"
-    style="background-image:url(images/tuscany-vigne.jpg) ;background-size: 2200px 800px;padding:30px;margin: 1px;height: 800px"
+    style="background-image:url(images/2-Vignoble-Herault-Apex-jackmac34-Pixabay-LDD-1367095-1920x1285px.jpg) ;background-size: 2200px 800px;padding:30px;margin: 1px;height: 800px"
   >
   <div id="title"><h1>ApeX Territoire</h1></div>
 
