@@ -11,7 +11,7 @@
         <a href= "https://muse.edu.umontpellier.fr/" target="_blank" class="btn-floating btn-sm btn-fb mx-1"><i><img src=images/Logo_MUSE.png></i></a>
       </div>
       <div class="copyright ">
-        Copyright &copy; 2020: <a href="https://inrae.fr" target="_blank">  www.inrae.fr </a> | <a href="https://www.hdigitag.fr/fr/" target="_blank"> www.hdigitag.fr</a> && <a  href="#/legalMentions" target="_blank">  Mentions Legal | Politique de confidentialite</a>
+        Copyright &copy; 2020: <a href="https://inrae.fr" target="_blank">  www.inrae.fr </a> | <a href="https://www.hdigitag.fr/fr/" target="_blank"> www.hdigitag.fr</a> et <a  href="#/legalMentions" target="_blank">  Mentions Légales | Crédits | Confidentialité</a>
       </div>
 </div>
 </template>
