@@ -31,7 +31,7 @@
       <template v-slot:footer="{ hide }">
         <b-button size="sm" @click="hide">Fermer</b-button>
       </template>
-      <div class="px-3 py-2" style="font-size:x-small;">
+      <div class="px-3 py-2" style="font-size:small;">
         
       
         
@@ -364,7 +364,7 @@ label {
 }
 
 #btnUtilisateur {
-  grid-column: 6 ;
+  grid-column: 6;
   grid-row: 2 ;
 }
 
