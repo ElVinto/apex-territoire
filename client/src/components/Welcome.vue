@@ -116,15 +116,13 @@
       
       <div class="card-body" >
         <p>
-          <b>ApeX Territoire : Comparer et mieux comprendre la croissance des apex des vignes à travers différentes campagnes et différentes parcelles de vigne</b>
+          <b>ApeX Territoire : Visualiser la croissance végétative à l’échelle du territoire</b>
         </p>
         <p>
-          ApeX Territoire fait suite et complète Apex Vigne, application mobile gratuite basée sur la méthode des apex pour suivre l’évolution de la croissance des vignes et estimer le niveau de contrainte hydrique.
-          La méthode des apex est une méthode simple pour caractériser la croissance végétative de la vigne. Basée sur l’observation de l’extrémité des rameaux, les apex, elle est couramment utilisée au vignoble par les techniciens, particulièrement en région méditerranéenne, où l’on essaye de relier l’arrêt précoce de la croissance à des niveaux de contrainte hydrique importants.
+          ApeX Territoire est une application vitrine permettant de visualiser des observations collectées à l’aide d’ApeX-Vigne. ApeX-Vigne est une application mobile gratuite développée par l’Institut Français de la Vigne et du vin et l’institut Agro permettant de suivre l’évolution de la croissance végétative de la vigne et d’estimer le niveau de contrainte hydrique. Elle est basée sur la méthode des apex, une méthode simple pour caractériser la croissance végétative de la vigne. Basée sur l’observation de l’extrémité des rameaux, les apex, elle est couramment utilisée au vignoble par les techniciens, particulièrement en région méditerranéenne, où l’on essaye de relier l’arrêt précoce de la croissance à des niveaux de contrainte hydrique importants.
         </p>
         <p>
-          ApeX Territoire propose aux utilisateurs une visualisation géolocalisée des indicateurs de croissance des apex et une analyse spatio-temporelle de leur croissance observée dans les parcelles de vignes. L’utilisateur peut ajouter, mettre à jour, partager et exporter les résumés de ses observations. L’application est conçue pour une utilisation sur ordinateur, mobile et tablette.
-          Apex Territoire fait partie des démonstrateurs de la vitrine numérique #DigitAg .
+          ApeX Territoire propose une visualisation géolocalisée des indicateurs de croissance des apex et une analyse spatio-temporelle de leur croissance observée dans les parcelles de vignes. Cette application vitrine permet d’ajouter, de mettre à jour, de partager et d’exporter les résumés de ses observations. L’application est conçue pour une utilisation sur ordinateur, mobile et tablette. Apex Territoire fait partie des démonstrateurs de la vitrine numérique #DigitAg.
         </p>
         <b> contact: leo.pichon@supagro.fr </b>
       </div>
