@@ -9,7 +9,7 @@
     <ul>
       <li> Les logos et autres contenus présents sur ce site font  l’objet de droits de propriété intellectuelle.  En conséquence, il vous est interdit de les réutiliser sans autorisation préalable</li>
       <li> « Les contenus de nature publique sont utilisables conformément aux conditions de la licence ouverte  «<a href="https://opensource.org/licenses/MIT">MIT</a>»</li> 
-      <li> Crédit photo: source Pixabay, (Vignoble-Herault-Apex-jackmac34) License libre d'usage commercial et sans attribution requise</li>
+      <li> Crédit photo: « Vignoble » Jacqueline Macou, Licence Pixabay (libre pour usage commercial, pas d'attribution requise)</li>
         
       <li> Crédit icones: source (https://icon-icons.com/), License libre d'usage commercial et sans attribution requise </li>
     </ul>
