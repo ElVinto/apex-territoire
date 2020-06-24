@@ -125,6 +125,8 @@
           ApeX Territoire propose une visualisation géolocalisée des indicateurs de croissance des apex et une analyse spatio-temporelle de leur croissance observée dans les parcelles de vignes. Cette application vitrine permet d’ajouter, de mettre à jour, de partager et d’exporter les résumés de ses observations. L’application est conçue pour une utilisation sur ordinateur, mobile et tablette. Apex Territoire fait partie des démonstrateurs de la vitrine numérique #DigitAg.
         </p>
         <b> contact: leo.pichon@supagro.fr </b>
+
+        <p>Développeur(s) : Vincent Armant et Amin Ouail, INRAE</p>
       </div>
     </div>
       
