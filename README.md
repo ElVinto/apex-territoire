@@ -88,18 +88,21 @@ L'application Apex Territoire est à l'initiative de Léo Pichon (porteur du pro
 
 
 
-## How to install the projet
+## Comment installer le projet
 ```
+unzip apex-territoire.zip
 cd apex-territoire
 npm install
 ```
 
-### Compiles and hot-reloads for client
+### Compilation et rechargement automatique du client
 ```
+cd apex-territoire/client
 npm run serve
 ```
 
-### Compiles and hot-reloads for server
+### Compilation et rechargement automatique du serveur
 ```
+cd apex-territoire/
 npm run dev
 ```
