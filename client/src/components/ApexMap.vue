@@ -333,9 +333,6 @@ export default {
     this.selectedParcelIdx = this.$store.state.selectedParcelIdx;
     this.selectedYearIdx = this.$store.state.selectedYearIdx;
     this.selectedWeekIdx = this.$store.state.selectedWeekIdx;
-
-    
-
     
   },
 
